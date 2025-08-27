@@ -136,7 +136,8 @@ ENABLE_PROFILING=true
 
 # Development-specific ports (to avoid conflicts)
 D2_VNC_PORT=5901
-MCP_COORDINATOR_PORT=8001
+MCP_COORDINATOR_PORT=8010
+ANALYSIS_ENGINE_PORT=8011
 WEB_DASHBOARD_PORT=81
 
 # Development database settings
@@ -278,7 +279,7 @@ make check-env                             # Run environment validation
 - `GET /processes` - System process information
 - `GET /system/info` - System information
 
-#### Analysis Engine Container (localhost:8766)
+#### Analysis Engine Container (localhost:8001)
 - `GET /` - Service root
 - `GET /health` - Health check endpoint
 - `POST /analyze` - Submit analysis requests
@@ -300,9 +301,11 @@ make check-env                             # Run environment validation
 - `GET /mcp/resources` - Available data resources
 - `WS /mcp/ws` - WebSocket connection for real-time updates
 
-#### Network Monitor Container (localhost:8768)
-- `GET /health` - Network monitor health
-- `GET /capture/status` - Packet capture status
+#### Network Monitor Container (shares d2-analysis network)
+- **Note**: Network monitor uses `network_mode: "container:d2-analysis"` sharing the same network namespace
+- Accessible through d2-analysis container at localhost:3000 or localhost:8765
+- `GET /health` - Network monitor health (via d2-analysis)
+- `GET /capture/status` - Packet capture status  
 - `POST /capture/start` - Start packet capture
 - `POST /capture/stop` - Stop packet capture
 - `GET /analysis/protocols` - Protocol analysis results
@@ -446,7 +449,7 @@ sudo lsof -i :8000                         # Check specific port
 sudo netstat -tulpn | grep :8000           # Alternative check
 
 # Check all platform ports
-ports=(80 443 3000 5900 6379 8000 8080 8081 8090 8765 8766 8768 9000 9080)
+ports=(80 443 3000 3001 5080 5900 5901 6080 6379 8000 8001 8002 8003 8004 8005 8081 8090 8765 8888 9000 9080 27042)
 for port in "${ports[@]}"; do
     echo "Port $port:"
     sudo lsof -i :$port || echo "  Available"
@@ -1985,12 +1988,12 @@ curl -X POST "http://localhost:8000/mcp/execute" \
 ### Network Traffic Analysis
 ```bash
 # Start packet capture
-curl -X POST "http://localhost:8768/capture/start" \
+curl -X POST "http://localhost:3000/capture/start" \
   -H "Content-Type: application/json" \
   -d '{"filter": "port 4000 or port 6112", "duration": 60}'
 
 # Get traffic analysis
-curl -X GET "http://localhost:8768/analysis/traffic" | jq '.'
+curl -X GET "http://localhost:3000/analysis/traffic" | jq '.'
 
 # Response example:
 {
