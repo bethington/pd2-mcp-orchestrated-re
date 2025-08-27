@@ -1,0 +1,179 @@
+{
+  "description": "Live Memory Offsets for Project Diablo 2",
+  "version": "1.13c / Project Diablo 2",
+  "extraction_date": "2025-08-27",
+  "source": "Live memory analysis from running Game.exe process",
+  "base_addresses": {
+    "D2Client.dll": "0x6FAB0000",
+    "description": "Base address found via gdb process mapping"
+  },
+  "static_offsets": {
+    "current_player_unit": {
+      "offset": "0x11BBFC",
+      "full_address": "D2Client.dll+0x11BBFC",
+      "calculated_address": "0x6FBCBBFC",
+      "description": "Pointer to current player's UnitAny structure",
+      "data_type": "UnitAny*",
+      "verified": true,
+      "live_value_example": "0x0E447D00"
+    },
+    "roster_unit_list": {
+      "offset": "0x11BC14",
+      "full_address": "D2Client.dll+0x11BC14", 
+      "calculated_address": "0x6FBCBC14",
+      "description": "Pointer to first RosterUnit in party/player list",
+      "data_type": "RosterUnit*",
+      "verified": true,
+      "live_value_example": "0x0F36A600"
+    }
+  },
+  "structure_layouts": {
+    "UnitAny": {
+      "size": 236,
+      "size_hex": "0xEC",
+      "description": "Main unit structure for players, monsters, objects, etc.",
+      "key_fields": {
+        "dwType": {"offset": "0x00", "size": 4, "description": "Unit type (0=Player, 1=Monster, etc.)"},
+        "dwTxtFileNo": {"offset": "0x04", "size": 4, "description": "Character class ID or monster type"},
+        "dwUnitId": {"offset": "0x0C", "size": 4, "description": "Unique unit identifier"},
+        "dwMode": {"offset": "0x10", "size": 4, "description": "Current unit mode/state"},
+        "pPlayerData": {"offset": "0x14", "size": 4, "description": "Pointer to PlayerData structure (players only)"},
+        "dwAct": {"offset": "0x18", "size": 4, "description": "Current act number"},
+        "pStats": {"offset": "0x5C", "size": 4, "description": "Pointer to StatList structure"},
+        "pInventory": {"offset": "0x60", "size": 4, "description": "Pointer to Inventory structure"},
+        "wX": {"offset": "0x8C", "size": 2, "description": "World X coordinate"},
+        "wY": {"offset": "0x8E", "size": 2, "description": "World Y coordinate"},
+        "pInfo": {"offset": "0xA8", "size": 4, "description": "Pointer to Info structure (skills/abilities)"},
+        "dwFlags": {"offset": "0xC4", "size": 4, "description": "Primary unit flags"},
+        "dwFlags2": {"offset": "0xC8", "size": 4, "description": "Extended unit flags"}
+      }
+    },
+    "RosterUnit": {
+      "size": 132,
+      "size_hex": "0x84",
+      "description": "Party/roster information for players",
+      "key_fields": {
+        "szName": {"offset": "0x00", "size": 16, "description": "Player name (null-terminated string)"},
+        "dwUnitId": {"offset": "0x10", "size": 4, "description": "Unit ID matching UnitAny"},
+        "dwPartyLife": {"offset": "0x14", "size": 4, "description": "Party life percentage"},
+        "dwClassId": {"offset": "0x1C", "size": 4, "description": "Character class ID"},
+        "wLevel": {"offset": "0x20", "size": 2, "description": "Character level"},
+        "wPartyId": {"offset": "0x22", "size": 2, "description": "Party ID"},
+        "dwLevelId": {"offset": "0x24", "size": 4, "description": "Current level/area ID"},
+        "Xpos": {"offset": "0x28", "size": 4, "description": "X position"},
+        "Ypos": {"offset": "0x2C", "size": 4, "description": "Y position"},
+        "dwPartyFlags": {"offset": "0x30", "size": 4, "description": "Party status flags"},
+        "szName2": {"offset": "0x66", "size": 16, "description": "Secondary name field"},
+        "pNext": {"offset": "0x80", "size": 4, "description": "Pointer to next RosterUnit"}
+      }
+    },
+    "PlayerData": {
+      "size": 40,
+      "size_hex": "0x28",
+      "description": "Player-specific data (name, quests, waypoints)",
+      "key_fields": {
+        "szName": {"offset": "0x00", "size": 16, "description": "Character name"},
+        "pNormalQuest": {"offset": "0x10", "size": 4, "description": "Normal difficulty quest data"},
+        "pNightmareQuest": {"offset": "0x14", "size": 4, "description": "Nightmare difficulty quest data"},
+        "pHellQuest": {"offset": "0x18", "size": 4, "description": "Hell difficulty quest data"},
+        "pNormalWaypoint": {"offset": "0x1C", "size": 4, "description": "Normal difficulty waypoints"},
+        "pNightmareWaypoint": {"offset": "0x20", "size": 4, "description": "Nightmare difficulty waypoints"},
+        "pHellWaypoint": {"offset": "0x24", "size": 4, "description": "Hell difficulty waypoints"}
+      }
+    },
+    "StatList": {
+      "description": "Character statistics container",
+      "key_fields": {
+        "pStat": {"offset": "0x24", "size": 4, "description": "Pointer to Stat array"},
+        "wStatCount1": {"offset": "0x28", "size": 2, "description": "Number of stats in array"},
+        "wStatCount2": {"offset": "0x2A", "size": 2, "description": "Secondary stat count"},
+        "pNext": {"offset": "0x3C", "size": 4, "description": "Pointer to next StatList"}
+      }
+    },
+    "Stat": {
+      "size": 8,
+      "description": "Individual character statistic",
+      "key_fields": {
+        "wSubIndex": {"offset": "0x00", "size": 2, "description": "Stat sub-index"},
+        "wStatIndex": {"offset": "0x02", "size": 2, "description": "Stat type index"},
+        "dwStatValue": {"offset": "0x04", "size": 4, "description": "Stat value"}
+      }
+    }
+  },
+  "stat_indices": {
+    "description": "Common stat indices found in StatList",
+    "stats": {
+      "0": "Strength",
+      "1": "Energy", 
+      "2": "Dexterity",
+      "3": "Vitality",
+      "4": "Stat Points Available",
+      "5": "Skill Points Available",
+      "6": "Current HP (multiply by 256)",
+      "7": "Maximum HP (multiply by 256)",
+      "8": "Current Mana (multiply by 256)",
+      "9": "Maximum Mana (multiply by 256)",
+      "10": "Current Stamina",
+      "11": "Maximum Stamina",
+      "12": "Character Level",
+      "13": "Experience Points",
+      "14": "Gold in Inventory",
+      "15": "Gold in Stash"
+    }
+  },
+  "character_classes": {
+    "description": "Character class IDs used in dwTxtFileNo and dwClassId",
+    "classes": {
+      "0": "Amazon",
+      "1": "Sorceress", 
+      "2": "Necromancer",
+      "3": "Paladin",
+      "4": "Barbarian",
+      "5": "Druid",
+      "6": "Assassin"
+    }
+  },
+  "live_examples": {
+    "description": "Real examples from live memory extraction",
+    "character_1": {
+      "name": "Xerzes",
+      "class": "Sorceress",
+      "class_id": 1,
+      "level": 1,
+      "stats": {"strength": 10, "energy": 35, "dexterity": 25, "vitality": 10},
+      "position": {"x": 5726, "y": 4539},
+      "unitany_address": "0x0E45AB00"
+    },
+    "character_2": {
+      "name": "Druid", 
+      "class": "Druid",
+      "class_id": 5,
+      "level": 99,
+      "stats": {"strength": 27, "energy": 20, "dexterity": 28, "vitality": 25},
+      "position": {"x": 5113, "y": 5068},
+      "unitany_address": "0x0E447D00"
+    }
+  },
+  "memory_access_methods": {
+    "description": "Methods used to access live memory",
+    "process_attachment": {
+      "process_name": "Game.exe",
+      "method": "Direct /proc/PID/mem reading",
+      "tools": ["gdb for process mapping", "Python struct for parsing"]
+    },
+    "address_calculation": {
+      "step_1": "Find D2Client.dll base via gdb process mappings",
+      "step_2": "Add static offset to base address", 
+      "step_3": "Read pointer value from calculated address",
+      "step_4": "Follow pointer to actual structure"
+    }
+  },
+  "notes": [
+    "All offsets verified against live Project Diablo 2 process",
+    "Base addresses may vary between game sessions",
+    "Static offsets should remain consistent for same game version",
+    "HP/Mana values in StatList are stored as raw values (divide by 256 for display)",
+    "Position coordinates are in world units",
+    "RosterUnit only populated when in party or for current player"
+  ]
+}
