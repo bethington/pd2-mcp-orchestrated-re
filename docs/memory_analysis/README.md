@@ -16,6 +16,50 @@ The memory analysis system provides real-time extraction and analysis of Project
 
 ## Architecture
 
+### Memory Analysis System Flow
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Claude AI     │───▶│  MCP Tools      │───▶│  Memory Hunter  │
+│   Request       │    │ hunt_roster_unit│    │  Pattern Match  │
+│                 │    │extract_player   │    │  Field Validate │
+└─────────────────┘    └─────────────────┘    └─────────┬───────┘
+                                                        │
+                                               ┌────────▼────────┐
+                                               │  d2-analysis    │
+                                               │  Container      │
+                                               │  Wine + Game    │
+                                               │  /proc/PID/mem  │
+                                               └────────┬────────┘
+                                                        │
+      ┌─────────────────────────────────────────────────┼─────────────────────────────────────────────────┐
+      │                    Live Memory Reading                                                              │
+      │                                                 │                                                 │
+      ▼                                                 ▼                                                 ▼
+┌─────────────┐                              ┌─────────────────┐                              ┌─────────────┐
+│  UnitAny    │                              │   RosterUnit    │                              │ PlayerData  │
+│ 236 bytes   │                              │   132 bytes     │                              │  40 bytes   │
+│D2Client.dll │                              │ D2Client.dll    │                              │Via UnitAny  │
+│+0x11BBFC    │                              │ +0x11BC14      │                              │+0x14        │
+└─────┬───────┘                              └─────────┬───────┘                              └─────┬───────┘
+      │                                                │                                              │
+      │                                                ▼                                              │
+      │                                      ┌─────────────────┐                                     │
+      │                                      │   Validation    │                                     │
+      │                                      │ Known Values    │                                     │
+      │                                      │ Field Checks    │                                     │
+      │                                      └─────────┬───────┘                                     │
+      │                                                │                                              │
+      └────────────────────────────────────────────────┼──────────────────────────────────────────────┘
+                                                       │
+                                              ┌────────▼────────┐
+                                              │  Dgraph Storage │
+                                              │  Graph Database │
+                                              │  Relationships  │
+                                              │  Query System   │
+                                              └─────────────────┘
+```
+
+### Directory Structure
 ```
 Memory Analysis System
 ├── Tools (tools/memory_hunters/)
