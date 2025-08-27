@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D2 Analysis Platform - Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #00d4ff;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-healthy { background-color: #00ff00; }
+        .status-warning { background-color: #ffff00; }
+        .status-error { background-color: #ff0000; }
+        
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 8px;
+            background: #2a2a2a;
+            border-radius: 5px;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .log-entry {
+            background: #2a2a2a;
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .severity-critical { border-left: 4px solid #ff0000; }
+        .severity-warning { border-left: 4px solid #ffff00; }
+        .severity-info { border-left: 4px solid #00d4ff; }
+        
+        .vnc-frame {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+        
+        .refresh-btn {
+            background: #00d4ff;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .refresh-btn:hover {
+            background: #00a8cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 MCP-Orchestrated D2 Analysis Platform</h1>
+        <p>Real-time monitoring and analysis dashboard</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <!-- System Status Card -->
+        <div class="card">
+            <h3>System Status</h3>
+            <div id="system-status">
+                <div class="metric">
+                    <span>MCP Coordinator:</span>
+                    <span><span class="status-indicator status-healthy"></span>Healthy</span>
+                </div>
+                <div class="metric">
+                    <span>D2 Analysis:</span>
+                    <span><span class="status-indicator status-healthy"></span>Running</span>
+                </div>
+                <div class="metric">
+                    <span>Network Monitor:</span>
+                    <span><span class="status-indicator status-healthy"></span>Active</span>
+                </div>
+                <div class="metric">
+                    <span>Session ID:</span>
+                    <span class="metric-value" id="session-id">Loading...</span>
+                </div>
+            </div>
+            <button class="refresh-btn" onclick="refreshStatus()">Refresh Status</button>
+        </div>
+        
+        <!-- Character Info Card -->
+        <div class="card">
+            <h3>Character Information</h3>
+            <div id="character-info">
+                <div class="metric">
+                    <span>Name:</span>
+                    <span class="metric-value" id="char-name">Loading...</span>
+                </div>
+                <div class="metric">
+                    <span>Level:</span>
+                    <span class="metric-value" id="char-level">--</span>
+                </div>
+                <div class="metric">
+                    <span>Class:</span>
+                    <span class="metric-value" id="char-class">--</span>
+                </div>
+                <div class="metric">
+                    <span>Life:</span>
+                    <span class="metric-value" id="char-life">--/--</span>
+                </div>
+                <div class="metric">
+                    <span>Mana:</span>
+                    <span class="metric-value" id="char-mana">--/--</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Network Analysis Card -->
+        <div class="card">
+            <h3>Network Analysis</h3>
+            <div id="network-stats">
+                <div class="metric">
+                    <span>Total Packets:</span>
+                    <span class="metric-value" id="total-packets">Loading...</span>
+                </div>
+                <div class="metric">
+                    <span>D2 Packets:</span>
+                    <span class="metric-value" id="d2-packets">--</span>
+                </div>
+                <div class="metric">
+                    <span>Protocol Violations:</span>
+                    <span class="metric-value" id="protocol-violations">--</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Events Card -->
+        <div class="card">
+            <h3>Security Events</h3>
+            <div id="security-events">
+                <div class="log-entry severity-info">
+                    System initialized - monitoring started
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game View Card -->
+        <div class="card">
+            <h3>Game View (VNC)</h3>
+            <p>Access the live game view:</p>
+            <a href="http://localhost:5901" target="_blank" class="refresh-btn">Open VNC Viewer</a>
+            <button class="refresh-btn" onclick="captureScreenshot()" style="margin-left: 10px;">📷 Capture Screenshot</button>
+            <p><small>Direct VNC: localhost:5900</small></p>
+            <div id="screenshot-status" style="margin-top: 10px; font-size: 14px;"></div>
+        </div>
+        
+        <!-- Analysis Tools Card -->
+        <div class="card">
+            <h3>Analysis Tools</h3>
+            <div class="metric">
+                <span>Memory Analysis:</span>
+                <span class="metric-value">Active</span>
+            </div>
+            <div class="metric">
+                <span>Packet Capture:</span>
+                <span class="metric-value">Running</span>
+            </div>
+            <div class="metric">
+                <span>Behavior Analysis:</span>
+                <span class="metric-value">Monitoring</span>
+            </div>
+            <button class="refresh-btn" onclick="triggerAnalysis()">Trigger Analysis</button>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-refresh dashboard data
+        function refreshData() {
+            // Update system status
+            fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.session) {
+                        document.getElementById('session-id').textContent = data.session.session_id || 'Unknown';
+                    }
+                })
+                .catch(error => console.error('Status error:', error));
+            
+            // Update character info
+            fetch('/api/character')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('char-name').textContent = data.name || 'Unknown';
+                    document.getElementById('char-level').textContent = data.level || '--';
+                    document.getElementById('char-class').textContent = data.class || '--';
+                    if (data.life) {
+                        document.getElementById('char-life').textContent = `${data.life.current}/${data.life.max}`;
+                    }
+                    if (data.mana) {
+                        document.getElementById('char-mana').textContent = `${data.mana.current}/${data.mana.max}`;
+                    }
+                })
+                .catch(error => console.error('Character error:', error));
+            
+            // Update network stats
+            fetch('/api/network')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-packets').textContent = data.packets_captured || '0';
+                    document.getElementById('d2-packets').textContent = data.d2_packets || '0';
+                    document.getElementById('protocol-violations').textContent = data.protocol_violations || '0';
+                })
+                .catch(error => console.error('Network error:', error));
+            
+            // Update security events
+            fetch('/api/security')
+                .then(response => response.json())
+                .then(data => {
+                    const eventsDiv = document.getElementById('security-events');
+                    if (data.recent_events && data.recent_events.length > 0) {
+                        eventsDiv.innerHTML = '';
+                        data.recent_events.forEach(event => {
+                            const eventDiv = document.createElement('div');
+                            eventDiv.className = `log-entry severity-${event.severity}`;
+                            eventDiv.textContent = `${new Date(event.timestamp * 1000).toLocaleTimeString()}: ${event.description}`;
+                            eventsDiv.appendChild(eventDiv);
+                        });
+                    }
+                })
+                .catch(error => console.error('Security error:', error));
+        }
+        
+        function refreshStatus() {
+            refreshData();
+        }
+        
+        function triggerAnalysis() {
+            alert('Analysis triggered! Check logs for results.');
+        }
+        
+        async function captureScreenshot() {
+            const statusDiv = document.getElementById('screenshot-status');
+            const button = event.target;
+            
+            // Update UI
+            button.disabled = true;
+            button.textContent = '📸 Capturing...';
+            statusDiv.innerHTML = '<span style="color: #ffa500;">🔄 Attempting screenshot capture...</span>';
+            
+            try {
+                const response = await fetch('/api/screenshot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        description: `Dashboard screenshot - ${new Date().toLocaleString()}`
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    statusDiv.innerHTML = `<span style="color: #00ff00;">✅ Screenshot saved: ${result.filename}</span>`;
+                    
+                    // Show success for 5 seconds then clear
+                    setTimeout(() => {
+                        statusDiv.innerHTML = '';
+                    }, 5000);
+                } else {
+                    // Show helpful error message with alternatives
+                    statusDiv.innerHTML = `
+                        <div style="color: #ff4444; margin-bottom: 10px;">❌ Automated capture failed</div>
+                        <div style="color: #ffa500; font-size: 12px;">
+                            <strong>Try these alternatives:</strong><br>
+                            • <strong>VNC Hotkeys:</strong> Press Print Screen or Ctrl+Alt+S in <a href="http://localhost:5901" target="_blank" style="color: #00d4ff;">VNC session</a><br>
+                            • <strong>Manual Command:</strong> Run in terminal:<br>
+                            <code style="background: #333; padding: 2px 4px; font-family: monospace;">
+                                docker exec d2-analysis bash -c "DISPLAY=:1 scrot /screenshots/manual_$(date +%Y%m%d_%H%M%S).png"
+                            </code>
+                        </div>
+                    `;
+                    
+                    // Clear after 10 seconds
+                    setTimeout(() => {
+                        statusDiv.innerHTML = '';
+                    }, 10000);
+                }
+                
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div style="color: #ff4444; margin-bottom: 10px;">❌ Network error</div>
+                    <div style="color: #ffa500; font-size: 12px;">
+                        <strong>Manual alternatives:</strong><br>
+                        • Open <a href="http://localhost:5901" target="_blank" style="color: #00d4ff;">VNC session</a> and press Print Screen<br>
+                        • Run: <code style="background: #333; padding: 2px 4px;">docker exec d2-analysis bash -c "DISPLAY=:1 scrot /screenshots/manual_\$(date +%Y%m%d_%H%M%S).png"</code>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    statusDiv.innerHTML = '';
+                }, 10000);
+            } finally {
+                // Reset button
+                button.disabled = false;
+                button.textContent = '📷 Capture Screenshot';
+            }
+        }
+        
+        // Initial load and auto-refresh
+        refreshData();
+        setInterval(refreshData, 5000); // Refresh every 5 seconds
+        
+        console.log('D2 Analysis Dashboard loaded successfully');
+    </script>
+</body>
+</html>

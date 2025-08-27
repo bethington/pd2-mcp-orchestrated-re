@@ -1,0 +1,139 @@
+# docker-compose.test.yml - Testing environment configuration
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
+
+version: '3.8'
+
+# Override default networks for testing
+networks:
+  re-platform:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+
+services:
+  # Testing-specific overrides for d2-analysis
+  d2-analysis:
+    environment:
+      - DEBUG_MODE=true
+      - LOG_LEVEL=DEBUG
+      - ENABLE_WINE=false        # Mock Wine for tests
+      - MOCK_GAME_DATA=true      # Use mock data
+      - SESSION_ID=test-${CI_PIPELINE_ID:-local}
+    volumes:
+      # Override with test data
+      - ./tests/fixtures/game_data:/data/pd2:ro
+      - ./tests/outputs:/outputs:rw
+    # Reduce resources for testing
+    mem_limit: 1g
+    cpus: 0.5
+
+  # Testing database - separate instances
+  redis-test:
+    image: redis:7-alpine
+    container_name: redis-test
+    ports:
+      - "6381:6379"
+    networks:
+      - re-platform
+    command: redis-server --appendonly no  # No persistence for tests
+
+  dgraph-zero-test:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-zero-test
+    command: dgraph zero --my=dgraph-zero-test:5080
+    ports:
+      - "5082:5080"
+    networks:
+      - re-platform
+
+  dgraph-alpha-test:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-alpha-test  
+    command: dgraph alpha --my=dgraph-alpha-test:7080 --zero=dgraph-zero-test:5080 --security whitelist=0.0.0.0/0
+    ports:
+      - "8083:8080"
+      - "9082:9080"
+    networks:
+      - re-platform
+    depends_on:
+      - dgraph-zero-test
+
+  # Override coordinator for testing
+  mcp-coordinator:
+    environment:
+      - DEBUG_MODE=true
+      - LOG_LEVEL=DEBUG
+      - REDIS_URL=redis://redis-test:6379
+      - DGRAPH_ENDPOINT=http://dgraph-alpha-test:8080
+      - MOCK_EXTERNAL_APIS=true
+      - DISABLE_NETWORK_CALLS=true
+    depends_on:
+      - redis-test
+      - dgraph-alpha-test
+    mem_limit: 512m
+    cpus: 0.5
+
+  # Test runner container
+  test-runner:
+    build:
+      context: .
+      dockerfile: containers/test-runner/Dockerfile
+    container_name: test-runner
+    environment:
+      - PYTHONPATH=/app:/app/shared
+      - TEST_DATABASE_URL=redis://redis-test:6379
+      - TEST_DGRAPH_URL=http://dgraph-alpha-test:8080
+    volumes:
+      - .:/app:ro
+      - ./tests:/app/tests:rw
+      - ./test-results:/app/test-results:rw
+    networks:
+      - re-platform
+    depends_on:
+      - redis-test
+      - dgraph-alpha-test
+      - mcp-coordinator
+    profiles:
+      - testing
+
+  # Load testing container
+  load-tester:
+    build:
+      context: .
+      dockerfile: containers/load-tester/Dockerfile
+    container_name: load-tester
+    environment:
+      - TARGET_HOST=mcp-coordinator:8000
+      - CONCURRENT_USERS=10
+      - SPAWN_RATE=2
+      - RUN_TIME=60s
+    volumes:
+      - ./tests/load:/app/tests:ro
+      - ./test-results:/app/results:rw
+    networks:
+      - re-platform
+    depends_on:
+      - mcp-coordinator
+    profiles:
+      - load-testing
+
+  # Security scanning container
+  security-scanner:
+    build:
+      context: .
+      dockerfile: containers/security-scanner/Dockerfile
+    container_name: security-scanner
+    volumes:
+      - .:/app:ro
+      - ./test-results/security:/app/results:rw
+    networks:
+      - re-platform
+    profiles:
+      - security-testing
+
+# Test-specific volumes (ephemeral)
+volumes:
+  test_data:
+    driver: local
+  test_results:
+    driver: local

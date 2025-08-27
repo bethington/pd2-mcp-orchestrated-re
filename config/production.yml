@@ -1,0 +1,8 @@
+# Production settings for MCP-Orchestrated Reverse Engineering Platform
+analysis:
+  tools:
+    - ghidra
+    - windbg
+    - dgraph
+output_dir: /data/outputs
+log_dir: /data/outputs/logs

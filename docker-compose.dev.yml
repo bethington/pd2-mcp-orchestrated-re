@@ -1,0 +1,36 @@
+# docker-compose.dev.yml
+version: '3.8'
+
+services:
+  d2-analysis:
+    environment:
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+      - WINE_DEBUG=+all
+    volumes:
+      - ./containers/d2-analysis:/usr/local/bin:rw  # Live code editing
+      - ./logs:/app/logs:rw
+
+  mcp-coordinator:
+    environment:
+      - DEBUG=true
+      - HOT_RELOAD=true
+    volumes:
+      - ./src:/app/src:rw  # Live code editing
+      - ./claude:/app/claude:rw
+
+  # Development tools
+  jupyter:
+    image: jupyter/scipy-notebook:latest
+    container_name: jupyter-analysis
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./examples/notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    networks:
+      - re-platform
+
+

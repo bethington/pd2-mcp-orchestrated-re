@@ -1,0 +1,41 @@
+# Enhanced Dockerfile with Advanced Fluxbox Configuration
+# This shows how to integrate the configuration files into your build
+
+# ... (existing content from lines 1-56)
+
+# Copy scripts and configuration
+COPY containers/d2-analysis/setup_wine.sh /usr/local/bin/
+COPY containers/d2-analysis/start_d2.sh /usr/local/bin/
+COPY containers/d2-analysis/game_state_api.py /home/wine/
+COPY containers/d2-analysis/diablo2_monitor.py /usr/local/bin/
+COPY containers/d2-analysis/simple_mcp_server.py /usr/local/bin/
+COPY containers/d2-analysis/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copy Fluxbox configuration files
+RUN mkdir -p /root/.fluxbox /root/.fluxbox/styles
+COPY containers/d2-analysis/fluxbox-init /root/.fluxbox/init
+COPY containers/d2-analysis/fluxbox-menu /root/.fluxbox/menu  
+COPY containers/d2-analysis/fluxbox-keys /root/.fluxbox/keys
+COPY containers/d2-analysis/fluxbox-windowmenu /root/.fluxbox/windowmenu
+COPY containers/d2-analysis/fluxbox-startup /root/.fluxbox/startup
+COPY containers/d2-analysis/fluxbox-d2analysis-style /root/.fluxbox/styles/D2Analysis
+
+# Set permissions for Fluxbox files
+RUN chmod +x /usr/local/bin/setup_wine.sh /usr/local/bin/start_d2.sh /root/.fluxbox/startup
+
+# Create additional analysis directories
+RUN mkdir -p /tmp/analysis_logs /tmp/screenshots /tmp/wine_logs
+
+# Install additional tools for advanced window management
+RUN apt-get update && apt-get install -y \
+    wmctrl \
+    xbindkeys \
+    transset-df \
+    unclutter \
+    clipit \
+    scrot \
+    inotify-tools \
+    sysstat \
+    && rm -rf /var/lib/apt/lists/*
+
+# ... (rest of existing Dockerfile)

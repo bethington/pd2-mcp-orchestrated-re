@@ -1,0 +1,15 @@
+# Dgraph schema definition
+# Example:
+type Session {
+  session_id: String! @id
+  start_time: DateTime
+  end_time: DateTime
+  findings: [Finding]
+}
+
+type Finding {
+  id: String! @id
+  type: String
+  severity: String
+  evidence: String
+}

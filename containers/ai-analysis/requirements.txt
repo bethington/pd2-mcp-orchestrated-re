@@ -1,0 +1,32 @@
+fastapi==0.115.0
+uvicorn==0.32.1
+requests==2.31.0
+structlog==24.4.0
+pydantic==2.5.0
+
+# Machine Learning and AI - Core packages
+scikit-learn==1.3.0
+numpy==1.24.3
+pandas==2.0.3
+scipy==1.11.1
+
+# Model Persistence
+joblib==1.3.2
+# pickle5 not needed in Python 3.11+ - standard library pickle is sufficient
+
+# Visualization
+matplotlib==3.7.1
+seaborn==0.12.2
+
+# Data Processing
+tqdm==4.66.1
+networkx==3.1
+
+# Cryptography for model security
+cryptography==41.0.3
+
+# Note: Removed heavy packages that cause build issues:
+# - tensorflow, torch, transformers (very large, need GPU support for optimal performance)
+# - spacy, nltk (large language models, can be added later if needed)
+# - hdbscan, umap-learn (C compilation issues in container)
+# - plotly, feature-engine (not essential for core functionality)

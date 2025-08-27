@@ -1,0 +1,127 @@
+# Prometheus alert rules for MCP platform
+groups:
+  - name: mcp_platform_alerts
+    rules:
+      # High memory usage alert
+      - alert: HighMemoryUsage
+        expr: (container_memory_usage_bytes{name=~"d2-analysis|mcp-coordinator|analysis-engine"} / container_spec_memory_limit_bytes) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} high memory usage"
+          description: "Container {{ $labels.name }} memory usage is {{ $value }}% for more than 5 minutes."
+
+      # High CPU usage alert
+      - alert: HighCPUUsage
+        expr: rate(container_cpu_usage_seconds_total{name=~"d2-analysis|mcp-coordinator|analysis-engine"}[5m]) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} high CPU usage"
+          description: "Container {{ $labels.name }} CPU usage is {{ $value }}% for more than 5 minutes."
+
+      # Container down alert
+      - alert: ContainerDown
+        expr: up{job=~"mcp-coordinator|d2-analysis|analysis-engine|web-dashboard"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Service {{ $labels.job }} has been down for more than 1 minute."
+
+      # High disk usage alert
+      - alert: HighDiskUsage
+        expr: (node_filesystem_size_bytes{mountpoint="/data"} - node_filesystem_avail_bytes{mountpoint="/data"}) / node_filesystem_size_bytes{mountpoint="/data"} * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High disk usage on /data"
+          description: "Disk usage on /data is {{ $value }}% for more than 5 minutes."
+
+      # Game analysis process alert
+      - alert: GameProcessNotFound
+        expr: absent(up{job="d2-analysis"}) or up{job="d2-analysis"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Game analysis process not running"
+          description: "The D2 analysis container is not responding or down for more than 2 minutes."
+
+      # MCP request rate alert
+      - alert: HighMCPRequestRate
+        expr: rate(http_requests_total{job="mcp-coordinator"}[5m]) > 100
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High MCP request rate"
+          description: "MCP coordinator is receiving {{ $value }} requests per second for more than 3 minutes."
+
+      # Database connection alert
+      - alert: DatabaseConnectionFailure
+        expr: up{job="redis"} == 0 or up{job="dgraph"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database connection failure"
+          description: "Connection to {{ $labels.job }} database is down for more than 1 minute."
+
+      # Memory dump accumulation alert
+      - alert: MemoryDumpAccumulation
+        expr: increase(memory_dump_files_total[1h]) > 1000
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory dump file accumulation"
+          description: "More than 1000 memory dump files created in the last hour. Data cleanup may be needed."
+
+  - name: security_alerts
+    rules:
+      # Failed authentication attempts
+      - alert: HighFailedAuthAttempts
+        expr: increase(auth_failures_total[5m]) > 10
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High number of authentication failures"
+          description: "{{ $value }} authentication failures in the last 5 minutes from {{ $labels.source_ip }}."
+
+      # Suspicious API access patterns
+      - alert: SuspiciousAPIAccess
+        expr: rate(http_requests_total{status_code=~"4..|5.."}[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected"
+          description: "High rate of HTTP errors ({{ $value }}/sec) detected for more than 2 minutes."
+
+  - name: performance_alerts
+    rules:
+      # Slow response times
+      - alert: SlowResponseTimes
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow API response times"
+          description: "95th percentile response time is {{ $value }}s for more than 5 minutes."
+
+      # Analysis queue backlog
+      - alert: AnalysisQueueBacklog
+        expr: analysis_queue_size > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Analysis queue backlog"
+          description: "Analysis queue has {{ $value }} pending items for more than 5 minutes."

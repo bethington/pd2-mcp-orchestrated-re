@@ -1,0 +1,17 @@
+fastapi==0.115.0
+uvicorn==0.32.1
+requests==2.31.0
+structlog==24.4.0
+pydantic==2.5.0
+
+# Dynamic Analysis Libraries
+frida==16.1.11
+frida-tools==12.2.1
+
+# Process and Memory Analysis
+psutil==6.0.0
+pymem==1.13.0
+
+# Data Processing
+numpy==1.24.3
+pandas==2.0.3

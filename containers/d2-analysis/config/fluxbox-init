@@ -1,0 +1,82 @@
+# Fluxbox Configuration for Diablo 2 Analysis Container
+# This file would go to ~/.fluxbox/init inside the container
+
+# Session and workspace settings
+session.screen0.workspaces:	1
+session.screen0.workspaceNames:	Diablo2-Analysis
+
+# Window focus and behavior optimized for gaming
+session.screen0.focusModel:	ClickToFocus
+session.screen0.autoRaise:	true
+session.screen0.clickRaises:	true
+session.screen0.focusNewWindows:	true
+session.screen0.focusLastWindow:	true
+
+# Window placement for game windows
+session.screen0.windowPlacement:	RowSmartPlacement
+session.screen0.rowPlacementDirection:	LeftToRight
+session.screen0.colPlacementDirection:	TopToBottom
+
+# Maximize behavior for fullscreen games
+session.screen0.fullMaximization:	true
+session.screen0.maxIgnoreIncrement:	true
+session.screen0.maxDisableMove:	false
+session.screen0.maxDisableResize:	false
+
+# Window decorations (minimal for games)
+session.screen0.defaultDeco:	NORMAL
+session.screen0.decorateTransient:	true
+
+# Menu behavior
+session.screen0.menuMode:	Delay
+session.screen0.menuDelay:	200
+session.screen0.menuDelayClose:	200
+
+# Toolbar settings (hidden for gaming)
+session.screen0.toolbar.visible:	false
+session.screen0.toolbar.autoHide:	true
+session.screen0.toolbar.placement:	TopCenter
+session.screen0.toolbar.widthPercent:	100
+session.screen0.toolbar.height:	0
+
+# Window tabs (disabled for better game compatibility)
+session.screen0.tabs.usePixmap:	false
+session.screen0.tabs.maxOver:	false
+session.screen0.tabs.intitlebar:	true
+
+# Titlebar buttons (minimal set)
+session.screen0.titlebar.left:	Stick 
+session.screen0.titlebar.right:	Minimize Maximize Close 
+
+# Slit settings (disabled)
+session.screen0.slit.acceptKdeDockapps:	false
+session.screen0.slit.autoHide:	true
+session.screen0.slit.placement:	RightBottom
+
+# Edge snapping for window management
+session.screen0.edgeSnapThreshold:	10
+session.screen0.windowSnapThreshold:	10
+
+# Workspace warping (disabled for gaming stability)
+session.screen0.workspacewarping:	false
+session.screen0.desktopwheeling:	false
+
+# Window moving/resizing behavior
+session.screen0.opaqueMove:	true
+session.screen0.resizeMode:	Bottom
+session.screen0.showwindowposition:	false
+
+# Resource management
+session.cacheLife:	5
+session.cacheMax:	200
+session.colorsPerChannel:	4
+
+# Startup and shutdown
+session.forcePseudoTransparency:	false
+session.ignoreBorder:	false
+session.doubleClickInterval:	250
+
+# Key modifier settings
+session.screen0.followModel:	Ignore
+session.screen0.userFollowModel:	Follow
+session.screen0.noFocusWhileTypingDelay:	0

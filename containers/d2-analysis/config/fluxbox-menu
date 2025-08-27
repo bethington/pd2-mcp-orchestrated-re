@@ -1,0 +1,58 @@
+# Fluxbox Menu for Diablo 2 Analysis Container
+# This file would go to ~/.fluxbox/menu inside the container
+
+[begin] (D2 Analysis)
+  [exec] (Diablo 2) {wine /root/.wine/drive_c/pd2/ProjectD2/Game.exe -ns -3dfx}
+  [exec] (D2 Windowed) {wine /root/.wine/drive_c/pd2/ProjectD2/Game.exe -w}
+  [separator]
+  
+  [submenu] (Analysis Tools)
+    [exec] (Process Monitor) {htop}
+    [exec] (Memory Usage) {free -h}
+    [exec] (Wine Debug) {wineconsole cmd}
+    [exec] (File Manager) {nautilus /root/.wine/drive_c/pd2}
+    [separator]
+    [exec] (Wine Registry) {wine regedit}
+    [exec] (Wine Config) {winecfg}
+    [exec] (Wine Uninstaller) {wine uninstaller}
+  [end]
+  
+  [submenu] (Display)
+    [exec] (Resolution 800x600) {xrandr -s 800x600}
+    [exec] (Resolution 1024x768) {xrandr -s 1024x768}
+    [exec] (Resolution 1920x1080) {xrandr -s 1920x1080}
+    [separator]
+    [exec] (Display Info) {xrandr --query}
+    [exec] (X11 Info) {xdpyinfo}
+  [end]
+  
+  [submenu] (Debugging)
+    [exec] (Wine Debug Console) {wineconsole}
+    [exec] (System Log) {tail -f /var/log/syslog}
+    [exec] (Wine Log) {tail -f ~/.wine/dosdevices/z:/tmp/wine.log}
+    [separator]
+    [exec] (Process Tree) {pstree -p}
+    [exec] (Network Connections) {netstat -tulpn}
+  [end]
+  
+  [submenu] (Window Management)
+    [exec] (Kill Window) {xkill}
+    [exec] (Window Info) {xwininfo}
+    [exec] (Window Properties) {xprop}
+    [separator]
+    [restart] (Restart Fluxbox)
+    [reconfig] (Reload Config)
+  [end]
+  
+  [separator]
+  [workspaces] (Workspaces)
+  [separator]
+  
+  [submenu] (System)
+    [exec] (Terminal) {xterm}
+    [exec] (System Monitor) {gnome-system-monitor}
+    [separator]
+    [exit] (Exit Fluxbox)
+  [end]
+  
+[end]

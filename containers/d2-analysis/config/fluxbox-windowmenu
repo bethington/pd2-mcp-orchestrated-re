@@ -1,0 +1,47 @@
+# Fluxbox Window Menu for Diablo 2 Analysis
+# This file would go to ~/.fluxbox/windowmenu inside the container
+
+[begin]
+  [shade] (Shade/Unshade)
+  [stick] (Stick/Unstick)
+  [maximize] (Maximize)
+  [iconify] (Minimize)
+  [raise] (Raise)
+  [lower] (Lower)
+  [settitledialog] (Set Title...)
+  [separator]
+  
+  [submenu] (Window Size)
+    [exec] (800x600) {wmctrl -r :ACTIVE: -e 0,100,100,800,600}
+    [exec] (1024x768) {wmctrl -r :ACTIVE: -e 0,50,50,1024,768}
+    [exec] (1920x1080) {wmctrl -r :ACTIVE: -e 0,0,0,1920,1080}
+    [separator]
+    [exec] (Center Window) {wmctrl -r :ACTIVE: -e 0,200,150,800,600}
+  [end]
+  
+  [submenu] (Analysis Mode)
+    [exec] (Always on Top) {wmctrl -r :ACTIVE: -b add,above}
+    [exec] (Remove Always on Top) {wmctrl -r :ACTIVE: -b remove,above}
+    [exec] (Fullscreen) {wmctrl -r :ACTIVE: -b add,fullscreen}
+    [exec] (Exit Fullscreen) {wmctrl -r :ACTIVE: -b remove,fullscreen}
+    [separator]
+    [exec] (Make Transparent 50%) {transset-df -i :ACTIVE: 0.5}
+    [exec] (Make Transparent 25%) {transset-df -i :ACTIVE: 0.25}
+    [exec] (Remove Transparency) {transset-df -i :ACTIVE: 1.0}
+  [end]
+  
+  [submenu] (Game Analysis)
+    [exec] (Monitor This Window) {echo "Starting window monitoring for $(xdotool getactivewindow getwindowname)" >> /tmp/analysis.log}
+    [exec] (Screenshot Window) {scrot -u /tmp/window_$(date +%s).png}
+    [exec] (Window Properties) {xprop -id $(xdotool getactivewindow) >> /tmp/window_props.txt}
+  [end]
+  
+  [separator]
+  [sendto] (Send To Workspace)
+  [layer] (Layer)
+  [alpha] (Transparency)
+  [extramenus] (More Options)
+  [separator]
+  [close] (Close)
+  
+[end]

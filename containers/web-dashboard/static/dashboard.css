@@ -1,0 +1,6 @@
+/* Static assets directory for web dashboard */
+/* CSS and JS assets can be placed here */
+
+body {
+  background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+}

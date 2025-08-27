@@ -1,0 +1,607 @@
+version: '3.8'
+
+# ============================================================================
+# PD2 MCP Orchestrated RE Platform - Optimized Container Architecture
+# ============================================================================
+
+networks:
+  # Frontend network (exposed to host)
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+  
+  # Backend network (internal services)  
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+        
+  # Analysis network (sandboxed)
+  analysis:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
+
+volumes:
+  # Data persistence
+  dgraph_data:
+  redis_data:
+  game_binaries:
+  analysis_outputs:
+  static_analysis_cache:
+  
+  # Security isolation
+  quarantine_storage:
+  audit_logs:
+
+services:
+  # ========================================================================
+  # INFRASTRUCTURE TIER - Load Balancing & SSL Termination
+  # ========================================================================
+  
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    hostname: nginx-proxy
+    networks:
+      frontend:
+        ipv4_address: 172.20.0.10
+      backend:
+        ipv4_address: 172.21.0.10
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8090:8090"   # Management interface
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - api-gateway
+      - web-dashboard
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ========================================================================
+  # API TIER - External Interfaces
+  # ========================================================================
+  
+  api-gateway:
+    build:
+      context: .
+      dockerfile: containers/api-gateway/Dockerfile
+    container_name: api-gateway
+    hostname: api-gateway
+    networks:
+      frontend:
+        ipv4_address: 172.20.0.20
+      backend:
+        ipv4_address: 172.21.0.20
+    environment:
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:9000
+      - REDIS_URL=redis://redis:6379
+      - RATE_LIMIT_ENABLED=true
+      - AUTH_REQUIRED=true
+    ports:
+      - "8000:8000"   # REST API
+      - "8001:8001"   # WebSocket API
+    depends_on:
+      - mcp-coordinator
+      - redis
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+
+  web-dashboard:
+    build:
+      context: .
+      dockerfile: containers/web-dashboard/Dockerfile
+    container_name: web-dashboard
+    hostname: web-dashboard
+    networks:
+      frontend:
+        ipv4_address: 172.20.0.30
+    environment:
+      - API_GATEWAY_URL=http://api-gateway:8000
+      - VNC_PROXY_URL=http://d2-game-runner:8080
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ========================================================================
+  # ORCHESTRATION TIER - MCP Coordination & AI Strategy
+  # ========================================================================
+  
+  mcp-coordinator:
+    build:
+      context: .
+      dockerfile: containers/mcp-coordinator/Dockerfile
+    container_name: mcp-coordinator
+    hostname: mcp-coordinator
+    networks:
+      backend:
+        ipv4_address: 172.21.0.40
+      analysis:
+        ipv4_address: 172.22.0.40
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
+      - SECURITY_ENABLED=true
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./config/orchestration:/app/config:ro
+      - ./src/core:/app/src/core:ro
+      - ./claude:/app/claude:ro
+      - audit_logs:/app/logs:rw
+    ports:
+      - "9000:9000"   # MCP coordination
+      - "9001:9001"   # Health/metrics
+    depends_on:
+      - redis
+      - dgraph-alpha
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+
+  security-manager:
+    build:
+      context: .
+      dockerfile: containers/security-manager/Dockerfile
+    container_name: security-manager
+    hostname: security-manager
+    networks:
+      backend:
+        ipv4_address: 172.21.0.41
+      analysis:
+        ipv4_address: 172.22.0.41
+    environment:
+      - QUARANTINE_ENABLED=true
+      - RESOURCE_MONITORING=true
+      - AUDIT_LOGGING=true
+    volumes:
+      - quarantine_storage:/quarantine:rw
+      - audit_logs:/audit:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # For container monitoring
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  # ========================================================================
+  # MCP SERVER TIER - Specialized Analysis Servers
+  # ========================================================================
+  
+  mcp-d2-server:
+    build:
+      context: .
+      dockerfile: containers/mcp-servers/d2-server.Dockerfile
+    container_name: mcp-d2-server
+    hostname: mcp-d2-server
+    networks:
+      backend:
+        ipv4_address: 172.21.0.50
+      analysis:
+        ipv4_address: 172.22.0.50
+    environment:
+      - D2_RUNNER_URL=http://d2-game-runner:8765
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:9000
+    ports:
+      - "8765:8765"
+    depends_on:
+      - mcp-coordinator
+      - d2-game-runner
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  mcp-memory-server:
+    build:
+      context: .
+      dockerfile: containers/mcp-servers/memory-server.Dockerfile
+    container_name: mcp-memory-server
+    hostname: mcp-memory-server
+    networks:
+      backend:
+        ipv4_address: 172.21.0.51
+      analysis:
+        ipv4_address: 172.22.0.51
+    environment:
+      - MEMORY_ANALYZER_URL=http://memory-analyzer:8766
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:9000
+    ports:
+      - "8766:8766"
+    depends_on:
+      - mcp-coordinator
+      - memory-analyzer
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  mcp-network-server:
+    build:
+      context: .
+      dockerfile: containers/mcp-servers/network-server.Dockerfile
+    container_name: mcp-network-server
+    hostname: mcp-network-server
+    networks:
+      backend:
+        ipv4_address: 172.21.0.52
+      analysis:
+        ipv4_address: 172.22.0.52
+    environment:
+      - NETWORK_ANALYZER_URL=http://network-analyzer:8767
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:9000
+    ports:
+      - "8767:8767"
+    depends_on:
+      - mcp-coordinator
+      - network-analyzer
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  mcp-static-server:
+    build:
+      context: .
+      dockerfile: containers/mcp-servers/static-server.Dockerfile
+    container_name: mcp-static-server
+    hostname: mcp-static-server
+    networks:
+      backend:
+        ipv4_address: 172.21.0.53
+      analysis:
+        ipv4_address: 172.22.0.53
+    environment:
+      - STATIC_ANALYZER_URL=http://static-analyzer:8768
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:9000
+    ports:
+      - "8768:8768"
+    depends_on:
+      - mcp-coordinator
+      - static-analyzer
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  # ========================================================================
+  # ANALYSIS TIER - Core Analysis Engines (Sandboxed)
+  # ========================================================================
+  
+  d2-game-runner:
+    build:
+      context: .
+      dockerfile: containers/analysis/d2-runner.Dockerfile
+    container_name: d2-game-runner
+    hostname: d2-game-runner
+    networks:
+      analysis:
+        ipv4_address: 172.22.0.60
+    environment:
+      - DISPLAY=:1
+      - WINEPREFIX=/wine
+      - WINEARCH=win32
+      - WINEDEBUG=-all
+      - VNC_PASSWORD=pd2analysis
+      - SECURITY_CONTEXT=d2_game_sandbox
+    volumes:
+      - ./data/game_files/pd2:/game/pd2:ro
+      - game_binaries:/wine:rw
+      - analysis_outputs:/outputs:rw
+    ports:
+      - "5900:5901"   # VNC
+      - "8080:8080"   # noVNC web interface
+      - "8765:8765"   # Game state API
+    cap_add:
+      - SYS_PTRACE    # For debugging
+    security_opt:
+      - seccomp:unconfined
+    ulimits:
+      memlock: -1
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  memory-analyzer:
+    build:
+      context: .
+      dockerfile: containers/analysis/memory-analyzer.Dockerfile
+    container_name: memory-analyzer
+    hostname: memory-analyzer
+    networks:
+      analysis:
+        ipv4_address: 172.22.0.61
+    environment:
+      - TARGET_CONTAINER=d2-game-runner
+      - GDB_ENABLED=true
+      - SECURITY_CONTEXT=memory_analysis_sandbox
+    volumes:
+      - analysis_outputs:/outputs:rw
+      - ./src/analysis/memory:/app/memory:ro
+    ports:
+      - "8766:8766"
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    depends_on:
+      - d2-game-runner
+      - security-manager
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+
+  network-analyzer:
+    build:
+      context: .
+      dockerfile: containers/analysis/network-analyzer.Dockerfile
+    container_name: network-analyzer
+    hostname: network-analyzer
+    # Share network namespace with D2 game for packet capture
+    network_mode: "container:d2-game-runner"
+    environment:
+      - CAPTURE_INTERFACE=eth0
+      - PACKET_FILTER=port 4000 or port 6112 or port 6113
+      - SECURITY_CONTEXT=network_analysis_sandbox
+    volumes:
+      - analysis_outputs:/captures:rw
+      - ./src/analysis/network:/app/network:ro
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - d2-game-runner
+      - security-manager
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+
+  static-analyzer:
+    build:
+      context: .
+      dockerfile: containers/analysis/static-analyzer.Dockerfile
+    container_name: static-analyzer
+    hostname: static-analyzer
+    networks:
+      analysis:
+        ipv4_address: 172.22.0.63
+    environment:
+      - GHIDRA_INSTALL_DIR=/opt/ghidra
+      - JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+      - SECURITY_CONTEXT=static_analysis_sandbox
+    volumes:
+      - game_binaries:/binaries:ro
+      - static_analysis_cache:/ghidra_cache:rw
+      - analysis_outputs:/analysis:rw
+      - ./src/tools/static:/app/static:ro
+    ports:
+      - "8768:8768"
+    depends_on:
+      - security-manager
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+          cpus: '4.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  behavioral-analyzer:
+    build:
+      context: .
+      dockerfile: containers/analysis/behavioral-analyzer.Dockerfile
+    container_name: behavioral-analyzer
+    hostname: behavioral-analyzer
+    networks:
+      analysis:
+        ipv4_address: 172.22.0.64
+    environment:
+      - PATTERN_DETECTION_ENABLED=true
+      - BOT_DETECTION_ENABLED=true
+      - SECURITY_CONTEXT=behavioral_analysis_sandbox
+    volumes:
+      - analysis_outputs:/data:rw
+      - ./src/analysis/behavioral:/app/behavioral:ro
+    ports:
+      - "8769:8769"
+    depends_on:
+      - mcp-coordinator
+      - security-manager
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+
+  # ========================================================================
+  # DATA TIER - Persistent Storage & Caching
+  # ========================================================================
+  
+  dgraph-zero:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-zero
+    hostname: dgraph-zero
+    networks:
+      backend:
+        ipv4_address: 172.21.0.70
+    command: dgraph zero --my=dgraph-zero:5080 --replicas=1
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - "5080:5080"
+      - "6080:6080"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+
+  dgraph-alpha:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-alpha
+    hostname: dgraph-alpha
+    networks:
+      backend:
+        ipv4_address: 172.21.0.71
+    command: dgraph alpha --my=dgraph-alpha:7080 --zero=dgraph-zero:5080 --security whitelist=172.21.0.0/24,172.22.0.0/24
+    volumes:
+      - dgraph_data:/dgraph
+      - ./config/dgraph/schema.graphql:/schema.graphql:ro
+    ports:
+      - "8081:8080"   # HTTP
+      - "9080:9080"   # gRPC
+    depends_on:
+      - dgraph-zero
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    hostname: redis
+    networks:
+      backend:
+        ipv4_address: 172.21.0.80
+    command: >
+      redis-server 
+      --appendonly yes 
+      --requirepass pd2analysis 
+      --maxmemory 512mb 
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+          cpus: '0.5'
+
+  # ========================================================================
+  # MONITORING TIER - Health Checks & Observability
+  # ========================================================================
+  
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    hostname: prometheus
+    networks:
+      backend:
+        ipv4_address: 172.21.0.90
+    volumes:
+      - ./config/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    networks:
+      backend:
+        ipv4_address: 172.21.0.91
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=pd2analysis
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - ./config/monitoring/grafana:/etc/grafana/provisioning:ro
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ========================================================================
+  # UTILITY TIER - Development & Management Tools
+  # ========================================================================
+  
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    hostname: portainer
+    networks:
+      backend:
+        ipv4_address: 172.21.0.100
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/portainer:/data
+    ports:
+      - "9443:9443"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'

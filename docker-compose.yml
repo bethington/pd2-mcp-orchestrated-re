@@ -1,0 +1,302 @@
+# docker-compose.yml
+version: '3.8'
+
+networks:
+  re-platform:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  dgraph_data:
+  redis_data:
+  game_data:
+  analysis_data:
+  ghidra_projects:
+
+services:
+  # Your enhanced D2 analysis container
+  d2-analysis:
+    build:
+      context: .
+      dockerfile: containers/d2-analysis/Dockerfile
+    container_name: d2-analysis
+    hostname: d2-analysis
+    environment:
+      - DISPLAY=:1
+      - WINEPREFIX=/root/.wine
+      - WINEARCH=win32
+      - WINEDEBUG=-all
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:8080
+      - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
+      - REDIS_URL=redis://redis:6379
+      - SESSION_ID=${SESSION_ID:-default}
+    volumes:
+      - ./data/outputs/screenshots:/screenshots:rw
+      - ./data/outputs/memory_dumps:/memory_dumps:rw
+      - ./data/outputs/sessions:/sessions:rw
+      - ./data/outputs/tmp/.X11-unix:/tmp/.X11-unix:rw
+    ports:
+      - "5900:5900"   # VNC
+      - "3000:3000"   # Health check  
+      - "8765:8765"   # MCP server
+      - "3001:3001"   # Game State API
+    networks:
+      - re-platform
+    privileged: true  # Needed for memory access
+    cap_add:
+      - SYS_PTRACE    # For debugging
+    depends_on:
+      - mcp-coordinator
+      - dgraph-alpha
+      - redis
+    restart: unless-stopped
+
+  # noVNC Web Interface Proxy
+  novnc-proxy:
+    build:
+      context: .
+      dockerfile: containers/novnc-proxy/Dockerfile
+    container_name: novnc-proxy
+    ports:
+      - "5901:5901"   # Web VNC interface
+    networks:
+      - re-platform
+    depends_on:
+      - d2-analysis
+    restart: unless-stopped
+
+  # MCP Server Coordinator
+  mcp-coordinator:
+    build:
+      context: .
+      dockerfile: containers/mcp-coordinator/Dockerfile
+    container_name: mcp-coordinator
+    environment:
+      - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
+      - REDIS_URL=redis://redis:6379
+      - D2_ANALYSIS_URL=http://d2-analysis:8765
+    volumes:
+      - ./config:/app/config:ro
+      - ./shared:/app/shared:ro
+      - ./claude:/app/claude:ro
+      - analysis_data:/app/data:rw
+    ports:
+      - "8000:8000"   # MCP HTTP interface
+      - "9000:9000"   # WebSocket interface
+    networks:
+      - re-platform
+    depends_on:
+      - dgraph-alpha
+      - redis
+    restart: unless-stopped
+
+  # Static/Dynamic Analysis Engine
+  analysis-engine:
+    build:
+      context: .
+      dockerfile: containers/analysis-engine/Dockerfile
+    container_name: analysis-engine
+    environment:
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:8080
+      - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
+      - GHIDRA_ANALYSIS_URL=http://ghidra-analysis:8002
+    volumes:
+      - ./shared/tools:/app/tools:ro
+      - ./data/outputs:/app/outputs:rw
+      - /var/run/docker.sock:/var/run/docker.sock  # For tool containers
+    ports:
+      - "8001:8001"   # Analysis engine API
+    networks:
+      - re-platform
+    depends_on:
+      - mcp-coordinator
+    restart: unless-stopped
+
+  # Ghidra Decompilation Service
+  ghidra-analysis:
+    build:
+      context: .
+      dockerfile: containers/ghidra-analysis/Dockerfile
+    container_name: ghidra-analysis
+    environment:
+      - GHIDRA_INSTALL_DIR=/home/analysis/ghidra
+      - JAVA_OPTS=-Xmx4g
+    volumes:
+      - ./data/outputs:/app/outputs:rw
+      - ./data/binaries:/app/binaries:ro  # Binary samples for analysis
+      - ghidra_projects:/home/analysis/projects
+    ports:
+      - "8002:8002"   # Ghidra analysis API
+    networks:
+      - re-platform
+    restart: unless-stopped
+
+  # Frida Dynamic Analysis Service
+  frida-analysis:
+    build:
+      context: .
+      dockerfile: containers/frida-analysis/Dockerfile
+    container_name: frida-analysis
+    environment:
+      - FRIDA_SERVER_HOST=0.0.0.0
+      - FRIDA_SERVER_PORT=27042
+    volumes:
+      - ./data/outputs:/app/outputs:rw
+      - ./shared:/app/shared:ro
+    ports:
+      - "8003:8003"   # Frida analysis API
+      - "27042:27042" # Frida server port
+    networks:
+      - re-platform
+    privileged: true  # Required for process attachment
+    cap_add:
+      - SYS_PTRACE
+    restart: unless-stopped
+
+  # Memory Forensics Service
+  memory-forensics:
+    build:
+      context: .
+      dockerfile: containers/memory-forensics/Dockerfile
+    container_name: memory-forensics
+    environment:
+      - GLIBC_ANALYSIS_ENV=production
+      - MAX_DUMP_SIZE=4GB
+    volumes:
+      - ./data/outputs:/app/outputs:rw
+      - ./data/outputs/dumps:/app/dumps:rw
+      - ./data/outputs/reports:/app/reports:rw
+    ports:
+      - "8004:8004"   # Memory forensics API
+    networks:
+      - re-platform
+    privileged: true  # Required for memory dumping
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    restart: unless-stopped
+
+  # AI Analysis and Automation Service
+  ai-analysis:
+    build:
+      context: .
+      dockerfile: containers/ai-analysis/Dockerfile
+    container_name: ai-analysis
+    environment:
+      - TENSORFLOW_ENV=cpu
+      - SCIKIT_LEARN_CACHE_SIZE=2GB
+      - MODEL_STORAGE_PATH=/app/models
+    volumes:
+      - ./data/outputs:/app/outputs:rw
+      - ./data/outputs/reports:/app/reports:rw
+      - ./data/outputs/training_data:/app/training_data:rw
+    ports:
+      - "8005:8005"   # AI analysis API
+    networks:
+      - re-platform
+    restart: unless-stopped
+
+  # Network Analysis Container
+  network-monitor:
+    build:
+      context: .
+      dockerfile: containers/network-monitor/Dockerfile
+    container_name: network-monitor
+    network_mode: "container:d2-analysis"  # Share network with D2 container
+    environment:
+      - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
+      - CAPTURE_INTERFACE=eth0
+      - CAPTURE_FILTER=port 4000 or port 6112 or port 6113
+    volumes:
+      - ./data/outputs:/captures:rw
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - d2-analysis
+    restart: unless-stopped
+
+  # Web Dashboard
+  web-dashboard:
+    build:
+      context: .
+      dockerfile: containers/web-dashboard/Dockerfile
+    container_name: web-dashboard
+    environment:
+      - MCP_COORDINATOR_URL=http://mcp-coordinator:8080
+      - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
+      - D2_VNC_URL=http://d2-analysis:8080
+    volumes:
+      - ./shared/web:/app/src:ro
+      - ./data/outputs:/app/data:ro
+    ports:
+      - "80:80"       # Main dashboard
+      - "443:443"     # HTTPS
+    networks:
+      - re-platform
+    depends_on:
+      - mcp-coordinator
+      - d2-analysis
+    restart: unless-stopped
+
+  # Knowledge Graph Storage
+  dgraph-zero:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-zero
+    command: dgraph zero --my=dgraph-zero:5080
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - "5080:5080"
+      - "6080:6080"
+    networks:
+      - re-platform
+    restart: unless-stopped
+
+  dgraph-alpha:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-alpha
+    command: dgraph alpha --my=dgraph-alpha:7080 --zero=dgraph-zero:5080 --security whitelist=0.0.0.0/0
+    volumes:
+      - dgraph_data:/dgraph
+      - ./config/dgraph/schema.graphql:/schema.graphql:ro
+    ports:
+      - "8081:8080"   # Changed to avoid conflict with D2 container
+      - "9080:9080"
+    networks:
+      - re-platform
+    depends_on:
+      - dgraph-zero
+    restart: unless-stopped
+
+  # Redis for session management and caching
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - re-platform
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  # Reverse proxy and load balancer
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    volumes:
+      - ./config/docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    ports:
+      - "8090:80"     # Proxy port
+    networks:
+      - re-platform
+    depends_on:
+      - web-dashboard
+      - d2-analysis
+      - mcp-coordinator
+    restart: unless-stopped

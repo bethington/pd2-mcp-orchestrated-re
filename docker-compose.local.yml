@@ -1,0 +1,147 @@
+# docker-compose.local.yml - Local development overrides
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.local.yml up -d
+# Or use: docker-compose --env-file .env.local up -d
+
+version: '3.8'
+
+services:
+  # Development-friendly d2-analysis
+  d2-analysis:
+    environment:
+      - DEBUG_MODE=true
+      - HOT_RELOAD=true
+      - LOG_LEVEL=DEBUG
+      - WINEDEBUG=+all
+      - ENABLE_PROFILING=true
+      - EXPOSE_DEBUG_PORTS=true
+    volumes:
+      # Enable hot reload for development
+      - ./containers/d2-analysis/src:/app/src:ro
+      - ./containers/d2-analysis/config:/app/config:ro  
+      - ./shared:/app/shared:ro
+      # Local game files (if available)
+      - ${LOCAL_GAME_FILES_PATH:-./data/pd2}:/data/pd2:ro
+    ports:
+      - "5678:5678"  # Python debugger port
+    # Reduced resources for local development
+    mem_limit: 3g
+    cpus: 2.0
+
+  # Development MCP coordinator
+  mcp-coordinator:
+    environment:
+      - DEBUG_MODE=true
+      - HOT_RELOAD=true
+      - LOG_LEVEL=DEBUG
+      - FLASK_ENV=development
+      - PYTHONPATH=/app:/app/shared
+    volumes:
+      # Hot reload volumes
+      - ./containers/mcp-coordinator/src:/app/src:ro
+      - ./containers/mcp-coordinator/config:/app/config:ro
+      - ./shared:/app/shared:ro
+    ports:
+      - "5679:5678"  # Python debugger port
+      - "8001:8000"  # Alternative port to avoid conflicts
+    command: ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=8000", "--reload"]
+
+  # Development analysis engine
+  analysis-engine:
+    environment:
+      - DEBUG_MODE=true
+      - LOG_LEVEL=DEBUG
+      - PYTHONPATH=/app:/app/shared
+    volumes:
+      - ./containers/analysis-engine:/app:ro
+      - ./shared:/app/shared:ro
+    ports:
+      - "5680:5678"  # Python debugger port
+
+  # Development web dashboard  
+  web-dashboard:
+    environment:
+      - FLASK_ENV=development
+      - DEBUG_MODE=true
+      - LOG_LEVEL=DEBUG
+      - HOT_RELOAD=true
+    volumes:
+      - ./containers/web-dashboard:/app:ro
+      - ./shared/web:/app/src:ro
+    ports:
+      - "8002:80"    # Alternative port
+
+  # Development network monitor
+  network-monitor:
+    environment:
+      - DEBUG_MODE=true
+      - LOG_LEVEL=DEBUG
+      - PYTHONPATH=/app:/app/shared
+    volumes:
+      - ./containers/network-monitor:/app:ro
+      - ./shared:/app/shared:ro
+
+  # Optional: Local development database instances
+  redis-dev:
+    image: redis:7-alpine
+    container_name: redis-dev
+    ports:
+      - "6380:6379"  # Alternative port
+    networks:
+      - re-platform
+    command: redis-server --appendonly yes
+    profiles:
+      - local-db
+
+  dgraph-alpha-dev:
+    image: dgraph/dgraph:latest
+    container_name: dgraph-alpha-dev
+    command: dgraph alpha --my=dgraph-alpha-dev:7080 --zero=dgraph-zero:5080
+    ports:
+      - "8082:8080"  # Alternative port
+    networks:
+      - re-platform
+    profiles:
+      - local-db
+
+  # Development tools
+  code-quality:
+    build:
+      context: .
+      dockerfile: containers/dev-tools/Dockerfile
+    container_name: code-quality
+    volumes:
+      - .:/app:ro
+      - ./reports:/app/reports:rw
+    networks:
+      - re-platform
+    profiles:
+      - dev-tools
+    command: ["tail", "-f", "/dev/null"]  # Keep running
+
+  # Documentation server
+  docs:
+    image: nginx:alpine
+    container_name: docs-server
+    volumes:
+      - ./docs:/usr/share/nginx/html:ro
+      - ./README.md:/usr/share/nginx/html/index.md:ro
+    ports:
+      - "8090:80"
+    networks:
+      - re-platform
+    profiles:
+      - docs
+
+# Development-specific networks
+networks:
+  re-platform:
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16  # Different subnet for local dev
+
+# Development volumes
+volumes:
+  dev_data:
+    driver: local
+  reports:
+    driver: local

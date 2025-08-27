@@ -1,0 +1,65 @@
+# Fluxbox Keyboard Shortcuts for Diablo 2 Analysis
+# This file would go to ~/.fluxbox/keys inside the container
+
+# Emergency shortcuts (always accessible)
+Control Shift q :Quit
+Control Shift r :Restart
+Control Shift c :Reconfigure
+
+# Window management shortcuts
+Mod1 Tab :NextWindow
+Mod1 Shift Tab :PrevWindow
+Mod1 F4 :Close
+Mod1 F9 :Minimize
+Mod1 F10 :Maximize
+Mod1 F11 :Fullscreen
+
+# Workspace shortcuts
+Control F1 :Workspace 1
+Control F2 :Workspace 2
+Control F3 :Workspace 3
+
+# Application launching shortcuts
+Mod4 d :Exec wine /root/.wine/drive_c/pd2/ProjectD2/Game.exe -ns -3dfx
+Mod4 w :Exec wine /root/.wine/drive_c/pd2/ProjectD2/Game.exe -w
+Mod4 t :Exec xterm
+Mod4 f :Exec nautilus /root/.wine/drive_c/pd2
+
+# Window moving and resizing
+Mod1 Button1 :StartMoving
+Mod1 Button2 :StartResizing
+Mod1 Button3 :ShowMenu
+
+# Advanced window operations
+Mod1 Shift Left :SendToWorkspace -1
+Mod1 Shift Right :SendToWorkspace 1
+Mod1 Control Left :TakeToPrevWorkspace
+Mod1 Control Right :TakeToNextWorkspace
+
+# Window positioning shortcuts
+Control Mod1 Left :MacroCmd {MoveTo 0 0} {ResizeTo 50% 100%}
+Control Mod1 Right :MacroCmd {MoveTo 50% 0} {ResizeTo 50% 100%}
+Control Mod1 Up :MacroCmd {MoveTo 0 0} {ResizeTo 100% 50%}
+Control Mod1 Down :MacroCmd {MoveTo 0 50%} {ResizeTo 100% 50%}
+
+# Center window
+Control Mod1 c :MacroCmd {MoveTo 25% 25%} {ResizeTo 50% 50%}
+
+# Debugging shortcuts
+Control Shift x :Exec xkill
+Control Shift i :Exec xwininfo
+Control Shift p :Exec xprop
+
+# Display shortcuts  
+F1 :Exec xrandr -s 800x600
+F2 :Exec xrandr -s 1024x768
+F3 :Exec xrandr -s 1920x1080
+
+# Volume controls (if audio is needed for analysis)
+XF86AudioRaiseVolume :Exec amixer set Master 5%+
+XF86AudioLowerVolume :Exec amixer set Master 5%-
+XF86AudioMute :Exec amixer set Master toggle
+
+# Screenshot shortcuts
+Print :Exec scrot -s /tmp/screenshot.png
+Shift Print :Exec scrot /tmp/fullscreen.png

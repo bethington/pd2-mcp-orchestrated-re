@@ -1,0 +1,83 @@
+# Data Retention Configuration
+# This file defines retention policies for different types of data
+
+retention_policies:
+  # Memory dumps from game analysis
+  memory_dumps:
+    retention_days: 7        # Delete files older than 7 days
+    archive_after: 1         # Archive files older than 1 day
+    max_files: 1000          # Maximum number of files to keep
+    compress: true           # Compress archived files
+    
+  # Analysis session data
+  sessions:
+    retention_days: 30       # Delete sessions older than 30 days
+    archive_after: 7         # Archive sessions older than 7 days
+    max_size_gb: 10          # Maximum total size in GB
+    compress: true           # Compress archived sessions
+    
+  # Application and container logs
+  logs:
+    retention_days: 14       # Delete logs older than 14 days
+    archive_after: 3         # Compress logs older than 3 days
+    debug_logs_retention: 7  # Debug logs have shorter retention
+    max_size_gb: 5           # Maximum total log size in GB
+    
+  # Temporary files
+  temp_files:
+    retention_days: 1        # Delete temp files older than 1 day
+    cleanup_interval: "0 */6 * * *"  # Every 6 hours
+    
+  # Docker resources
+  docker:
+    cleanup_interval: "0 2 * * 0"   # Weekly on Sunday at 2 AM
+    remove_stopped_containers: true
+    remove_dangling_images: true
+    remove_unused_volumes: false     # Be careful with this
+    
+  # Archive management
+  archives:
+    retention_days: 90       # Keep archives for 90 days
+    max_size_gb: 50          # Maximum archive size
+    compression_level: 6     # gzip compression level (1-9)
+
+# Cleanup schedule (cron format)
+cleanup_schedule:
+  daily: "0 2 * * *"         # Daily at 2 AM
+  weekly: "0 3 * * 0"        # Weekly on Sunday at 3 AM
+  monthly: "0 4 1 * *"       # Monthly on 1st at 4 AM
+
+# Alert thresholds
+alerts:
+  disk_usage_threshold: 85   # Alert when disk usage exceeds 85%
+  cleanup_failure_notify: true
+  webhook_url: "${ALERTS_WEBHOOK_URL}"
+
+# Environment-specific overrides
+environments:
+  development:
+    memory_dumps:
+      retention_days: 3
+      archive_after: 1
+    sessions:
+      retention_days: 7
+    logs:
+      retention_days: 7
+      
+  production:
+    memory_dumps:
+      retention_days: 14
+      archive_after: 2
+    sessions:
+      retention_days: 60
+    logs:
+      retention_days: 30
+      
+  testing:
+    memory_dumps:
+      retention_days: 1
+      archive_after: 0
+    sessions:
+      retention_days: 1
+    logs:
+      retention_days: 3

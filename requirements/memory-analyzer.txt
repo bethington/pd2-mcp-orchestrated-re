@@ -1,0 +1,13 @@
+# Memory Analyzer Requirements  
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.4.2
+psutil==5.9.6
+python-ptrace==0.9.8
+py-spy==0.3.14
+structlog==23.2.0
+pygdbmi==0.10.0.1
+capstone==5.0.1
+keystone-engine==0.9.2
+unicorn==2.0.1
+pwntools==4.11.1

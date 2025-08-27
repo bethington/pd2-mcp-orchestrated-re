@@ -1,0 +1,5 @@
+scapy==2.5.0
+# pcapy==0.11.4  # Commented out due to distutils compatibility issues
+pyshark==0.4.6
+structlog==24.4.0
+# asyncio==3.4.3  # Not needed, asyncio is part of Python standard library

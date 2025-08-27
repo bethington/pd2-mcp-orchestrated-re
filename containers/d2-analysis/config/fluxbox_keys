@@ -1,0 +1,20 @@
+# Fluxbox key bindings for D2 Analysis
+# ~/.fluxbox/keys
+
+# Screenshot hotkeys
+Print :Exec /usr/local/bin/capture_screenshot_hotkey.sh
+Mod4 s :Exec /usr/local/bin/capture_screenshot_hotkey.sh
+Control Alt s :Exec /usr/local/bin/capture_screenshot_hotkey.sh
+
+# Window management (standard Fluxbox keys)
+Alt F1 :RootMenu
+Alt F4 :Close
+Alt F9 :Minimize 
+Alt F10 :Maximize
+Alt F11 :Fullscreen
+Alt Tab :NextWindow
+Alt Shift Tab :PrevWindow
+
+# Quick application launches
+Mod4 t :Exec xterm
+Mod4 f :Exec mousepad

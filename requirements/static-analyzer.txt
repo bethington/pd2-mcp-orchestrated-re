@@ -1,0 +1,13 @@
+# Static Analyzer Requirements
+fastapi==0.104.1
+uvicorn[standard]==0.24.0  
+pydantic==2.4.2
+requests==2.31.0
+structlog==23.2.0
+python-magic==0.4.27
+pefile==2023.2.7
+pyelftools==0.30
+r2pipe==1.8.0
+capstone==5.0.1
+yara-python==4.3.1
+ssdeep==3.4

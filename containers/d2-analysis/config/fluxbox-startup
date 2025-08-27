@@ -1,0 +1,104 @@
+#!/bin/bash
+# Fluxbox Startup Script for Diablo 2 Analysis Container
+# This file would go to ~/.fluxbox/startup inside the container
+
+# Set environment for analysis
+export DISPLAY=:1
+export WINEDEBUG=-all
+export WINEPREFIX=/root/.wine
+
+# Create necessary directories
+mkdir -p /tmp/analysis_logs
+mkdir -p /tmp/screenshots
+mkdir -p /tmp/wine_logs
+
+# Start background monitoring services
+echo "Starting Diablo 2 analysis environment..." > /tmp/analysis_logs/startup.log
+
+# Configure Wine environment for optimal game performance
+echo "Configuring Wine environment..." >> /tmp/analysis_logs/startup.log
+wine regedit /s /root/.wine/system.reg 2>/dev/null
+
+# Set up X11 environment for gaming
+echo "Optimizing X11 for gaming..." >> /tmp/analysis_logs/startup.log
+xset -dpms  # Disable power management
+xset s off  # Disable screensaver
+xsetroot -solid black  # Set black background
+
+# Start window composition manager for better graphics (optional)
+# compton -b --config /root/.config/compton.conf &
+
+# Set up performance monitoring
+echo "Starting performance monitors..." >> /tmp/analysis_logs/startup.log
+iostat -x 5 > /tmp/analysis_logs/io_stats.log &
+vmstat 5 > /tmp/analysis_logs/memory_stats.log &
+
+# Start network monitoring for packet analysis
+if command -v tcpdump >/dev/null 2>&1; then
+    echo "Starting network monitoring..." >> /tmp/analysis_logs/startup.log
+    tcpdump -i any -w /tmp/analysis_logs/network_$(date +%s).pcap &
+fi
+
+# Wine-specific optimizations
+echo "Applying Wine optimizations..." >> /tmp/analysis_logs/startup.log
+# Set Wine to use dedicated GPU if available
+export __GL_SYNC_TO_VBLANK=0
+export __GL_SYNC_DISPLAY_DEVICE=DFP-0
+
+# Configure audio for Wine (if needed for analysis)
+pulseaudio --start --verbose &
+export PULSE_RUNTIME_PATH=/tmp/pulse
+
+# Set up analysis tools
+echo "Preparing analysis tools..." >> /tmp/analysis_logs/startup.log
+
+# Function to monitor game processes
+monitor_game() {
+    while true; do
+        if pgrep -f "Game.exe" > /dev/null; then
+            echo "$(date): Diablo 2 process detected" >> /tmp/analysis_logs/game_monitor.log
+            # Log memory usage
+            ps aux | grep -E "(Game.exe|wine)" >> /tmp/analysis_logs/game_processes.log
+        fi
+        sleep 10
+    done
+}
+
+# Start game process monitor in background
+monitor_game &
+
+# Set up hotkeys for quick analysis
+xbindkeys &
+
+# Configure mouse for gaming
+xinput set-prop "Virtual core pointer" "Device Accel Profile" -1 2>/dev/null || true
+
+# Start file system monitoring
+if command -v inotifywait >/dev/null 2>&1; then
+    echo "Starting file system monitoring..." >> /tmp/analysis_logs/startup.log
+    inotifywait -mr /root/.wine/drive_c/pd2 --format '%T %w %f %e' --timefmt '%Y-%m-%d %H:%M:%S' > /tmp/analysis_logs/file_changes.log &
+fi
+
+# Set window manager specific optimizations
+echo "Configuring Fluxbox for gaming..." >> /tmp/analysis_logs/startup.log
+
+# Auto-hide cursor after inactivity (useful for analysis)
+unclutter -idle 3 -root &
+
+# Start clipboard manager
+clipit &
+
+# Set up custom window rules for Diablo 2
+wmctrl -c "Wine System Tray" 2>/dev/null || true
+
+# Final environment check
+echo "Environment check:" >> /tmp/analysis_logs/startup.log
+echo "DISPLAY=$DISPLAY" >> /tmp/analysis_logs/startup.log
+echo "WINEPREFIX=$WINEPREFIX" >> /tmp/analysis_logs/startup.log
+xdpyinfo | grep "dimensions" >> /tmp/analysis_logs/startup.log
+
+# Log startup completion
+echo "$(date): Fluxbox startup completed for D2 analysis" >> /tmp/analysis_logs/startup.log
+
+# Execute Fluxbox
+exec fluxbox

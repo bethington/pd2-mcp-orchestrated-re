@@ -1,0 +1,140 @@
+# Fluxbox Style for Diablo 2 Analysis - Dark Theme
+# This file would go to ~/.fluxbox/styles/D2Analysis inside the container
+
+# Background
+background: flat
+background.color: #000000
+
+# Window properties
+window.font: fixed
+window.justify: center
+window.roundCorners: false
+
+# Window title
+window.title: raised gradient diagonal
+window.title.color: #1a1a1a
+window.title.colorTo: #2d2d2d
+
+# Window title text
+window.title.textColor: #cccccc
+
+# Window label (focused)
+window.label.focus: flat
+window.label.focus.color: #404040
+window.label.focus.textColor: #ffffff
+
+# Window label (unfocused)
+window.label.unfocus: flat  
+window.label.unfocus.color: #2d2d2d
+window.label.unfocus.textColor: #888888
+
+# Window handle
+window.handle.focus: flat
+window.handle.focus.color: #404040
+window.handle.unfocus: flat
+window.handle.unfocus.color: #2d2d2d
+
+# Window grip
+window.grip.focus: flat
+window.grip.focus.color: #404040
+window.grip.unfocus: flat
+window.grip.unfocus.color: #2d2d2d
+
+# Window buttons
+window.button.focus: flat
+window.button.focus.color: #404040
+window.button.focus.picColor: #cccccc
+
+window.button.unfocus: flat
+window.button.unfocus.color: #2d2d2d
+window.button.unfocus.picColor: #666666
+
+# Pressed button
+window.button.pressed: sunken
+window.button.pressed.color: #1a1a1a
+
+# Window frame
+window.frame.focusColor: #404040
+window.frame.unfocusColor: #2d2d2d
+
+# Toolbar
+toolbar: flat
+toolbar.color: #1a1a1a
+toolbar.textColor: #cccccc
+toolbar.font: fixed
+toolbar.justify: center
+
+# Toolbar buttons
+toolbar.button: flat
+toolbar.button.color: #2d2d2d
+toolbar.button.textColor: #cccccc
+
+toolbar.button.pressed: sunken
+toolbar.button.pressed.color: #000000
+
+# Toolbar label
+toolbar.label: flat
+toolbar.label.color: #404040
+toolbar.label.textColor: #ffffff
+
+# Toolbar window label
+toolbar.windowLabel: flat
+toolbar.windowLabel.color: #2d2d2d
+toolbar.windowLabel.textColor: #cccccc
+
+# Toolbar clock
+toolbar.clock: flat
+toolbar.clock.color: #404040
+toolbar.clock.textColor: #ffffff
+
+# Toolbar iconbar (empty and focused)
+toolbar.iconbar.empty: flat
+toolbar.iconbar.empty.color: #1a1a1a
+
+toolbar.iconbar.focused: flat gradient diagonal
+toolbar.iconbar.focused.color: #404040
+toolbar.iconbar.focused.colorTo: #606060
+toolbar.iconbar.focused.textColor: #ffffff
+
+# Toolbar iconbar unfocused
+toolbar.iconbar.unfocused: flat
+toolbar.iconbar.unfocused.color: #2d2d2d  
+toolbar.iconbar.unfocused.textColor: #888888
+
+# Menu properties
+menu.font: fixed
+menu.title.font: fixed
+menu.frame.font: fixed
+
+# Menu title
+menu.title: raised gradient diagonal
+menu.title.color: #2d2d2d
+menu.title.colorTo: #404040
+menu.title.textColor: #ffffff
+menu.title.justify: center
+
+# Menu frame
+menu.frame: flat
+menu.frame.color: #1a1a1a
+menu.frame.textColor: #cccccc
+menu.frame.justify: left
+
+# Menu highlight
+menu.hilite: flat
+menu.hilite.color: #404040
+menu.hilite.textColor: #ffffff
+
+# Menu bullet
+menu.bullet: triangle
+menu.bullet.position: right
+
+# Border settings (minimal for gaming)
+borderColor: #404040
+borderWidth: 1
+bevelWidth: 1
+frameWidth: 1
+handleWidth: 3
+
+# Additional properties
+*textColor: #cccccc
+*font: fixed

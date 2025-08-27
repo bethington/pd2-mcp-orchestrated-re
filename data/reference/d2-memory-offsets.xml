@@ -1,0 +1,1750 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable DbeatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>50</ID>
+      <Description>"BNClient.dll - Gateway Domain Name (Battle.net Server)"</Description>
+      <LastState Value="841889075" RealAddress="6FF3F200"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>BNClient.dll+1F200</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>51</ID>
+      <Description>"BNClient.dll - Gateway IPv4 Address (Battle.net IP)"</Description>
+      <LastState Value="841889075" RealAddress="6FF3F300"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>BNClient.dll+1F300</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>191</ID>
+      <Description>"D2Client.dll - Always Run Toggle (0=Walk, 1=Run)"</Description>
+      <LastState Value="1" RealAddress="6FBCC3EC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C3EC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>124</ID>
+      <Description>"D2Client.dll - Current Area ID (Level/Zone Number)"</Description>
+      <LastState Value="1" RealAddress="6FBCC310"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C310</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>166</ID>
+      <Description>"D2Client.dll - Automap Layer Pointer (Current Map Layer)"</Description>
+      <LastState Value="48512864" RealAddress="6FBCC1C4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C1C4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>162</ID>
+      <Description>"D2Client.dll - Automap Mode (Display/Render Mode)"</Description>
+      <LastState Value="10" RealAddress="6FBA16B0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xF16B0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>161</ID>
+      <Description>"D2Client.dll - Automap Visible (0=Hidden, 1=Shown)"</Description>
+      <LastState Value="0" RealAddress="6FBAADA8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xFADA8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>53</ID>
+      <Description>"D2Client.dll - Chat Message Buffer (Current Chat Text)"</Description>
+      <LastState Value="0" RealAddress="6FBCEC80"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11EC80</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>22</ID>
+      <Description>"D2Client.dll - Classic Stash Layout (Legacy Stash UI)"</Description>
+      <LastState Value="1030" RealAddress="6FBBB398"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B398</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>24</ID>
+      <Description>"D2Client.dll - Horadric Cube Layout (Cube UI State)"</Description>
+      <LastState Value="1028" RealAddress="6FBBB3C8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B3C8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>155</ID>
+      <Description>"D2Client.dll - Cursor Hover X Position (Mouse Hover Coordinates)"</Description>
+      <LastState Value="4294967295" RealAddress="6FB90EB8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xE0EB8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>156</ID>
+      <Description>"D2Client.dll - Cursor Hover Y Position (Mouse Hover Coordinates)"</Description>
+      <LastState Value="4294967295" RealAddress="6FB90EBC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xE0EBC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"D2Client.dll - DifficultyLevel (nDifficultyLevel)"</Description>
+      <LastState Value="0" RealAddress="6FBCC390"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11C390</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>180</ID>
+      <Description>"D2Client.dll - Frame Rate Divisor (FPS Calculation)"</Description>
+      <LastState Value="10" RealAddress="6FBA16B0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xF16B0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"D2Client.dll - Draw Centered Unicode Text Function"</Description>
+      <LastState Value="4186658646" RealAddress="6FB6C4E0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+BC4E0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>49</ID>
+      <Description>"D2Client.dll - Expansion Character Flag (LoD vs Classic)"</Description>
+      <LastState Value="1" RealAddress="6FBC9854"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x119854</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>31</ID>
+      <Description>"D2Client.dll - Frames Per Second (Current FPS)"</Description>
+      <LastState Value="25" RealAddress="6FBCC2AC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C2AC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>40</ID>
+      <Description>"D2Client.dll - Game Info Structure Pointer"</Description>
+      <LastState Value="1702248" RealAddress="6FBCB980"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11B980</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"D2Client.dll - GameType (gnGameType: 0=SP, 3=BNet Join, 6=OpenBNet Host, 7=OpenBNet Join, 8=TCP/IP Host, 9=TCP/IP Join)"</Description>
+      <LastState Value="0" RealAddress="6FBCC394"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11C394</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"D2Client.dll - Display Height (Screen Resolution Height)"</Description>
+      <LastState Value="600" RealAddress="6FB8BC4C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+DBC4C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"D2Client.dll - Display Width (Screen Resolution Width)"</Description>
+      <LastState Value="1068" RealAddress="6FB8BC48"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+DBC48</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>10</ID>
+      <Description>"D2Client.dll - Camera Shift X (Play Area Horizontal Offset)"</Description>
+      <LastState Value="267" RealAddress="6FBCC418"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11C418</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>169</ID>
+      <Description>"D2Client.dll - Gold Dialog Action (Gold Transaction Type)"</Description>
+      <LastState Value="1" RealAddress="6FBAAD5C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xFAD5C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>170</ID>
+      <Description>"D2Client.dll - Gold Dialog Amount (Transaction Quantity)"</Description>
+      <LastState Value="990" RealAddress="6FBCBBB0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BBB0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>145</ID>
+      <Description>"D2Client.dll - Hovered Item Pointer (Mouse-Over Item)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC38"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11BC38</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"D2Client.dll - Pause Menu State (0=Closed, 1=Open)"</Description>
+      <LastState Value="0" RealAddress="6FBAADA4"/>
+      <VariableType>Byte</VariableType>
+      <Address>D2Client.dll+FADA4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"D2Client.dll - Mouse Position X (In-Game Coordinates)"</Description>
+      <LastState Value="1045" RealAddress="6FBCB828"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11B828</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>12</ID>
+      <Description>"D2Client.dll - Mouse Position Y (In-Game Coordinates)"</Description>
+      <LastState Value="578" RealAddress="6FBCB824"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11B824</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>25</ID>
+      <Description>"D2Client.dll - Inventory UI Layout (Inventory Window State)"</Description>
+      <LastState Value="2058" RealAddress="6FBBB3E0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B3E0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>13</ID>
+      <Description>"D2Client.dll - Inventory Arrange Mode (Sort/Arrange State)"</Description>
+      <LastState Value="15" RealAddress="6FBCB99C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11B99C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>126</ID>
+      <Description>"D2Client.dll - Inventory Tab (Current Tab Selection)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC94"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC94</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>14</ID>
+      <Description>"D2Client.dll - Automap Open State (0=Closed, 1=Open)"</Description>
+      <LastState Value="0" RealAddress="6FBAADA8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+FADA8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>15</ID>
+      <Description>"D2Client.dll - Game Menu Open State (ESC Menu Visible)"</Description>
+      <LastState Value="0" RealAddress="6FBAADA4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+FADA4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>16</ID>
+      <Description>"D2Client.dll - Help Screen Open State (Help Panel Visible)"</Description>
+      <LastState Value="0" RealAddress="6FBAAE04"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+FAE04</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>17</ID>
+      <Description>"D2Client.dll - New Skill Button State (Skill Tab Button)"</Description>
+      <LastState Value="0" RealAddress="6FBCC30C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11C30C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"D2Client.dll - New Stats Button State (Character Stats Button)"</Description>
+      <LastState Value="0" RealAddress="6FBCC308"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11C308</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>183</ID>
+      <Description>"D2Client.dll - Item Price List (Vendor Item Values)"</Description>
+      <LastState Value="302325472" RealAddress="6FBC973B"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11973B</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>190</ID>
+      <Description>"D2Client.dll - Current Map ID (Area Location Identifier)"</Description>
+      <LastState Value="388491500" RealAddress="6FBCC3BC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C3BC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>26</ID>
+      <Description>"D2Client.dll - Mercenary UI Layout (Merc Window State)"</Description>
+      <LastState Value="349" RealAddress="6FBCBD94"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BD94</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>168</ID>
+      <Description>"D2Client.dll - Mercenary Revive Cost (Gold Required to Resurrect)"</Description>
+      <LastState Value="0" RealAddress="6FBCC334"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C334</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>167</ID>
+      <Description>"D2Client.dll - Mercenary String Index (Name/Text Reference)"</Description>
+      <LastState Value="65535" RealAddress="6FBA23E8"/>
+      <VariableType>2 Bytes</VariableType>
+      <Address>D2Client.dll+0xF23E8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>160</ID>
+      <Description>"D2Client.dll - Mouse Offset X (Screen Coordinate Offset)"</Description>
+      <LastState Value="18762" RealAddress="6FBC9960"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x119960</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>159</ID>
+      <Description>"D2Client.dll - Mouse Offset Y (Screen Coordinate Offset)"</Description>
+      <LastState Value="81836" RealAddress="6FBC995C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11995C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>157</ID>
+      <Description>"D2Client.dll - Mouse Position X (Current X Coordinate)"</Description>
+      <LastState Value="1045" RealAddress="6FBCB828"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11B828</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>158</ID>
+      <Description>"D2Client.dll - Mouse Position Y (Current Y Coordinate)"</Description>
+      <LastState Value="578" RealAddress="6FBCB824"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11B824</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>52</ID>
+      <Description>"D2Client.dll - No Pickup Flag (Disable Item Auto-Pickup)"</Description>
+      <LastState Value="1" RealAddress="6FBCC2F0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C2F0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>171</ID>
+      <Description>"D2Client.dll - NPC Menu State (Vendor/Dialog Window)"</Description>
+      <LastState Value="148" RealAddress="6FBA3BA0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xF3BA0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>172</ID>
+      <Description>"D2Client.dll - NPC Menu Amount (Number of Menu Options)"</Description>
+      <LastState Value="48" RealAddress="6FBA42F0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xF42F0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>163</ID>
+      <Description>"D2Client.dll - Screen Offset Point (Display Position Reference)"</Description>
+      <LastState Value="33964601377903" RealAddress="6FBCC1F8"/>
+      <VariableType>8 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C1F8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>181</ID>
+      <Description>"D2Client.dll - Overhead Text Trigger (Text Display Above Character)"</Description>
+      <LastState Value="527743" RealAddress="6FBC3ACE"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x113ACE</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>175</ID>
+      <Description>"D2Client.dll - Panel Offset X (UI Panel Horizontal Position)"</Description>
+      <LastState Value="214" RealAddress="6FBCB9A0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11B9A0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>125</ID>
+      <Description>"D2Client.dll - Pet Count (Number of Active Pets/Minions)"</Description>
+      <LastState Value="0" RealAddress="6FBCC4D4"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C4D4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>178</ID>
+      <Description>"D2Client.dll - Network Ping (Connection Latency in MS)"</Description>
+      <LastState Value="0" RealAddress="6FBC9804"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x119804</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>42</ID>
+      <Description>"D2Client.dll - Player Unit Pointer (Current Player Object)"</Description>
+      <LastState Value="40542976" RealAddress="6FBCBBFC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BBFC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>44</ID>
+      <Description>"D2Client.dll - Player Unit List (All Players in Game)"</Description>
+      <LastState Value="102190080" RealAddress="6FBCBC14"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC14</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>142</ID>
+      <Description>"D2Client.dll - Player Unit Pointer (Primary Player Reference)"</Description>
+      <LastState Value="40542976" RealAddress="6FBBA60C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+10A60C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>192</ID>
+      <Description>"D2Client.dll - Unit Table Pointer (Game Object Table)"</Description>
+      <LastState Value="0" RealAddress="6FBBA608"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+10A608</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>182</ID>
+      <Description>"D2Client.dll - Recent Interact ID (Last Clicked Object ID)"</Description>
+      <LastState Value="10" RealAddress="6FBC971D"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11971D</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>189</ID>
+      <Description>"D2Client.dll - Recent Trade ID (Last Trading Session ID)"</Description>
+      <LastState Value="0" RealAddress="6FBCC2CC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11C2CC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>176</ID>
+      <Description>"D2Client.dll - Regular Cursor Type (Default Mouse Cursor)"</Description>
+      <LastState Value="4" RealAddress="6FBCB864"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11B864</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>153</ID>
+      <Description>"D2Client.dll - Screen Width (Display Resolution X)"</Description>
+      <LastState Value="1068" RealAddress="6FB8BC48"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xDBC48</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>154</ID>
+      <Description>"D2Client.dll - Screen Height (Display Resolution Y)"</Description>
+      <LastState Value="600" RealAddress="6FB8BC4C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xDBC4C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>19</ID>
+      <Description>"D2Client.dll - Screen Open Mode (UI Display State)"</Description>
+      <LastState Value="2" RealAddress="6FBCC414"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11C414</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>20</ID>
+      <Description>"D2Client.dll - Screen Shift X (Camera Horizontal Offset)"</Description>
+      <LastState Value="214" RealAddress="6FBCB9A0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11B9A0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>21</ID>
+      <Description>"D2Client.dll - Screen Shift Y (Camera Vertical Offset)"</Description>
+      <LastState Value="4294967236" RealAddress="6FBCB9A4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11B9A4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>43</ID>
+      <Description>"D2Client.dll - Selected Inventory Item (Currently Held Item)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC38"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC38</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>177</ID>
+      <Description>"D2Client.dll - Shop Cursor Type (Vendor Interface Cursor)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC34"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC34</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>179</ID>
+      <Description>"D2Client.dll - Skip Flag (Animation/Cutscene Skip)"</Description>
+      <LastState Value="0" RealAddress="6FBC9810"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x119810</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>174</ID>
+      <Description>"D2Client.dll - Stash Layout (Stash Window State)"</Description>
+      <LastState Value="3850" RealAddress="6FBBB2D0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B2D0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>23</ID>
+      <Description>"D2Client.dll - Store Layout (Vendor Window State)"</Description>
+      <LastState Value="2570" RealAddress="6FBBB3B0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B3B0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>187</ID>
+      <Description>"D2Client.dll - Trade Accepted (Trade Confirmation Status)"</Description>
+      <LastState Value="0" RealAddress="6FBCBE64"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BE64</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>188</ID>
+      <Description>"D2Client.dll - Trade Block (Trade Restriction Status)"</Description>
+      <LastState Value="0" RealAddress="6FBCBE74"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BE74</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>173</ID>
+      <Description>"D2Client.dll - Trade Layout (Trade Window State)"</Description>
+      <LastState Value="1034" RealAddress="6FBBB288"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B288</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>184</ID>
+      <Description>"D2Client.dll - Transaction Dialog (Current Transaction UI)"</Description>
+      <LastState Value="0" RealAddress="6FBC975B"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11975B</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>185</ID>
+      <Description>"D2Client.dll - Transaction Dialogs (Multiple Transaction UIs)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC08"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC08</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>186</ID>
+      <Description>"D2Client.dll - Transaction Dialogs 2 (Secondary Transaction UIs)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC04"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC04</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>143</ID>
+      <Description>"D2Client.dll - Unit List Address (Game Objects List Pointer)"</Description>
+      <LastState Value="0" RealAddress="6FBBA808"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+10A808</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>41</ID>
+      <Description>"D2Client.dll - Waypoint Table (Waypoint Activation States)"</Description>
+      <LastState Value="297602944" RealAddress="6FBACDD1"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0xFCDD1</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>45</ID>
+      <Description>"D2Client.dll - Weapon Switch (Weapon Set Toggle)"</Description>
+      <LastState Value="0" RealAddress="6FBCBC94"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BC94</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>164</ID>
+      <Description>"D2Client.dll - Screen Shake X (Horizontal Camera Shake)"</Description>
+      <LastState Value="0" RealAddress="6FBCBF00"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BF00</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>165</ID>
+      <Description>"D2Client.dll - Screen Shake Y (Vertical Camera Shake)"</Description>
+      <LastState Value="0" RealAddress="6FBBB9DC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10B9DC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>123</ID>
+      <Description>"Player Unit Pointer (Primary Character Object)"</Description>
+      <LastState Value="0" RealAddress="026AA300"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x10A60C</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>48</ID>
+      <Description>"Player Unit Reference (Character Object Pointer)"</Description>
+      <LastState Value="0" RealAddress="026AA300"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+0x11BBFC</Address>
+      <Offsets>
+        <Offset>0x0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>195</ID>
+      <Description>"D2Common.dll - Armor Data Table (Armor Item Statistics)"</Description>
+      <LastState Value="385867796" RealAddress="6FDEFBA4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+9FBA4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>196</ID>
+      <Description>"D2Common.dll - Armor Record Count (Number of Armor Types)"</Description>
+      <LastState Value="204" RealAddress="6FDEFBA8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+9FBA8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>194</ID>
+      <Description>"D2Common.dll - Auto Magic Affix Table (Magic Item Properties)"</Description>
+      <LastState Value="389004740" RealAddress="6FDEFBC8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+9FBC8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>27</ID>
+      <Description>"D2Common.dll - Belt Configuration Table (Belt Item Stats)"</Description>
+      <LastState Value="0" RealAddress="1727D1C0"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+A13DC</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>127</ID>
+      <Description>"D2Common.dll - Global Data Pointer (Core Game Data)"</Description>
+      <LastState Value="0" RealAddress="6FDEFED8"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+0x099E1C</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>28</ID>
+      <Description>"D2Common.dll - Inventory Configuration Table (Inventory Layout Stats)"</Description>
+      <LastState Value="320" RealAddress="1727B070"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+9FA5C</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>54</ID>
+      <Description>"D2Common.dll - Inventory Record Count (Number of Inventory Types)"</Description>
+      <LastState Value="32" RealAddress="6FDEFA58"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+9FA58</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>146</ID>
+      <Description>"D2Common.dll - Item Description Count (Number of Item Descriptions)"</Description>
+      <LastState Value="815" RealAddress="6FDEFB94"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+9FB94</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>132</ID>
+      <Description>"D2Common.dll - Item Description Table (Item Text Data)"</Description>
+      <LastState Value="815" RealAddress="6FDEFB94"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+0x09FB94</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>131</ID>
+      <Description>"D2Common.dll - Low Quality Items Count (Cracked/Damaged Items)"</Description>
+      <LastState Value="4" RealAddress="6FDEFD98"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+0x09FD98</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>193</ID>
+      <Description>"D2Common.dll - Global Data Table (Core Game Data Pointer)"</Description>
+      <LastState Value="1876885208" RealAddress="6FDE9E1C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+99E1C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>109</ID>
+      <Description>"D2Common.dll - Data Structure (Game Data Reference)"</Description>
+      <LastState Value="69485707" RealAddress="6FD84AB0"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+34AB0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>55</ID>
+      <Description>"D2DDraw.dll - Bitmap Block Height (Graphics Block Height)"</Description>
+      <LastState Value="0" RealAddress="6F8D01D8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2DDraw.dll+101D8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>56</ID>
+      <Description>"D2DDraw.dll - Bitmap Block Width (Graphics Block Width)"</Description>
+      <LastState Value="0" RealAddress="6F8D01C8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2DDraw.dll+101C8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>57</ID>
+      <Description>"D2DDraw.dll - Cell Display Left (Sprite Left Boundary)"</Description>
+      <LastState Value="0" RealAddress="6F8D01E8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2DDraw.dll+101E8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>58</ID>
+      <Description>"D2DDraw.dll - Cell Display Right (Sprite Right Boundary)"</Description>
+      <LastState Value="0" RealAddress="6F8D01EC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2DDraw.dll+101EC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>59</ID>
+      <Description>"D2DDraw.dll - Display Height (Render Surface Height)"</Description>
+      <LastState Value="0" RealAddress="6F8D01CC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2DDraw.dll+101CC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>60</ID>
+      <Description>"D2DDraw.dll - Display Width (Render Surface Width)"</Description>
+      <LastState Value="0" RealAddress="6F8D01D4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2DDraw.dll+101D4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>61</ID>
+      <Description>"D2Direct3D.dll - Display Height (3D Render Height)"</Description>
+      <LastState Value="0" RealAddress="0389AFD4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Direct3D.dll+1AFD4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>62</ID>
+      <Description>"D2Direct3D.dll - Display Width (3D Render Width)"</Description>
+      <LastState Value="0" RealAddress="0389AB44"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Direct3D.dll+1AB44</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>141</ID>
+      <Description>"D2Game.dll - Players X Pointer (Player Count Multiplier)"</Description>
+      <LastState Value="8" RealAddress="03641C1C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Game.dll+111C1C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>129</ID>
+      <Description>"D2Game.dll - Players X (Difficulty Multiplier 1-8)"</Description>
+      <LastState Value="8" RealAddress="03641C1C"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Game.dll+0x111C1C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>128</ID>
+      <Description>"D2Game.dll - World Pointer (Game World Data)"</Description>
+      <LastState Value="1874354384" RealAddress="6FBD2360"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Game.dll+0x111C24</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>140</ID>
+      <Description>"D2Game.dll - World Pointer (Game World Reference)"</Description>
+      <LastState Value="1874666336" RealAddress="03641C24"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Game.dll+111C24</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>108</ID>
+      <Description>"D2Game.dll - Game Data Structure (Core Game State)"</Description>
+      <LastState Value="16040000" RealAddress="036407B8"/>
+      <ShowAsHex>1</ShowAsHex>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Game.dll+1107B8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>63</ID>
+      <Description>"D2Gdi.dll - Bitmap Block Height (GDI Graphics Block Height)"</Description>
+      <LastState Value="0" RealAddress="6F87CA90"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Gdi.dll+CA90</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>39</ID>
+      <Description>"D2Gdi.dll - Bitmap Block Width (GDI Graphics Block Width)"</Description>
+      <LastState Value="0" RealAddress="6F87CA80"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Gdi.dll+CA80</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>64</ID>
+      <Description>"D2Gdi.dll - Cell Display Left (GDI Sprite Left Boundary)"</Description>
+      <LastState Value="0" RealAddress="6F87CA98"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Gdi.dll+CA98</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>65</ID>
+      <Description>"D2Gdi.dll - Cell Display Right (GDI Sprite Right Boundary)"</Description>
+      <LastState Value="0" RealAddress="6F87CA9C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Gdi.dll+CA9C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>68</ID>
+      <Description>"D2gfx.dll - Windowed Mode (0=Fullscreen, 1=Windowed)"</Description>
+      <LastState Value="0" RealAddress="6FA9125C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2gfx.dll+1125C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>69</ID>
+      <Description>"D2gfx.dll - ResolutionMode (0=640x480, 1=Main Menu, 2=800x600, 3=1344x700)"</Description>
+      <LastState Value="2" RealAddress="6FA91260"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2gfx.dll+11260</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>198</ID>
+      <Description>"D2gfx.dll - Video Mode (Graphics Rendering Mode)"</Description>
+      <LastState Value="4" RealAddress="6FA91258"/>
+      <VariableType>2 Bytes</VariableType>
+      <Address>D2gfx.dll+11258</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>46</ID>
+      <Description>"D2gfx.dll - Video Mode (1=GDI, 2=Software, 3=DirectDraw, 4=Glide, 5=OpenGL, 6=Direct3D, 7=Rave)"</Description>
+      <LastState Value="4" RealAddress="6FA91258"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2gfx.dll+11258</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>70</ID>
+      <Description>"D2gfx.dll - Window Handle (Game Window HWND)"</Description>
+      <LastState Value="70521704" RealAddress="6FA91264"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2gfx.dll+11264</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>71</ID>
+      <Description>"D2Glide.dll - Display Height (Glide Render Height)"</Description>
+      <LastState Value="600" RealAddress="6F865B04"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Glide.dll+15B04</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>72</ID>
+      <Description>"D2Glide.dll - Display Width (Glide Render Width)"</Description>
+      <LastState Value="1068" RealAddress="6F865A68"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Glide.dll+15A68</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>136</ID>
+      <Description>"D2Lang.dll - Patch String Index Table (Localization Strings)"</Description>
+      <LastState Value="183405897" RealAddress="11D49D14"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+010A80</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>152</ID>
+      <Description>"D2Lang.dll - Expansion String Address Table (LoD Text Addresses)"</Description>
+      <LastState Value="393636332" RealAddress="00EE0A70"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+10A70</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>151</ID>
+      <Description>"D2Lang.dll - Expansion String Index Table (LoD Text Indices)"</Description>
+      <LastState Value="392736012" RealAddress="00EE0A84"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+10A84</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>137</ID>
+      <Description>"D2Lang.dll - Patch String Address Table (Patch Text Addresses)"</Description>
+      <LastState Value="383123532" RealAddress="16E99674"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+010A6C</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>150</ID>
+      <Description>"D2Lang.dll - Patch String Address Reference (Patch Text Address Pointer)"</Description>
+      <LastState Value="384407156" RealAddress="00EE0A6C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+10A6C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>149</ID>
+      <Description>"D2Lang.dll - Patch String Index Reference (Patch Text Index Pointer)"</Description>
+      <LastState Value="299146516" RealAddress="00EE0A80"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+10A80</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>148</ID>
+      <Description>"D2Lang.dll - String Address Table (Base Text Addresses)"</Description>
+      <LastState Value="393726764" RealAddress="00EE0A68"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+10A68</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>147</ID>
+      <Description>"D2Lang.dll - String Index Table (Base Text Indices)"</Description>
+      <LastState Value="298647628" RealAddress="00EE0A64"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+10A64</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>204</ID>
+      <Description>"D2LAUNCH.dll - Battle.net Data (BNet Connection Info)"</Description>
+      <LastState Value="1702248" RealAddress="6FA65ABC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2LAUNCH.dll+25ABC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>199</ID>
+      <Description>"D2MULTI.dll - Chat Box Message (Current Chat Text)"</Description>
+      <LastState Value="0" RealAddress="6FA08F18"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2MULTI.dll+38F18</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>203</ID>
+      <Description>"D2MULTI.dll - Chat Input Box (Chat Text Entry Field)"</Description>
+      <LastState Value="0" RealAddress="6FA0A0D0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2MULTI.dll+3A0D0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>201</ID>
+      <Description>"D2MULTI.dll - Edit Box Preferences (Text Input Settings)"</Description>
+      <LastState Value="4" RealAddress="6F9E9C60"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2MULTI.dll+19C60</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>200</ID>
+      <Description>"D2MULTI.dll - Game List Control (Multiplayer Game List UI)"</Description>
+      <LastState Value="0" RealAddress="6FA09CC0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2MULTI.dll+39CC0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>202</ID>
+      <Description>"D2MULTI.dll - Password Box (Password Input Field)"</Description>
+      <LastState Value="0" RealAddress="6FA09CD8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2MULTI.dll+39CD8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>197</ID>
+      <Description>"D2NET.dll - Critical Packet Section (Network Packet Sync)"</Description>
+      <LastState Value="502858888" RealAddress="02C0B400"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2NET.dll+B400</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>144</ID>
+      <Description>"D2Net.dll - Game ID (Current Game Session ID)"</Description>
+      <LastState Value="4381871" RealAddress="02C0B428"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Net.dll+B428</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>130</ID>
+      <Description>"D2Net.dll - Game ID Reference (Game Session Identifier)"</Description>
+      <LastState Value="4381871" RealAddress="02C0B428"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Net.dll+0x00B428</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>205</ID>
+      <Description>"D2WIN.dll - First Control (Primary UI Control Element)"</Description>
+      <LastState Value="0" RealAddress="6F9014A0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2WIN.dll+214A0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>206</ID>
+      <Description>"D2WIN.dll - Focused Control (Currently Selected UI Element)"</Description>
+      <LastState Value="0" RealAddress="6F9014B0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2WIN.dll+214B0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>79</ID>
+      <Description>"D2Win.dll - Load MPQ (MPQ File Loading Function)"</Description>
+      <LastState Value="1821070675" RealAddress="6F8E7E60"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Win.dll+7E60</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>80</ID>
+      <Description>"D2Win.dll - Main Menu Mouse X (Menu Screen Mouse Position)"</Description>
+      <LastState Value="1045" RealAddress="6F901488"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Win.dll+21488</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>81</ID>
+      <Description>"D2Win.dll - Main Menu Mouse Y (Menu Screen Mouse Position)"</Description>
+      <LastState Value="578" RealAddress="6F90148C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Win.dll+2148C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>85</ID>
+      <Description>"D2Win.dll - Unload MPQ (MPQ File Unloading Function)"</Description>
+      <LastState Value="3229943435" RealAddress="6F8E78F0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Win.dll+78F0</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>139</ID>
+      <Description>"D2Lang.dll - Expansion String Address Reference (LoD Text Address Pointer)"</Description>
+      <LastState Value="299430492" RealAddress="177669EC"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+010A70</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>138</ID>
+      <Description>"D2Lang.dll - Expansion String Index Reference (LoD Text Index Pointer)"</Description>
+      <LastState Value="184732463" RealAddress="1768AD0C"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+010A84</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"D2Client.dll - Game Info Pointer (Current Game Data)"</Description>
+      <LastState Value="1" RealAddress="0019F968"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Client.dll+11B980</Address>
+      <Offsets>
+        <Offset>0x0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>47</ID>
+      <Description>"Character Stats &amp; Data"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>37</ID>
+          <Description>"Cached Mana (Mana Value for Network Sync)"</Description>
+          <LastState Value="6960" RealAddress="160404A0"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x4a0</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>30</ID>
+          <Description>"Character Class (0=Amazon, 1=Sorceress, 2=Necromancer, etc.)"</Description>
+          <LastState Value="0" RealAddress="16040496"/>
+          <VariableType>Byte</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x496</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>35</ID>
+          <Description>"Coordinate Flags (Position Update Status)"</Description>
+          <LastState Value="0" RealAddress="1604049C"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x49c</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>92</ID>
+          <Description>"D2Client.dll Base Address (Client Module Base)"</Description>
+          <LastState Value="9460301" RealAddress="6FAB0000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Client.dll</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>93</ID>
+          <Description>"D2Common.dll Base Address (Common Module Base)"</Description>
+          <LastState Value="9460301" RealAddress="6FD50000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Common.dll</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>88</ID>
+          <Description>"D2Game.dll Base Address (Game Logic Module Base)"</Description>
+          <LastState Value="9460301" RealAddress="03530000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Game.dll</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>106</ID>
+          <Description>"D2Lang.dll Base Address (Language Module Base)"</Description>
+          <LastState Value="9460301" RealAddress="00ED0000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Lang.dll</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>107</ID>
+          <Description>"D2Net.dll Base Address (Network Module Base)"</Description>
+          <LastState Value="9460301" RealAddress="02C00000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Net.dll</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>90</ID>
+          <Description>"Experience Points (Character XP)"</Description>
+          <LastState Value="3520485254" RealAddress="160404A4"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Game.dll+12B104A4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>105</ID>
+          <Description>"Game.exe Base Address (Main Executable Base)"</Description>
+          <LastState Value="9460301" RealAddress="00400000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>Game.exe</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>38</ID>
+          <Description>"Last Experience Gain (Recent XP Acquired)"</Description>
+          <LastState Value="15" RealAddress="160404A2"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x4a2</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>34</ID>
+          <Description>"Life Points (Current HP)"</Description>
+          <LastState Value="306" RealAddress="16040490"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x490</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"Mana Points (Current MP)"</Description>
+          <LastState Value="160" RealAddress="16040492"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x492</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"Stamina Points (Current Stamina)"</Description>
+          <LastState Value="182" RealAddress="16040494"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x494</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>104</ID>
+          <Description>"Storm.dll Base Address (Blizzard System Library Base)"</Description>
+          <LastState Value="9460301" RealAddress="6FBF0000"/>
+          <ShowAsSigned>0</ShowAsSigned>
+          <VariableType>4 Bytes</VariableType>
+          <Address>Storm.dll</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>36</ID>
+          <Description>"Unknown Data Word (Reserved Game Data)"</Description>
+          <LastState Value="0" RealAddress="1604049E"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x49e</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>1</ID>
+          <Description>"Update Counter (Game State Update Counter)"</Description>
+          <LastState Value="1492" RealAddress="1604048C"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x48c</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>33</ID>
+          <Description>"X Coordinate (Character X Position)"</Description>
+          <LastState Value="4529" RealAddress="1604049A"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x49a</Offset>
+          </Offsets>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>32</ID>
+          <Description>"Y Coordinate (Character Y Position)"</Description>
+          <LastState Value="5735" RealAddress="16040498"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>D2Game.dll+1107B8</Address>
+          <Offsets>
+            <Offset>0x498</Offset>
+          </Offsets>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"D2Common.dll - Magic Modifier Table (Magic Item Properties Count)"</Description>
+      <LastState Value="1940" RealAddress="6FDEFBB8"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+09FBB8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>133</ID>
+      <Description>"D2Common.dll - Rare Modifier Table (Rare Item Properties Count)"</Description>
+      <LastState Value="201" RealAddress="6FDEFBDC"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Common.dll+09FBDC</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>135</ID>
+      <Description>"D2Lang.dll - String Address Reference (Base Text Address Pointer)"</Description>
+      <LastState Value="386873884" RealAddress="1777CB2C"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+010A68</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>134</ID>
+      <Description>"D2Lang.dll - String Index Reference (Base Text Index Pointer)"</Description>
+      <LastState Value="353369643" RealAddress="11CD004C"/>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>D2Lang.dll+010A64</Address>
+      <Offsets>
+        <Offset>0</Offset>
+      </Offsets>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>pointer</Name>
+      <Address>06390000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>SkillManager_savedAOB</Name>
+      <Address>0100295F</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Item_savedAOB</Name>
+      <Address>010839EE</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Skill_savedAOB</Name>
+      <Address>010209E3</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>address</Name>
+      <Address>00624F9A</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>NoPickup</Name>
+      <Address>11290000</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Structures StructVersion="2">
+    <Structure Name="UnitPlayer" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" Description="dwType" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000004" Description="dwTxtFileNo" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="_1" DisplayMethod="unsigned integer"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="dwUnitId" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="dwMode" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="Pointer" Bytesize="4" OffsetHex="00000014" ChildStruct="PlayerData" Description="pPlayerData" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="dwAct" DisplayMethod="unsigned integer"/>
+        <Element Offset="28" Vartype="Pointer" Bytesize="4" OffsetHex="0000001C" ChildStruct="Act" Description="pAct" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000020" Description="qwSeed" DisplayMethod="hexadecimal"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="_2" DisplayMethod="unsigned integer"/>
+        <Element Offset="44" Vartype="Pointer" Bytesize="4" OffsetHex="0000002C" ChildStruct="Path" Description="pPath" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="Array of byte" Bytesize="20" OffsetHex="00000030" Description="_3" DisplayMethod="hexadecimal"/>
+        <Element Offset="68" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000044" Description="dwGfxFrame" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000048" Description="dwFrameRemain" DisplayMethod="unsigned integer"/>
+        <Element Offset="76" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000004C" Description="wFrameRate" DisplayMethod="unsigned integer"/>
+        <Element Offset="78" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000004E" Description="_4" DisplayMethod="hexadecimal"/>
+        <Element Offset="80" Vartype="Pointer" Bytesize="4" OffsetHex="00000050" ChildStruct="GfxUnk" Description="pGfxUnk" DisplayMethod="unsigned integer"/>
+        <Element Offset="84" Vartype="Pointer" Bytesize="4" OffsetHex="00000054" ChildStruct="GfxInfo" Description="pGfxInfo" DisplayMethod="unsigned integer"/>
+        <Element Offset="88" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000058" Description="_5" DisplayMethod="unsigned integer"/>
+        <Element Offset="92" Vartype="Pointer" Bytesize="4" OffsetHex="0000005C" ChildStruct="StatList" Description="pStats" DisplayMethod="unsigned integer"/>
+        <Element Offset="96" Vartype="Pointer" Bytesize="4" OffsetHex="00000060" ChildStruct="Inventory" Description="pInventory" DisplayMethod="unsigned integer"/>
+        <Element Offset="100" Vartype="Pointer" Bytesize="4" OffsetHex="00000064" ChildStruct="Light" Description="ptLight" DisplayMethod="unsigned integer"/>
+        <Element Offset="104" Vartype="Array of byte" Bytesize="36" OffsetHex="00000068" Description="_6" DisplayMethod="unsigned integer"/>
+        <Element Offset="140" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000008C" Description="wX" DisplayMethod="unsigned integer"/>
+        <Element Offset="142" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000008E" Description="wY" DisplayMethod="unsigned integer"/>
+        <Element Offset="144" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000090" Description="_7" DisplayMethod="unsigned integer"/>
+        <Element Offset="148" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000094" Description="dwOwnerType" DisplayMethod="unsigned integer"/>
+        <Element Offset="152" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000098" Description="dwOwnerId" DisplayMethod="unsigned integer"/>
+        <Element Offset="156" Vartype="Array of byte" Bytesize="8" OffsetHex="0000009C" Description="_8" DisplayMethod="unsigned integer"/>
+        <Element Offset="164" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000A4" Description="pOMsg" DisplayMethod="hexadecimal"/>
+        <Element Offset="168" Vartype="Pointer" Bytesize="4" OffsetHex="000000A8" ChildStruct="Info" Description=" pInfo" DisplayMethod="unsigned integer"/>
+        <Element Offset="172" Vartype="Array of byte" Bytesize="24" OffsetHex="000000AC" Description="_9" DisplayMethod="hexadecimal"/>
+        <Element Offset="196" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000C4" Description="dwFlags" DisplayMethod="hexadecimal"/>
+        <Element Offset="200" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000C8" Description="dwFlags2" DisplayMethod="hexadecimal"/>
+        <Element Offset="204" Vartype="Array of byte" Bytesize="20" OffsetHex="000000CC" Description="_10" DisplayMethod="hexadecimal"/>
+        <Element Offset="224" Vartype="Pointer" Bytesize="4" OffsetHex="000000E0" ChildStruct="UnitPlayer" Description="pChangedNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="228" Vartype="Pointer" Bytesize="4" OffsetHex="000000E4" ChildStruct="UnitPlayer" Description="pRoomNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="232" Vartype="Pointer" Bytesize="4" OffsetHex="000000E8" ChildStruct="UnitPlayer" Description="pListNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="236" Vartype="String" Bytesize="16" OffsetHex="000000EC" Description="szNameCopy" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Room1" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Pointer" Bytesize="4" OffsetHex="00000000" ChildStruct="Room1" Description="pRoomsNear" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="Array of byte" Bytesize="12" OffsetHex="00000004" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="16" Vartype="Pointer" Bytesize="4" OffsetHex="00000010" ChildStruct="Room2" Description="pRoom2" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="Array of byte" Bytesize="12" OffsetHex="00000014" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="4" OffsetHex="00000020" ChildStruct="CollMap" Description="pColl" DisplayMethod="unsigned integer"/>
+        <Element Offset="36" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000024" Description="dwRoomsNear" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="Array of byte" Bytesize="36" OffsetHex="00000028" Description="_3" DisplayMethod="hexadecimal"/>
+        <Element Offset="76" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000004C" Description="dwXStart" DisplayMethod="unsigned integer"/>
+        <Element Offset="80" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000050" Description="dwYStart" DisplayMethod="unsigned integer"/>
+        <Element Offset="84" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000054" Description="dwXSize" DisplayMethod="unsigned integer"/>
+        <Element Offset="88" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000058" Description="dwYSize" DisplayMethod="unsigned integer"/>
+        <Element Offset="92" Vartype="Array of byte" Bytesize="24" OffsetHex="0000005C" Description="_4" DisplayMethod="hexadecimal"/>
+        <Element Offset="116" Vartype="Pointer" Bytesize="4" OffsetHex="00000074" ChildStruct="UnitAny" Description="pUnitFirst" DisplayMethod="unsigned integer"/>
+        <Element Offset="120" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000078" Description="_5" DisplayMethod="unsigned integer"/>
+        <Element Offset="124" Vartype="Pointer" Bytesize="4" OffsetHex="0000007C" ChildStruct="Room1" Description="pRoomNext" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Room2" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Array of byte" Bytesize="8" OffsetHex="00000000" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="8" Vartype="Pointer" Bytesize="4" OffsetHex="00000008" ChildStruct="Room2" Description="pRoom2Near" DisplayMethod="unsigned integer"/>
+        <Element Offset="12" Vartype="Array of byte" Bytesize="20" OffsetHex="0000000C" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="pType2Info" DisplayMethod="hexadecimal"/>
+        <Element Offset="36" Vartype="Pointer" Bytesize="4" OffsetHex="00000024" ChildStruct="Room2" Description="pRoom2Next" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="dwRoomFlags" DisplayMethod="hexadecimal"/>
+        <Element Offset="44" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000002C" Description="dwRoomsNear" DisplayMethod="hexadecimal"/>
+        <Element Offset="48" Vartype="Pointer" Bytesize="4" OffsetHex="00000030" ChildStruct="Room1" Description="pRoom1" DisplayMethod="unsigned integer"/>
+        <Element Offset="52" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000034" Description="dwPosX" DisplayMethod="unsigned integer"/>
+        <Element Offset="56" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000038" Description="dwPosY" DisplayMethod="unsigned integer"/>
+        <Element Offset="60" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000003C" Description="dwSizeX" DisplayMethod="unsigned integer"/>
+        <Element Offset="64" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000040" Description="dwSizeY" DisplayMethod="unsigned integer"/>
+        <Element Offset="68" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000044" Description="_3" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000048" Description="dwPresetType" DisplayMethod="unsigned integer"/>
+        <Element Offset="76" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000004C" Description="pRoomTiles" DisplayMethod="unsigned integer"/>
+        <Element Offset="80" Vartype="Array of byte" Bytesize="8" OffsetHex="00000050" Description="_4" DisplayMethod="hexadecimal"/>
+        <Element Offset="84" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000054" Description="pLevel" DisplayMethod="hexadecimal"/>
+        <Element Offset="88" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000058" Description="pPreset" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="QuestInfo" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Pointer" Bytesize="4" OffsetHex="00000000" Description="pBuffer" DisplayMethod="unsigned integer">
+          <Structure Name="Autocreated from 117DF900" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+            <Elements>
+              <Element Offset="0" Vartype="String" Bytesize="1" OffsetHex="00000000" DisplayMethod="unsigned integer"/>
+            </Elements>
+          </Structure>
+        </Element>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000004" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Waypoint" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Byte" Bytesize="1" OffsetHex="00000000" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Act" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Array of byte" Bytesize="12" OffsetHex="00000000" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="dwMapSeed" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="Pointer" Bytesize="4" OffsetHex="00000010" ChildStruct="Room1" Description="pRoom1" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000014" Description="dwAct" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="Array of byte" Bytesize="48" OffsetHex="00000018" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="72" Vartype="Pointer" Bytesize="4" OffsetHex="00000048" ChildStruct="ActMisc" Description="pMisc" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="ActMisc" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Array of byte" Bytesize="148" OffsetHex="00000000" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="148" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000094" Description="dwStaffTombLevel" DisplayMethod="unsigned integer"/>
+        <Element Offset="152" Vartype="Array of byte" Bytesize="980" OffsetHex="00000098" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="1132" Vartype="Pointer" Bytesize="4" OffsetHex="0000046C" ChildStruct="Act" Description="pAct" DisplayMethod="unsigned integer"/>
+        <Element Offset="1136" Vartype="Array of byte" Bytesize="12" OffsetHex="00000470" Description="_3" DisplayMethod="hexadecimal"/>
+        <Element Offset="1148" Vartype="Pointer" Bytesize="4" OffsetHex="0000047C" ChildStruct="Level" Description="pLevelFirst" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Level" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+      <Elements>
+        <Element Offset="0" Vartype="Array of byte" Bytesize="16" OffsetHex="00000000" Description="_1" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="Pointer" Bytesize="4" OffsetHex="00000010" ChildStruct="Room2" Description="pRoom2First" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="Array of byte" Bytesize="8" OffsetHex="00000014" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="dwPosX" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="dwPosY" DisplayMethod="unsigned integer"/>
+        <Element Offset="36" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000024" Description="dwSizeX" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="dwSizeY" DisplayMethod="unsigned integer"/>
+        <Element Offset="44" Vartype="Array of byte" Bytesize="384" OffsetHex="0000002C" Description="_3" DisplayMethod="hexadecimal"/>
+        <Element Offset="428" Vartype="Pointer" Bytesize="4" OffsetHex="000001AC" ChildStruct="Level" Description="pNextLevel" DisplayMethod="unsigned integer"/>
+        <Element Offset="432" Vartype="Array of byte" Bytesize="4" OffsetHex="000001B0" Description="_4" DisplayMethod="hexadecimal"/>
+        <Element Offset="436" Vartype="Pointer" Bytesize="4" OffsetHex="000001B4" ChildStruct="ActMisc" Description="pMisc" DisplayMethod="unsigned integer"/>
+        <Element Offset="440" Vartype="Array of byte" Bytesize="12" OffsetHex="000001B8" Description="_5" DisplayMethod="hexadecimal"/>
+        <Element Offset="452" Vartype="8 Bytes" Bytesize="8" OffsetHex="000001C4" Description="qwSeed" DisplayMethod="hexadecimal"/>
+        <Element Offset="460" Vartype="Array of byte" Bytesize="4" OffsetHex="000001CC" Description="_6" DisplayMethod="unsigned integer"/>
+        <Element Offset="464" Vartype="4 Bytes" Bytesize="4" OffsetHex="000001D0" Description="dwLevelNo" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Path" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000000" Description="xOffset" DisplayMethod="unsigned integer"/>
+        <Element Offset="2" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000002" Description="xPos" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000004" Description="yOffset" DisplayMethod="unsigned integer"/>
+        <Element Offset="6" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000006" Description="yPos" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="Array of byte" Bytesize="8" OffsetHex="00000008" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="16" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000010" Description="xTarget" DisplayMethod="unsigned integer"/>
+        <Element Offset="18" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000012" Description="yTarget" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="Array of byte" Bytesize="8" OffsetHex="00000014" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="28" Vartype="Pointer" Bytesize="4" OffsetHex="0000001C" ChildStruct="Room1" Description="pRoom1" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="4" OffsetHex="00000020" ChildStruct="Room1" Description="pRoomUnk" DisplayMethod="unsigned integer"/>
+        <Element Offset="36" Vartype="Array of byte" Bytesize="12" OffsetHex="00000024" Description="_3" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="Pointer" Bytesize="4" OffsetHex="00000030" ChildStruct="UnitAny" Description="pUnit" DisplayMethod="unsigned integer"/>
+        <Element Offset="52" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000034" Description="dwFlags" DisplayMethod="hexadecimal"/>
+        <Element Offset="56" Vartype="Array of byte" Bytesize="4" OffsetHex="00000038" Description="_4" DisplayMethod="unsigned integer"/>
+        <Element Offset="60" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000003C" Description="dwPathType" DisplayMethod="unsigned integer"/>
+        <Element Offset="64" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000040" Description="dwPrevPathType" DisplayMethod="unsigned integer"/>
+        <Element Offset="68" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000044" Description="dwUnitSize" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="Array of byte" Bytesize="16" OffsetHex="00000048" Description="_5" DisplayMethod="unsigned integer"/>
+        <Element Offset="88" Vartype="Pointer" Bytesize="4" OffsetHex="00000058" ChildStruct="UnitAny" Description="pTargetUnit" DisplayMethod="unsigned integer"/>
+        <Element Offset="92" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000005C" Description="dwTargetType" DisplayMethod="unsigned integer"/>
+        <Element Offset="96" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000060" Description="dwTargetId" DisplayMethod="unsigned integer"/>
+        <Element Offset="100" Vartype="Byte" Bytesize="1" OffsetHex="00000064" Description="bDirection" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="GfxUnk" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="String" Bytesize="8" OffsetHex="00000000" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" RLECount="2" OffsetHex="00000008" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="Array of byte" Bytesize="144" OffsetHex="00000010" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="GfxInfo" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Inventory" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" Description="dwSignature" DisplayMethod="hexadecimal"/>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000004" Description="bGame1C" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="pOwner" DisplayMethod="hexadecimal"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="pFirstItem" DisplayMethod="hexadecimal"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="pLastItem" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000014" Description="pUnknown" DisplayMethod="hexadecimal"/>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="_1" DisplayMethod="unsigned integer"/>
+        <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="dwLeftItemUid" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000020" Description="pCursorItem" DisplayMethod="hexadecimal"/>
+        <Element Offset="36" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000024" Description="dwOwnerId" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="dwItemCount" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Light" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="Array of byte" Bytesize="12" OffsetHex="00000000" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="dwType" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="Array of byte" Bytesize="28" OffsetHex="00000010" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="44" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000002C" Description="dwStaticValid" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000030" Description="pnStaticMap" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Info" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" Description="pGame1C" DisplayMethod="hexadecimal"/>
+        <Element Offset="4" Vartype="Pointer" Bytesize="4" OffsetHex="00000004" ChildStruct="Skill" Description="pFirstSkill" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="Pointer" Bytesize="4" OffsetHex="00000008" ChildStruct="Skill" Description="pLeftSkill" DisplayMethod="unsigned integer"/>
+        <Element Offset="12" Vartype="Pointer" Bytesize="4" OffsetHex="0000000C" ChildStruct="Skill" Description="pRightSkill" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Skill" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+      <Elements>
+        <Element Offset="0" Vartype="Pointer" Bytesize="4" OffsetHex="00000000" ChildStruct="SkillInfo" Description="pSkillInfo" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="Pointer" Bytesize="4" OffsetHex="00000004" ChildStruct="Skill" Description="pNextSkill" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="Array of byte" Bytesize="32" OffsetHex="00000008" Description="_1" DisplayMethod="hexadecimal"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="dwSkillLevel" DisplayMethod="unsigned integer"/>
+        <Element Offset="44" Vartype="Array of byte" Bytesize="8" OffsetHex="0000002C" Description="_2" DisplayMethod="hexadecimal"/>
+        <Element Offset="48" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000030" Description="dwFlags" DisplayMethod="hexadecimal"/>
+      </Elements>
+    </Structure>
+    <Structure Name="SkillInfo" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+      <Elements>
+        <Element Offset="0" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000000" Description="wSkillId" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="PlayerData" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="String" Bytesize="9" OffsetHex="00000000" Description="szName" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="Pointer" Bytesize="4" OffsetHex="00000010" ChildStruct="QuestInfo" Description="pNormalQuest" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="Pointer" Bytesize="4" OffsetHex="00000014" ChildStruct="QuestInfo" Description="pNightmareQuest" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="Pointer" Bytesize="4" OffsetHex="00000018" ChildStruct="QuestInfo" Description="pHellQuest" DisplayMethod="unsigned integer"/>
+        <Element Offset="28" Vartype="Pointer" Bytesize="4" OffsetHex="0000001C" ChildStruct="Waypoint" Description="pNormalWaypoint" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="4" OffsetHex="00000020" ChildStruct="Waypoint" Description="pNightmareWaypoint" DisplayMethod="unsigned integer"/>
+        <Element Offset="36" Vartype="Pointer" Bytesize="4" OffsetHex="00000024" ChildStruct="Waypoint" Description="pHellWaypoint" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="CollMap" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" Description="dwPosGameX" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000004" Description="dwPosGameY" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="dwSizeGameX" DisplayMethod="unsigned integer"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="dwSizeGameY" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="dwPosRoomX" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000014" Description="dwPosRoomY" DisplayMethod="unsigned integer"/>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="dwSizeRoomX" DisplayMethod="unsigned integer"/>
+        <Element Offset="28" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000001C" Description="dwSizeRoomY" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="Pointer" Bytesize="4" OffsetHex="00000020" Description="pMapStart" DisplayMethod="unsigned integer">
+          <Structure Name="Autocreated from 1476C024" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+            <Elements>
+              <Element Offset="0" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000000" Description="pMapStart" DisplayMethod="unsigned integer"/>
+            </Elements>
+          </Structure>
+        </Element>
+        <Element Offset="36" Vartype="Pointer" Bytesize="4" OffsetHex="00000024" Description="pMapEnd" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="UnitAny" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" Description="dwType" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000004" Description="dwTxtFileNo" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="_1" DisplayMethod="unsigned integer"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="dwUnitId" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="dwMode" DisplayMethod="unsigned integer"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000014" Description="pAnyData" DisplayMethod="hexadecimal"/>
+        <Element Offset="24" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000018" Description="dwAct" DisplayMethod="unsigned integer"/>
+        <Element Offset="28" Vartype="Pointer" Bytesize="4" OffsetHex="0000001C" ChildStruct="Act" Description="pAct" DisplayMethod="unsigned integer"/>
+        <Element Offset="32" Vartype="8 Bytes" Bytesize="8" OffsetHex="00000020" Description="qwSeed" DisplayMethod="hexadecimal"/>
+        <Element Offset="40" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000028" Description="_2" DisplayMethod="unsigned integer"/>
+        <Element Offset="44" Vartype="Pointer" Bytesize="4" OffsetHex="0000002C" ChildStruct="Path" Description="pPath" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="Array of byte" Bytesize="20" OffsetHex="00000030" Description="_3" DisplayMethod="hexadecimal"/>
+        <Element Offset="68" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000044" Description="dwGfxFrame" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000048" Description="dwFrameRemain" DisplayMethod="unsigned integer"/>
+        <Element Offset="76" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000004C" Description="wFrameRate" DisplayMethod="unsigned integer"/>
+        <Element Offset="78" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000004E" Description="_4" DisplayMethod="hexadecimal"/>
+        <Element Offset="80" Vartype="Pointer" Bytesize="4" OffsetHex="00000050" ChildStruct="GfxUnk" Description="pGfxUnk" DisplayMethod="unsigned integer"/>
+        <Element Offset="84" Vartype="Pointer" Bytesize="4" OffsetHex="00000054" ChildStruct="GfxInfo" Description="pGfxInfo" DisplayMethod="unsigned integer"/>
+        <Element Offset="88" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000058" Description="_5" DisplayMethod="unsigned integer"/>
+        <Element Offset="92" Vartype="Pointer" Bytesize="4" OffsetHex="0000005C" Description="pStats" DisplayMethod="unsigned integer"/>
+        <Element Offset="96" Vartype="Pointer" Bytesize="4" OffsetHex="00000060" ChildStruct="Inventory" Description="pInventory" DisplayMethod="unsigned integer"/>
+        <Element Offset="100" Vartype="Pointer" Bytesize="4" OffsetHex="00000064" ChildStruct="Light" Description="ptLight" DisplayMethod="unsigned integer"/>
+        <Element Offset="104" Vartype="Array of byte" Bytesize="36" OffsetHex="00000068" Description="_6" DisplayMethod="unsigned integer"/>
+        <Element Offset="140" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000008C" Description="wX" DisplayMethod="unsigned integer"/>
+        <Element Offset="142" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000008E" Description="wY" DisplayMethod="unsigned integer"/>
+        <Element Offset="144" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000090" Description="_7" DisplayMethod="unsigned integer"/>
+        <Element Offset="148" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000094" Description="dwOwnerType" DisplayMethod="unsigned integer"/>
+        <Element Offset="152" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000098" Description="dwOwnerId" DisplayMethod="unsigned integer"/>
+        <Element Offset="156" Vartype="Array of byte" Bytesize="8" OffsetHex="0000009C" Description="_8" DisplayMethod="unsigned integer"/>
+        <Element Offset="164" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000A4" Description="pOMsg" DisplayMethod="hexadecimal"/>
+        <Element Offset="168" Vartype="Pointer" Bytesize="4" OffsetHex="000000A8" ChildStruct="Info" Description=" pInfo" DisplayMethod="unsigned integer"/>
+        <Element Offset="172" Vartype="Array of byte" Bytesize="24" OffsetHex="000000AC" Description="_9" DisplayMethod="hexadecimal"/>
+        <Element Offset="196" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000C4" Description="dwFlags" DisplayMethod="hexadecimal"/>
+        <Element Offset="200" Vartype="4 Bytes" Bytesize="4" OffsetHex="000000C8" Description="dwFlags2" DisplayMethod="hexadecimal"/>
+        <Element Offset="204" Vartype="Array of byte" Bytesize="20" OffsetHex="000000CC" Description="_10" DisplayMethod="hexadecimal"/>
+        <Element Offset="224" Vartype="Pointer" Bytesize="4" OffsetHex="000000E0" ChildStruct="UnitPlayer" Description="pChangedNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="228" Vartype="Pointer" Bytesize="4" OffsetHex="000000E4" ChildStruct="UnitPlayer" Description="pRoomNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="232" Vartype="Pointer" Bytesize="4" OffsetHex="000000E8" ChildStruct="UnitPlayer" Description="pListNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="236" Vartype="String" Bytesize="16" OffsetHex="000000EC" Description="szNameCopy" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="StatList" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+      <Elements>
+        <Element Offset="0" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000000" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="Pointer" Bytesize="4" OffsetHex="00000004" ChildStruct="UnitAny" Description="pUnit" DisplayMethod="unsigned integer"/>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="dwUnitType" DisplayMethod="unsigned integer"/>
+        <Element Offset="12" Vartype="4 Bytes" Bytesize="4" OffsetHex="0000000C" Description="dwUnitId" DisplayMethod="unsigned integer"/>
+        <Element Offset="16" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000010" Description="dwFlags" DisplayMethod="hexadecimal"/>
+        <Element Offset="20" Vartype="4 Bytes" Bytesize="4" RLECount="4" OffsetHex="00000014" DisplayMethod="unsigned integer"/>
+        <Element Offset="36" Vartype="Pointer" Bytesize="4" OffsetHex="00000024" ChildStruct="Stat" Description="pStat" DisplayMethod="unsigned integer"/>
+        <Element Offset="40" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000028" Description="wStatCount1" DisplayMethod="unsigned integer"/>
+        <Element Offset="42" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000002A" Description="wnSize" DisplayMethod="unsigned integer"/>
+        <Element Offset="44" Vartype="Pointer" Bytesize="4" OffsetHex="0000002C" ChildStruct="StatList" Description="pPrevLink" DisplayMethod="unsigned integer"/>
+        <Element Offset="48" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000030" Description="_3" DisplayMethod="unsigned integer"/>
+        <Element Offset="52" Vartype="Pointer" Bytesize="4" OffsetHex="00000034" ChildStruct="StatList" Description="pPrev" DisplayMethod="unsigned integer"/>
+        <Element Offset="56" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000038" Description="_4" DisplayMethod="unsigned integer"/>
+        <Element Offset="60" Vartype="Pointer" Bytesize="4" OffsetHex="0000003C" ChildStruct="StatList" Description="pNext" DisplayMethod="unsigned integer"/>
+        <Element Offset="64" Vartype="Pointer" Bytesize="4" OffsetHex="00000040" ChildStruct="StatList" Description="pSetList" DisplayMethod="unsigned integer"/>
+        <Element Offset="68" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000044" Description="_5" DisplayMethod="unsigned integer"/>
+        <Element Offset="72" Vartype="Pointer" Bytesize="4" OffsetHex="00000048" ChildStruct="Stat" Description="pSetStat" DisplayMethod="unsigned integer"/>
+        <Element Offset="76" Vartype="2 Bytes" Bytesize="2" OffsetHex="0000004C" Description="wSetStatCount" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="Stat" AutoFill="0" AutoCreate="0" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="256">
+      <Elements>
+        <Element Offset="0" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000000" Description="wSubIndex" DisplayMethod="unsigned integer"/>
+        <Element Offset="2" Vartype="2 Bytes" Bytesize="2" OffsetHex="00000002" Description="wStatIndex" DisplayMethod="unsigned integer"/>
+        <Element Offset="4" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000004" Description="dwStatValue" DisplayMethod="unsigned integer"/>
+      </Elements>
+    </Structure>
+  </Structures>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"Game.exe"+56700</Address>
+      <Comment>camera
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+58F51</Address>
+      <Comment>Current area investigating for experience.
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+78297</Address>
+      <Comment>Check for /players being higher than 8 (nopped out)
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+7C760</Address>
+      <Comment>ret for turn off waypoint gui and discovery
+
+
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+155487</Address>
+      <Comment>Was originally push 04, think this is what changes that back
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+1554EF</Address>
+      <Comment>7 test unique
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+1554F7</Address>
+      <Comment>7 test unique (6 before)
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+1555A9</Address>
+      <Comment>Testing Rarity
+2 = common
+4 = magic
+6 = rare 
+7 = unique?
+8 = custom (orange)?
+9 = set
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+15580F</Address>
+      <Comment>changed from 7 to 6
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+155981</Address>
+      <Comment>changes from 6 to 4
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+156E2C</Address>
+      <Comment>Start of Item Drops
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+156E80</Address>
+      <Comment>2 / 47
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+156E85</Address>
+      <Comment>EAX + 4 = Item ID (Can be used to make only certain items drop)
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+220574</Address>
+      <Comment>Pushing 4 to Item at offset 0, 4 means valid item?
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+223A16</Address>
+      <Comment>Entity List is held within [ESI]
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+233C64</Address>
+      <Comment>Highest Item ID is 659, checking for that.
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+23CEB5</Address>
+      <Comment>[EAX+C] = Pointer 
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"Game.exe"+2635E8</Address>
+      <Comment>ECX + 2 @ 510 = all act WP
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
+</CheatTable>
