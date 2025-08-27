@@ -46,7 +46,7 @@ make health
 ```
 
 ### Access Points
-- **Game Desktop**: `vnc://localhost:5900` (VNC client) or `http://localhost:8080` (browser)
+- **Game Desktop**: `vnc://localhost:5900` (VNC client) or `http://localhost:5901` (noVNC browser)
 - **Analysis Dashboard**: `http://localhost:80`  
 - **MCP Coordinator**: `http://localhost:8000` (API and orchestration hub)
 - **Dgraph Database UI**: `http://localhost:8081`
@@ -255,7 +255,7 @@ make check-env                             # Run environment validation
 
 ### Game Analysis Services
 - **VNC Access**: `vnc://localhost:5900` - Direct desktop access to game
-- **Web VNC**: `http://localhost:8080` - Browser-based VNC client
+- **Web VNC**: `http://localhost:5901` - Browser-based VNC client
 - **Game Health Check**: `http://localhost:3000` - D2 analysis health status
 - **Game State API**: `http://localhost:8765` - MCP server for game analysis
 
@@ -416,7 +416,7 @@ docker-compose logs d2-analysis | grep vnc
 
 # Test VNC connectivity
 vncviewer localhost:5900                   # Desktop VNC client
-curl -f http://localhost:8080              # Web VNC interface
+curl -f http://localhost:5901              # Web VNC interface
 
 # Restart VNC server
 docker-compose exec d2-analysis supervisorctl restart x11vnc
@@ -542,7 +542,7 @@ WINEDEBUG=+all wine /data/pd2/Game.exe -w 2>&1 | tee wine-debug.log
 - **Languages**: Python 3.10+, Shell scripting, JavaScript/Node.js
 - **Architecture**: Container-first microservices with MCP communication
 - **Game Environment**: Project Diablo 2 via Wine with VNC access
-- **VNC Access**: Remote desktop on port 5900, web VNC on port 8080
+- **VNC Access**: Remote desktop on port 5900, web VNC on port 5901
 - **Data Storage**: Dgraph graph database + Redis caching + file-based outputs
 - **Security**: Multi-tier networks, container sandboxing, encrypted storage
 - **Development Tools**: Hot reload, comprehensive testing, mock data systems
