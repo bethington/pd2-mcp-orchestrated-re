@@ -8,6 +8,18 @@ data/outputs/*.tmp
 *.pyd
 **/.pytest_cache/
 
+# Data outputs - ignore contents but keep folder structure
+data/outputs/logs/*
+data/outputs/memory_dumps/*
+data/outputs/screenshots/*
+data/outputs/sessions/*
+data/outputs/tmp/*
+# Keep the .gitkeep files to preserve directory structure
+!data/outputs/*/.gitkeep
+
+# Game files - ignore Project Diablo 2 installation
+data/pd2/
+
 # Log files
 *.log
 logs/

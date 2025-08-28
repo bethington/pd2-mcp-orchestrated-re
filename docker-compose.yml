@@ -32,6 +32,7 @@ services:
       - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
       - REDIS_URL=redis://redis:6379
       - SESSION_ID=${SESSION_ID:-default}
+      - ENABLE_MEMORY_DUMPS=false
     volumes:
       - ./data/outputs/screenshots:/screenshots:rw
       - ./data/outputs/memory_dumps:/memory_dumps:rw

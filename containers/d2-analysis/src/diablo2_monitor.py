@@ -7,6 +7,7 @@ import time
 import json
 import psutil
 import logging
+import os
 from typing import Dict, List, Optional, Any
 import struct
 from pathlib import Path
@@ -20,6 +21,12 @@ class D2ProcessMonitor:
         self.process = None
         self.memory_snapshots = []
         self.game_state = {}
+        # Check environment variable, default to False (disabled)
+        self.enable_memory_dumps = os.getenv('ENABLE_MEMORY_DUMPS', 'false').lower() == 'true'
+        if self.enable_memory_dumps:
+            logger.info("Memory dumps ENABLED via environment variable")
+        else:
+            logger.info("Memory dumps DISABLED (default or via environment variable)")
         
     def find_d2_process(self) -> Optional[psutil.Process]:
         """Find the running Diablo 2 process"""
@@ -171,12 +178,14 @@ class D2ProcessMonitor:
                 if snapshot.get("behavior", {}).get("suspicious_activity"):
                     logger.warning("Suspicious behavior detected!")
                 
-                # Save periodic snapshots
-                if len(self.memory_snapshots) % 10 == 0:
+                # Save periodic snapshots (only if enabled)
+                if self.enable_memory_dumps and len(self.memory_snapshots) % 10 == 0:
                     timestamp = int(time.time())
                     filepath = f"/memory_dumps/snapshot_{timestamp}.json"
                     self.save_snapshot_to_file(snapshot, filepath)
                     logger.info(f"Saved snapshot to {filepath}")
+                elif not self.enable_memory_dumps and len(self.memory_snapshots) % 10 == 0:
+                    logger.debug("Memory dumps disabled - skipping snapshot save")
                 
                 time.sleep(1)  # Monitor every second
                 
