@@ -311,7 +311,155 @@ Trace complete API call chains for complex operations (item pickup, skill usage,
 
 ---
 
-## Test Scenario 10: Real-time Knowledge Graph Construction
+## Test Scenario 10: DLL Function Code Retrieval via Ghidra
+
+### Objective
+Retrieve assembly and decompiled C++ code for specific DLL functions using Ghidra through the MCP Coordinator
+
+### Test Procedure
+1. **Function Code Retrieval Request**:
+   ```
+   Claude: Retrieve assembly and C++ code for D2Client.dll function GetCursorItem using Ghidra analysis
+   ```
+
+2. **MCP Execution Flow**:
+   - MCP Coordinator receives function analysis request
+   - Routes request to Ghidra Analysis container (port 8002)
+   - Ghidra headless analyzer processes D2Client.dll
+   - Locates function by name or ordinal number
+   - Extracts assembly instructions and decompiled C++ code
+   - Returns structured response with both code representations
+
+3. **Expected Response Format**:
+   ```json
+   {
+     "function_name": "GetCursorItem",
+     "dll_name": "D2Client.dll",
+     "address": "0x6FAD1234",
+     "assembly_code": [
+       "push ebp",
+       "mov ebp,esp",
+       "mov eax,dword ptr [0x6FB12345]",
+       "test eax,eax",
+       "je LAB_6FAD1250",
+       "ret"
+     ],
+     "cpp_code": "UnitAny* GetCursorItem(void) {\n  if (cursorItem != nullptr) {\n    return cursorItem;\n  }\n  return nullptr;\n}",
+     "function_signature": "UnitAny* __stdcall GetCursorItem(void)",
+     "cross_references": ["0x6FAD5678", "0x6FAD9ABC"],
+     "analysis_confidence": 0.95
+   }
+   ```
+
+4. **Test Cases to Validate**:
+   - **Known Functions**: GetCursorItem, GetPlayerUnit, GetSelectedUnit
+   - **Ordinal Functions**: Ordinal_10007, Ordinal_10010, Ordinal_10019
+   - **Complex Functions**: Functions with multiple parameters and return values
+   - **Error Cases**: Non-existent functions, invalid DLL names
+
+### Validation Steps
+1. **Assembly Code Accuracy**:
+   - Verify assembly instructions are valid x86 opcodes
+   - Check memory addresses are within DLL address space
+   - Validate jump targets and branch instructions
+   - Cross-reference with manual disassembly tools
+
+2. **C++ Code Quality**:
+   - Ensure decompiled code compiles without syntax errors
+   - Verify function signatures match expected patterns
+   - Check variable naming conventions and type inference
+   - Validate control flow and logic structure
+
+3. **Cross-Reference Validation**:
+   - Verify all listed cross-references point to valid locations
+   - Check that calling functions are correctly identified
+   - Validate jump table and switch statement analysis
+
+4. **Performance Testing**:
+   - Measure response time for different function complexities
+   - Test concurrent requests for multiple functions
+   - Validate memory usage during large DLL analysis
+
+### Success Criteria
+- **Assembly Accuracy**: 100% valid opcodes and addressing
+- **C++ Compilation**: Decompiled code compiles without errors
+- **Response Time**: <30 seconds for simple functions, <2 minutes for complex functions
+- **Cross-Reference Accuracy**: ≥95% correct function relationships
+- **Error Handling**: Proper error messages for invalid requests
+
+### Extended Test Cases
+
+#### Test Case A: Ordinal Function Analysis
+```
+Claude: Analyze D2Client.dll Ordinal_10010 and provide both assembly and C++ representations
+```
+
+**Expected Challenges**:
+- Ordinal functions lack symbolic names
+- May require parameter type inference
+- Return value analysis more complex
+
+#### Test Case B: Multi-Parameter Function
+```
+Claude: Retrieve code for D2Common.dll function with signature "int SomeFunction(UnitAny* unit, int param1, void* param2)"
+```
+
+**Validation Points**:
+- Parameter types correctly identified
+- Stack frame analysis accurate
+- Calling convention properly detected
+
+#### Test Case C: Batch Function Analysis
+```
+Claude: Analyze multiple functions: GetCursorItem, GetPlayerUnit, Ordinal_10007, and Ordinal_10019 from D2Client.dll
+```
+
+**Performance Metrics**:
+- Total analysis time for batch processing
+- Memory usage patterns
+- Concurrent processing efficiency
+
+#### Test Case D: Cross-DLL Analysis
+```
+Claude: Analyze function relationships between D2Client.dll GetPlayerUnit and D2Common.dll unit manipulation functions
+```
+
+**Expected Outcomes**:
+- Inter-DLL function call identification
+- Parameter passing analysis between DLLs
+- Data structure sharing detection
+
+### Integration with Knowledge Graph
+1. **Function Code Storage**:
+   - Store assembly and C++ code in Dgraph
+   - Create relationships between functions and data structures
+   - Link function analysis to memory structure discoveries
+
+2. **Version Tracking**:
+   - Track code changes across different game versions
+   - Maintain historical analysis data
+   - Correlate with structure evolution
+
+3. **Analysis Correlation**:
+   - Link function code with memory pattern analysis
+   - Connect API call traces to decompiled logic
+   - Cross-reference with runtime behavior data
+
+### Error Handling Test Cases
+- **Invalid DLL Name**: Request analysis for non-existent DLL
+- **Invalid Function Name**: Request function that doesn't exist
+- **Corrupted Binary**: Analyze damaged or encrypted DLL
+- **Resource Exhaustion**: Large batch requests exceeding system limits
+
+### Expected Timeline
+- **Simple Function**: 10-30 seconds (GetCursorItem)
+- **Complex Function**: 1-2 minutes (multi-parameter functions)
+- **Ordinal Analysis**: 30-60 seconds (requires more inference)
+- **Batch Processing**: 2-5 minutes (multiple functions)
+
+---
+
+## Test Scenario 11: Real-time Knowledge Graph Construction
 
 ### Objective
 Validate automated Dgraph knowledge graph construction during gameplay
@@ -372,4 +520,4 @@ class WineDebugTestRunner:
 - **Performance**: <30 minutes per complex structure
 - **Knowledge Graph**: ≥98% relationship accuracy
 
-This comprehensive test suite validates the entire Wine Debug MCP integration pipeline, ensuring reliable automated reverse engineering capabilities for Project Diablo 2 analysis.
+This comprehensive test suite validates the entire Wine Debug MCP integration pipeline, ensuring reliable automated reverse engineering capabilities for Project Diablo 2 analysis with complete function code retrieval and decompilation support.
