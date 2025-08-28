@@ -83,6 +83,9 @@ class GhidraHeadlessAnalyzer:
     ) -> Dict[str, Any]:
         """Run Ghidra headless analysis"""
         try:
+            # Ensure project directory exists
+            os.makedirs(project_path, exist_ok=True)
+            
             # Build Ghidra command
             cmd = [
                 self.headless_script,
@@ -267,7 +270,7 @@ class GhidraHeadlessAnalyzer:
                                    include_internals: bool = True, 
                                    include_ordinals: bool = True) -> Dict[str, Any]:
         """
-        Enumerate and analyze all functions in a DLL
+        Enumerate and analyze all functions in a DLL using real Ghidra analysis
         
         Args:
             binary_path: Path to DLL file
@@ -277,136 +280,139 @@ class GhidraHeadlessAnalyzer:
             include_ordinals: Include ordinal-based functions
             
         Returns:
-            Complete DLL analysis with all discovered functions
+            Complete DLL analysis with all discovered functions from Ghidra
         """
         if not os.path.exists(binary_path):
             return {"error": f"Binary file not found: {binary_path}"}
             
         try:
-            logger.info("DLL functions enumeration requested", 
+            logger.info("Starting real Ghidra function enumeration", 
                        binary=binary_path, dll=dll_name,
                        exports=include_exports, internals=include_internals, ordinals=include_ordinals)
             
-            # Mock response that matches Test Scenario 12 format
-            # This will be replaced with actual Ghidra PE analysis and function discovery
-            mock_functions = []
+            # Create unique project and output names
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            project_name = f"functions_{timestamp}"
+            project_path = os.path.join(self.projects_dir, project_name)
+            output_file = os.path.join(self.outputs_dir, f"{project_name}_functions.json")
             
-            if include_exports:
-                # Add common D2Client.dll exported functions based on D2Ptrs.h reference
-                exported_functions = [
-                    {
-                        "name": "GetPlayerUnit",
-                        "address": "0x6FAD4D60", 
-                        "type": "exported",
-                        "signature": "UnitAny* __stdcall GetPlayerUnit()",
-                        "ordinal": None,
-                        "references_count": 156,
-                        "d2ptrs_reference": "FUNCPTR(D2CLIENT, GetPlayerUnit, UnitAny* __stdcall,(),0xA4D60)"
-                    },
-                    {
-                        "name": "GetCursorItem",
-                        "address": "0x6FAD6020",
-                        "type": "exported", 
-                        "signature": "UnitAny* __fastcall GetCursorItem(void)",
-                        "ordinal": None,
-                        "references_count": 78,
-                        "d2ptrs_reference": "FUNCPTR(D2CLIENT, GetCursorItem, UnitAny* __fastcall, (VOID), 0x16020)"
-                    },
-                    {
-                        "name": "PrintGameString",
-                        "address": "0x6FADD850",
-                        "type": "exported",
-                        "signature": "void __stdcall PrintGameString(wchar_t *wMessage, int nColor)",
-                        "ordinal": None,
-                        "references_count": 234,
-                        "d2ptrs_reference": "FUNCPTR(D2CLIENT, PrintGameString, void __stdcall, (wchar_t *wMessage, int nColor), 0x7D850)"
-                    },
-                    {
-                        "name": "GetSelectedUnit", 
-                        "address": "0x6FAE1A80",
-                        "type": "exported",
-                        "signature": "UnitAny* __stdcall GetSelectedUnit()",
-                        "ordinal": None,
-                        "references_count": 89,
-                        "d2ptrs_reference": "FUNCPTR(D2CLIENT, GetSelectedUnit, UnitAny * __stdcall, (), 0x51A80)"
-                    },
-                    {
-                        "name": "GetDifficulty",
-                        "address": "0x6FA91930", 
-                        "type": "exported",
-                        "signature": "BYTE __stdcall GetDifficulty()",
-                        "ordinal": None,
-                        "references_count": 45,
-                        "d2ptrs_reference": "FUNCPTR(D2CLIENT, GetDifficulty, BYTE __stdcall, (), 0x41930)"
-                    }
-                ]
-                mock_functions.extend(exported_functions)
+            # Ensure project directory exists
+            os.makedirs(project_path, exist_ok=True)
             
-            if include_internals:
-                # Add common internal functions
-                internal_functions = [
-                    {
-                        "name": "_internal_player_update",
-                        "address": "0x6FA85420",
-                        "type": "internal",
-                        "signature": "void __fastcall _internal_player_update(UnitAny* pPlayer)",
-                        "ordinal": None,
-                        "references_count": 23,
-                        "d2ptrs_reference": None
-                    },
-                    {
-                        "name": "_inventory_validate",
-                        "address": "0x6FA95880", 
-                        "type": "internal",
-                        "signature": "BOOL __stdcall _inventory_validate(Inventory* pInv)",
-                        "ordinal": None,
-                        "references_count": 67,
-                        "d2ptrs_reference": None
-                    }
-                ]
-                mock_functions.extend(internal_functions)
+            # Build Ghidra headless command for function enumeration
+            cmd = [
+                self.headless_script,
+                project_path,
+                project_name,
+                "-import", binary_path,
+                "-scriptPath", self.scripts_dir,
+                "-postScript", "function_enumeration.py",
+                output_file,
+                str(include_exports).lower(),
+                str(include_internals).lower(), 
+                str(include_ordinals).lower(),
+                "-analysisTimeoutPerFile", "300",  # 5 minute timeout
+                "-deleteProject"  # Clean up after analysis
+            ]
             
-            if include_ordinals:
-                # Add ordinal-based functions 
-                ordinal_functions = [
-                    {
-                        "name": "Ordinal_10001",
-                        "address": "0x6FA80010",
-                        "type": "ordinal",
-                        "signature": "DWORD __stdcall Ordinal_10001(DWORD param1)",
-                        "ordinal": 10001,
-                        "references_count": 12,
-                        "d2ptrs_reference": None
-                    }
-                ]
-                mock_functions.extend(ordinal_functions)
+            logger.info("Running Ghidra function enumeration", cmd=" ".join(cmd))
             
-            # Create complete response matching Test Scenario 12 format
-            mock_result = {
-                "dll_name": dll_name,
-                "total_functions": len(mock_functions),
-                "exported_functions": len([f for f in mock_functions if f["type"] == "exported"]),
-                "internal_functions": len([f for f in mock_functions if f["type"] == "internal"]),
-                "functions": mock_functions,
-                "analysis_metadata": {
-                    "base_address": "0x6FA80000",
-                    "dll_size": "0x110000", 
-                    "analysis_confidence": 0.92,
-                    "analysis_timestamp": datetime.now().isoformat(),
-                    "validation_results": {
-                        "d2ptrs_matches": len([f for f in mock_functions if f["d2ptrs_reference"]]),
-                        "d2ptrs_total": 89,  # Approximate count from D2Ptrs.h
-                        "match_percentage": 75.3
-                    }
+            # Run Ghidra analysis
+            process = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=360,  # 6 minute timeout
+                cwd="/home/analysis"
+            )
+            
+            if process.returncode != 0:
+                logger.error("Ghidra function enumeration failed", 
+                           returncode=process.returncode, 
+                           stderr=process.stderr)
+                return {
+                    "error": f"Ghidra analysis failed with code {process.returncode}",
+                    "stderr": process.stderr[:1000],  # Limit error output
+                    "binary_path": binary_path
                 }
-            }
             
-            return mock_result
+            # Read and parse analysis results
+            if os.path.exists(output_file):
+                try:
+                    with open(output_file, 'r') as f:
+                        ghidra_results = json.load(f)
+                    
+                    # Check if analysis failed
+                    if "error" in ghidra_results:
+                        logger.error("Ghidra function enumeration script failed", 
+                                   error=ghidra_results["error"])
+                        return {
+                            "error": f"Function enumeration failed: {ghidra_results['error']}",
+                            "binary_path": binary_path
+                        }
+                    
+                    # Extract function data
+                    functions = ghidra_results.get("functions", [])
+                    summary = ghidra_results.get("summary", {})
+                    
+                    # Format response to match expected API format
+                    result = {
+                        "success": True,
+                        "binary_path": binary_path,
+                        "dll_name": dll_name,
+                        "total_functions": len(functions),
+                        "functions": functions,
+                        "summary": {
+                            "exported": summary.get("exported_functions", 0),
+                            "internal": summary.get("internal_functions", 0), 
+                            "ordinal": summary.get("ordinal_functions", 0),
+                            "with_names": summary.get("named_functions", 0)
+                        },
+                        "analysis_metadata": {
+                            "binary_name": summary.get("binary_name", dll_name),
+                            "analysis_timestamp": summary.get("analysis_timestamp", datetime.now().isoformat()),
+                            "ghidra_version": "11.0.1",
+                            "analysis_complete": True
+                        }
+                    }
+                    
+                    logger.info("Function enumeration completed successfully", 
+                              total_functions=len(functions), 
+                              exported=result["summary"]["exported"],
+                              internal=result["summary"]["internal"])
+                    
+                    # Clean up output file
+                    try:
+                        os.remove(output_file)
+                    except:
+                        pass
+                        
+                    return result
+                    
+                except json.JSONDecodeError as e:
+                    logger.error("Failed to parse Ghidra results", error=str(e))
+                    return {
+                        "error": f"Failed to parse analysis results: {str(e)}",
+                        "binary_path": binary_path
+                    }
+            else:
+                logger.error("Ghidra analysis output file not found", output_file=output_file)
+                return {
+                    "error": "Analysis completed but no results file found",
+                    "binary_path": binary_path,
+                    "expected_output": output_file
+                }
                 
-        except Exception as e:
-            logger.error("DLL functions analysis failed", error=str(e), dll=dll_name)
+        except subprocess.TimeoutExpired:
+            logger.error("Ghidra function enumeration timed out", binary=binary_path)
             return {
-                "error": str(e),
+                "error": "Analysis timed out after 6 minutes",
+                "binary_path": binary_path
+            }
+        except Exception as e:
+            logger.error("Function enumeration failed", error=str(e), dll=dll_name)
+            return {
+                "error": f"Analysis failed: {str(e)}",
                 "dll_name": dll_name,
                 "binary_path": binary_path
             }

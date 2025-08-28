@@ -17,9 +17,10 @@ import structlog
 # Import platform modules
 import sys
 sys.path.append('/app')
-from src.core.session_manager import SessionManager
-from src.core.event_bus import EventBus
-from claude.orchestrator import ClaudeOrchestrator
+# Simplified coordinator without external dependencies
+# from src.core.session_manager import SessionManager
+# from src.core.event_bus import EventBus
+# from claude.orchestrator import ClaudeOrchestrator
 from wine_ghidra_mcp_tools import GhidraMCPTools
 
 logger = structlog.get_logger()
@@ -27,9 +28,9 @@ logger = structlog.get_logger()
 class MCPCoordinator:
     def __init__(self):
         self.app = FastAPI(title="MCP Coordinator", version="1.0.0")
-        self.session_manager = SessionManager()
-        self.event_bus = EventBus()
-        self.claude_orchestrator = ClaudeOrchestrator()
+        # self.session_manager = SessionManager()
+        # self.event_bus = EventBus()
+        # self.claude_orchestrator = ClaudeOrchestrator()
         
         # Initialize Ghidra MCP Tools
         self.ghidra_tools = GhidraMCPTools(
@@ -145,12 +146,12 @@ class MCPCoordinator:
             analysis_type = message.get("analysis_type", "general")
             
             # Stream analysis results back to client
-            async for update in self.claude_orchestrator.stream_analysis(session_id, analysis_type):
-                await websocket.send_text(json.dumps({
-                    "type": "analysis_update",
-                    "session_id": session_id,
-                    "update": update
-                }))
+            # async for update in self.claude_orchestrator.stream_analysis(session_id, analysis_type):
+            await websocket.send_text(json.dumps({
+                "type": "analysis_update",
+                "session_id": session_id,
+                "update": "Analysis streaming not implemented yet"
+            }))
                 
         except Exception as e:
             await websocket.send_text(json.dumps({

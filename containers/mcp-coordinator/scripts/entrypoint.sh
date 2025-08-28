@@ -25,6 +25,6 @@ ls -la /app/shared/ || echo "⚠️  Shared modules not found - running in stand
 
 echo "🎯 Starting Live MCP Integration Server on port 8000..."
 
-# Run the live integration server
+# Run the MCP coordinator with Ghidra integration
 cd /app
-python3 src/mcp_integration_server.py
+python3 src/coordinator.py

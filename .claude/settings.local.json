@@ -10,7 +10,8 @@
       "Bash(set PYTHONIOENCODING=utf-8)",
       "Bash(python:*)",
       "Bash(winpty docker exec -it d2-analysis ps aux)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(winpty docker exec -it ghidra-analysis ls -la /home/analysis/scripts/)"
     ],
     "additionalDirectories": [
       "C:\\c\\Users\\benam\\source\\mcp"

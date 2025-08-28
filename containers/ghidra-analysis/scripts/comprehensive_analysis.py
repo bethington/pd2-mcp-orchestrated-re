@@ -23,7 +23,7 @@ def main():
     decompile_file = args[1] 
     analysis_depth = args[2]
     
-    print(f"Starting comprehensive analysis with depth: {analysis_depth}")
+    print("Starting comprehensive analysis with depth: " + str(analysis_depth))
     
     # Initialize analysis results
     results = {
@@ -92,10 +92,10 @@ def main():
         with open(output_file, 'w') as f:
             json.dump(results, f, indent=2, default=str)
             
-        print(f"Analysis complete. Results written to {output_file}")
+        print("Analysis complete. Results written to " + str(output_file))
         
     except Exception as e:
-        print(f"Analysis failed: {str(e)}")
+        print("Analysis failed: " + str(e))
         # Write error to output file
         error_result = {"error": str(e), "analysis_incomplete": True}
         with open(output_file, 'w') as f:
