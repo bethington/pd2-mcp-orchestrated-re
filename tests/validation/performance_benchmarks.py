@@ -89,7 +89,6 @@ class PerformanceBenchmarkSuite:
         services = [
             "http://localhost:8001/health",  # analysis-engine
             "http://localhost:8002/health",  # ghidra-analysis
-            "http://localhost:8003/health",  # frida-analysis
             "http://localhost:8004/health",  # memory-forensics
             "http://localhost:8005/health"   # ai-analysis
         ]

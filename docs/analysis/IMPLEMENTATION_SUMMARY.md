@@ -43,14 +43,6 @@ angr==9.2.87             # Advanced binary analysis
 - **Cross-reference Analysis** for call graphs and data flow
 - **Multi-format Binary Support** (50+ formats via Ghidra)
 
-### Frida Dynamic Analysis Container
-- **Process Attachment** and real-time instrumentation
-- **API Call Hooking** with argument and return value capture
-- **Function Tracing** with stack trace collection
-- **Memory Scanning** for pattern detection and analysis
-- **Runtime Data Collection** with session management
-- **Multi-platform Support** (Windows/Linux/macOS)
-
 ### Advanced MCP Tool Integration
 - **Orchestrated Analysis Pipeline** coordinating multiple containers
 - **Cross-tool Correlation** of static and dynamic findings
@@ -62,7 +54,6 @@ angr==9.2.87             # Advanced binary analysis
 ### Container Services Added
 1. **analysis-engine** (Port 8001) - Enhanced static analysis with Capstone
 2. **ghidra-analysis** (Port 8002) - Decompilation and advanced analysis  
-3. **frida-analysis** (Port 8003) - Dynamic instrumentation and monitoring
 
 ### Service Integration
 - **MCP Protocol** coordination between all analysis services
@@ -72,7 +63,6 @@ angr==9.2.87             # Advanced binary analysis
 
 ### Docker Compose Enhancements
 - **New Volumes**: `ghidra_projects` for Ghidra workspaces
-- **Privileged Containers** for Frida process attachment
 - **Resource Limits** and capability management
 - **Service Dependencies** and health checking
 
@@ -86,14 +76,6 @@ angr==9.2.87             # Advanced binary analysis
 - ✅ **String extraction** with context and cross-references
 - ✅ **Security vulnerability assessment** with risk scoring
 - ✅ **Packer detection** and anti-analysis identification
-
-### Dynamic Analysis (Previously Missing)
-- ✅ **Process attachment and instrumentation** via Frida
-- ✅ **API call interception** with parameter capture
-- ✅ **Function call tracing** with stack analysis
-- ✅ **Memory scanning** for runtime pattern detection
-- ✅ **Runtime behavior analysis** with anomaly detection
-- ✅ **Multi-platform support** for various targets
 
 ### Advanced Analysis (Previously Missing)
 - ✅ **Comprehensive decompilation** via Ghidra headless
@@ -126,22 +108,6 @@ curl http://localhost:8001/analyze/status/{analysis_id}
 
 # Get results
 curl http://localhost:8001/analyze/result/{analysis_id}
-```
-
-### Dynamic Analysis with Frida
-```bash
-# Attach to process
-curl -X POST http://localhost:8003/attach \
-  -H "Content-Type: application/json" \
-  -d '{"process_identifier": "Game.exe"}'
-
-# Hook APIs
-curl -X POST http://localhost:8003/hook/api \
-  -H "Content-Type: application/json" \
-  -d '{
-    "session_id": "session_id",
-    "api_patterns": ["kernel32.dll!VirtualAlloc"]
-  }'
 ```
 
 ### Ghidra Decompilation

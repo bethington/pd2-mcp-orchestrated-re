@@ -16,8 +16,9 @@ class ComprehensiveAnalysisDemo:
     def __init__(self):
         self.base_urls = {
             "analysis_engine": "http://localhost:8001",
-            "ghidra_analysis": "http://localhost:8002", 
-            "frida_analysis": "http://localhost:8003",
+            "ghidra_analysis": "http://localhost:8002",
+            "memory_forensics": "http://localhost:8004",
+            "ai_analysis": "http://localhost:8005",
             "d2_analysis": "http://localhost:8765",
             "mcp_coordinator": "http://localhost:8000"
         }
@@ -36,10 +37,7 @@ class ComprehensiveAnalysisDemo:
         # Demo 2: Ghidra Decompilation
         await self.demo_ghidra_analysis()
         
-        # Demo 3: Dynamic Analysis with Frida
-        await self.demo_dynamic_analysis()
-        
-        # Demo 4: Integrated Analysis Workflow
+        # Demo 3: Integrated Analysis Workflow
         await self.demo_integrated_workflow()
         
         print("\n=== Demo Complete ===")
@@ -169,68 +167,6 @@ class ComprehensiveAnalysisDemo:
             
         print()
         
-    async def demo_dynamic_analysis(self):
-        """Demonstrate dynamic analysis with Frida"""
-        print("=== Demo 3: Dynamic Analysis with Frida ===")
-        
-        try:
-            async with aiohttp.ClientSession() as session:
-                # Check for running processes
-                print("Checking for running processes...")
-                async with session.get(f"{self.base_urls['frida_analysis']}/processes") as response:
-                    if response.status == 200:
-                        processes = await response.json()
-                        print(f"Found {len(processes.get('processes', []))} attachable processes")
-                        
-                        # Simulate attaching to a game process
-                        print("\nSimulating attachment to Game.exe...")
-                        
-                        attach_payload = {"process_identifier": "Game.exe"}
-                        # Note: This would normally attach to a real process
-                        print("✅ Attached to Game.exe (PID: 1234) [simulated]")
-                        
-                        session_id = "demo_session_123"
-                        
-                        # Set up API hooks
-                        print("\nSetting up API hooks...")
-                        hook_apis = [
-                            "kernel32.dll!VirtualAlloc",
-                            "kernel32.dll!CreateFileA", 
-                            "user32.dll!GetAsyncKeyState",
-                            "ws2_32.dll!send",
-                            "ws2_32.dll!recv"
-                        ]
-                        
-                        for api in hook_apis:
-                            print(f"  • Hooking {api}")
-                        
-                        print("✅ API hooks installed")
-                        
-                        # Simulate data collection
-                        print("\nCollecting runtime data...")
-                        await asyncio.sleep(2)
-                        
-                        print("Dynamic analysis results:")
-                        print("  • API calls intercepted: 2,847")
-                        print("  • Memory allocations tracked: 156")
-                        print("  • Network connections: 3 (game servers)")
-                        print("  • File operations: 45 (save files, configs)")
-                        print("  • Suspicious activities: 0")
-                        
-                        print("\nInteresting findings:")
-                        print("  • Game uses custom encryption for save files")
-                        print("  • Network protocol: proprietary binary format") 
-                        print("  • Memory layout: ASLR enabled, DEP enabled")
-                        print("  • Anti-cheat: Basic integrity checks detected")
-                        
-                    else:
-                        print(f"❌ Process enumeration failed: HTTP {response.status}")
-                        
-        except Exception as e:
-            print(f"❌ Dynamic analysis error: {e}")
-            
-        print()
-        
     async def demo_integrated_workflow(self):
         """Demonstrate integrated analysis workflow"""
         print("=== Demo 4: Integrated Analysis Workflow ===")
@@ -262,16 +198,15 @@ class ComprehensiveAnalysisDemo:
         print("│   ├── Anti-analysis: Basic obfuscation present")
         print("│   └── Risk scoring: 6/10 (moderate risk)")
         print("│")
-        print("├── Phase 4: Dynamic Analysis (Frida)")
-        print("│   ├── Runtime attachment: Successfully attached")
-        print("│   ├── API monitoring: 2,847 calls intercepted")
-        print("│   ├── Memory tracking: 156 allocations monitored")
-        print("│   ├── Network analysis: 3 connections established")
-        print("│   └── Behavioral analysis: Normal game behavior")
+        print("├── Phase 4: Memory Forensics")
+        print("│   ├── Heap analysis: 156 allocations analyzed")
+        print("│   ├── Structure discovery: Game objects mapped")
+        print("│   ├── Memory patterns: Custom allocators detected")
+        print("│   └── Corruption detection: Clean memory state")
         print("│")
         print("└── Phase 5: Correlation & Reporting")
-        print("    ├── Cross-analysis correlation: Static + Dynamic findings merged")
-        print("    ├── Threat assessment: Low-medium risk profile")
+        print("    ├── Cross-analysis correlation: Static + Memory findings merged")
+        print("    ├── Threat assessment: Low risk profile")
         print("    ├── Recommendations: Code review for buffer handling")
         print("    └── Comprehensive report: Generated in multiple formats")
         

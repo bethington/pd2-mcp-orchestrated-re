@@ -7,7 +7,6 @@ A comprehensive, container-first platform for reverse engineering and malware an
 This platform provides:
 - **Advanced Static Analysis** with Capstone, YARA, and multi-format binary parsing
 - **Professional Decompilation** using Ghidra headless analyzer
-- **Dynamic Analysis** with Frida instrumentation and API hooking
 - **Memory Forensics** with heap analysis and corruption detection
 - **AI-Powered Classification** using ML models for threat detection
 - **Intelligent Triage** with automated prioritization and workflow optimization
@@ -25,7 +24,6 @@ containers/
 ├── mcp-coordinator/    🧠 MCP orchestration hub  
 ├── analysis-engine/    ⚙️ Core binary analysis (Capstone, YARA, PE/ELF parsing)
 ├── ghidra-analysis/    🔍 Professional decompilation service
-├── frida-analysis/     🏃 Dynamic instrumentation and hooking
 ├── memory-forensics/   🧠 Advanced memory analysis and heap forensics
 ├── ai-analysis/        🤖 ML-driven triage and threat classification
 ├── network-monitor/    🌐 Network packet analysis
@@ -74,9 +72,8 @@ shared/                 📚 Common libraries used across containers
 │ Services      │  │    Services                 │  │   Layer                  │
 ├───────────────┤  ├─────────────────────────────┤  ├──────────────────────────┤
 │ Ghidra :8002  │  │ Web Dashboard :80/443       │  │ Dgraph Database :8081    │
-│ Frida  :8003  │  │ Nginx Proxy   :8090         │  │ Redis Cache     :6379    │
-│ Memory :8004  │  │ Network Monitor (shared)    │  │ Game Files      (volume) │
-│ AI/ML  :8005  │  │ Jupyter Lab    :8888        │  │ Analysis Output (volume) │
+│ Memory :8004  │  │ Nginx Proxy   :8090         │  │ Redis Cache     :6379    │
+│ AI/ML  :8005  │  │ Network Monitor (shared)    │  │ Game Files      (volume) │
 └───────────────┘  └─────────────────────────────┘  └──────────────────────────┘
 ```
 
@@ -121,7 +118,6 @@ make health
 | MCP Coordinator | http://localhost:8000 | API orchestration |
 | Analysis Engine | http://localhost:8001 | Static binary analysis |
 | Ghidra Analysis | http://localhost:8002 | Decompilation service |
-| Frida Analysis | http://localhost:8003 | Dynamic analysis |
 | Memory Forensics | http://localhost:8004 | Memory analysis |
 | AI Analysis | http://localhost:8005 | ML-driven analysis |
 | VNC (Game) | vnc://localhost:5900 | Direct game view |

@@ -1,7 +1,11 @@
 # Makefile for Reverse Engineering Platform
 # Comprehensive build, test, and deployment automation
 
-.PHONY: help build clean dev prod test test-integration test-performance health logs deploy stop restart
+.    'MCP Coordinator': 'http://localhost:8000/health',
+    'Analysis Engine': 'http://localhost:8001/health',
+    'Ghidra Analysis': 'http://localhost:8002/health',
+    'Memory Forensics': 'http://localhost:8004/health',
+    'AI Analysis': 'http://localhost:8005/health', help build clean dev prod test test-integration test-performance health logs deploy stop restart
 
 # Default target
 .DEFAULT_GOAL := help
@@ -44,7 +48,6 @@ dev: ## Start development environment
 	@echo "  MCP Coordinator:   http://localhost:8000"
 	@echo "  Analysis Engine:   http://localhost:8001"
 	@echo "  Ghidra Analysis:   http://localhost:8002"
-	@echo "  Frida Analysis:    http://localhost:8003"
 	@echo "  Memory Forensics:  http://localhost:8004"
 	@echo "  AI Analysis:       http://localhost:8005"
 	@echo "  VNC (Game View):   vnc://localhost:5900"
@@ -106,7 +109,6 @@ services = {
     'MCP Coordinator': 'http://localhost:8000/health',
     'Analysis Engine': 'http://localhost:8001/health',
     'Ghidra Analysis': 'http://localhost:8002/health',
-    'Frida Analysis': 'http://localhost:8003/health',
     'Memory Forensics': 'http://localhost:8004/health',
     'AI Analysis': 'http://localhost:8005/health'
 }

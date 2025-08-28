@@ -90,7 +90,7 @@
 ┌──────────────────────────────────┼──────────────────────────────────┐
 │                Specialized Analysis Services                         │
 ├──────────────┬──────────────┬──────────────┬──────────────────────────┤
-│   Ghidra     │    Frida     │   Memory     │       AI Analysis        │
+│   Ghidra     │   Memory     │       AI Analysis        │
 │ Decompiler   │   Dynamic    │  Forensics   │      & ML Triage         │
 │ Port 8002    │  Port 8003   │  Port 8004   │      Port 8005           │
 └──────────────┴──────────────┴──────────────┴──────────────────────────┘
@@ -141,7 +141,7 @@
 ┌───────────────┐    ┌───────────────────┐    ┌───────────────────┐
 │  Static       │    │   Dynamic         │    │  Memory Pattern   │
 │  Analysis     │    │   Analysis        │    │  Recognition      │
-│ (Ghidra/ML)   │    │ (Frida/Behavior)  │    │ (Structure Hunt)  │
+│ (Ghidra/ML)   │    │ (Structure Hunt)  │
 └───────────────┘    └───────────────────┘    └───────────────────┘
         │                        │                        │
         └────────────────────────▼────────────────────────┘

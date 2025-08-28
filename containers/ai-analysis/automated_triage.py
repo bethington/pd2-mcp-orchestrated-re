@@ -126,7 +126,7 @@ class AutomatedTriageEngine:
                     AnalysisStage.DYNAMIC_ANALYSIS,
                     AnalysisStage.AI_CLASSIFICATION
                 ],
-                "tools": ["binary_analyzer", "ghidra_decompiler", "frida_tracer", "ai_classifier"],
+                "tools": ["binary_analyzer", "ghidra_decompiler", "ai_classifier"],
                 "max_time": "2 hours",
                 "resource_usage": "medium"
             },
@@ -140,7 +140,7 @@ class AutomatedTriageEngine:
                     AnalysisStage.MANUAL_REVIEW
                 ],
                 "tools": [
-                    "binary_analyzer", "ghidra_decompiler", "frida_tracer",
+                    "binary_analyzer", "ghidra_decompiler",
                     "memory_forensics", "ai_classifier", "pattern_matcher"
                 ],
                 "max_time": "8 hours",
@@ -155,7 +155,7 @@ class AutomatedTriageEngine:
                     AnalysisStage.AI_CLASSIFICATION
                 ],
                 "tools": [
-                    "binary_analyzer", "yara_scanner", "frida_tracer",
+                    "binary_analyzer", "yara_scanner",
                     "memory_forensics", "threat_classifier", "behavior_analyzer"
                 ],
                 "max_time": "4 hours",
@@ -582,14 +582,14 @@ class AutomatedTriageEngine:
             "description": "Perform comprehensive static analysis"
         })
         
-        # Add dynamic analysis for higher priority samples
+        # Add memory analysis for higher priority samples
         if decision.priority in [PriorityLevel.CRITICAL, PriorityLevel.HIGH]:
             actions.append({
-                "action": "dynamic_analysis",
-                "tool": "frida_tracer",
+                "action": "memory_analysis",
+                "tool": "memory_forensics",
                 "priority": 2,
-                "estimated_time": "30-60 minutes",
-                "description": "Monitor runtime behavior and API calls"
+                "estimated_time": "15-30 minutes",
+                "description": "Analyze memory structures and patterns"
             })
         
         # Add specialized analysis based on characteristics

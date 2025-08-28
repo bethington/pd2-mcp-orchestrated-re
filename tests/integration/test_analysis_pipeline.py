@@ -20,7 +20,6 @@ TEST_CONFIG = {
         "mcp-coordinator": "http://localhost:8000",
         "analysis-engine": "http://localhost:8001",
         "ghidra-analysis": "http://localhost:8002",
-        "frida-analysis": "http://localhost:8003",
         "memory-forensics": "http://localhost:8004",
         "ai-analysis": "http://localhost:8005"
     },
@@ -178,41 +177,6 @@ class AnalysisPipelineTest:
                 await self.validate_static_analysis_results(analysis_results, sample_info)
                 
                 print(f"    ✓ Static analysis completed for {sample_name}")
-    
-    async def test_dynamic_analysis_pipeline(self):
-        """Test dynamic analysis pipeline"""
-        print("\\nTesting dynamic analysis pipeline...")
-        
-        # Only test simple binary for dynamic analysis (safer)
-        sample_info = self.test_samples["simple"]
-        
-        analysis_url = f"{TEST_CONFIG['services']['frida-analysis']}/analyze/dynamic"
-        
-        with open(sample_info["path"], "rb") as f:
-            files = {"binary": f}
-            data = {"analysis_timeout": 60}
-            
-            response = requests.post(analysis_url, files=files, data=data)
-            assert response.status_code == 200, f"Dynamic analysis submission failed: {response.text}"
-            
-            result = response.json()
-            analysis_id = result["analysis_id"]
-            
-            # Wait for completion
-            status = await self.wait_for_analysis_completion(
-                f"{TEST_CONFIG['services']['frida-analysis']}/analyze/status/{analysis_id}"
-            )
-            
-            # Get results
-            results_response = requests.get(
-                f"{TEST_CONFIG['services']['frida-analysis']}/analyze/result/{analysis_id}"
-            )
-            assert results_response.status_code == 200, "Failed to get dynamic analysis results"
-            
-            analysis_results = results_response.json()
-            self.analysis_results["simple_dynamic"] = analysis_results
-            
-            print("    ✓ Dynamic analysis completed")
     
     async def test_ghidra_decompilation(self):
         """Test Ghidra decompilation service"""
@@ -443,12 +407,6 @@ async def pipeline_test():
 async def test_static_analysis(pipeline_test):
     """Test static analysis pipeline"""
     await pipeline_test.test_static_analysis_pipeline()
-
-@pytest.mark.asyncio
-async def test_dynamic_analysis(pipeline_test):
-    """Test dynamic analysis pipeline"""
-    await pipeline_test.test_dynamic_analysis_pipeline()
-
 @pytest.mark.asyncio
 async def test_ghidra_decompilation(pipeline_test):
     """Test Ghidra decompilation"""
@@ -490,7 +448,6 @@ if __name__ == "__main__":
         
         try:
             await test_instance.test_static_analysis_pipeline()
-            await test_instance.test_dynamic_analysis_pipeline()
             await test_instance.test_ghidra_decompilation()
             await test_instance.test_ai_analysis_pipeline()
             await test_instance.test_memory_forensics()
