@@ -490,6 +490,225 @@ Validate automated Dgraph knowledge graph construction during gameplay
 
 ---
 
+## Test Scenario 12: DLL Function Enumeration and Analysis
+
+### Objective
+Retrieve and analyze a comprehensive list of all functions from D2Client.dll through the MCP Coordinator, including exported functions, internal functions, and ordinal-based functions.
+
+### Test Procedure
+1. **Initiate Function Discovery**:
+   ```
+   Claude: Use analyze_dll_functions tool to enumerate all functions in D2Client.dll
+   ```
+
+2. **MCP Tool Execution**:
+   ```json
+   {
+     "tool": "analyze_dll_functions", 
+     "arguments": {
+       "dll_path": "/app/pd2/ProjectD2/D2Client.dll",
+       "dll_name": "D2Client.dll",
+       "include_exports": true,
+       "include_internals": true,
+       "include_ordinals": true
+     }
+   }
+   ```
+
+3. **Expected Analysis Process**:
+   - Parse PE headers for exported function table
+   - Use Ghidra headless analysis for internal function discovery
+   - Extract function names, addresses, and signatures
+   - Correlate with D2Ptrs.h reference data for validation
+   - Identify ordinal-based functions and calling conventions
+
+4. **Response Format**:
+   ```json
+   {
+     "success": true,
+     "dll_analysis": {
+       "dll_name": "D2Client.dll",
+       "total_functions": 2847,
+       "exported_functions": 156,
+       "internal_functions": 2691,
+       "functions": {
+         "_": {
+           "___add_12": {
+             "parameters": ["param_1", "param_2"]
+           },
+           "___addl": {
+             "parameters": ["param_1", "param_2", "param_3"]
+           },
+           "___ascii_stricmp": {
+             "parameters": ["_Str1", "_Str2"]
+           },
+           "___ascii_strnicmp": {
+             "parameters": ["_Str1", "_Str2", "_MaxCount"]
+           },
+           "___crtExitProcess": {
+             "parameters": ["param_1"]
+           },
+           "___crtGetEnvironmentStringsA": {
+             "parameters": ["local_4", "local_8"]
+           },
+           "___crtGetStringTypeA": {
+             "parameters": ["_Plocinfo", "_DWInfoType", "_LpSrcStr", "_CchSrc", "_LpCharType", "_Code_page", "_BError", "local_8", "local_1c", "local_20", "local_24", "local_28", "local_2c", "local_30", "local_3c"]
+           },
+           "___crtInitCritSecAndSpinCount": {
+             "parameters": ["param_1", "param_2", "local_8", "local_24"]
+           },
+           "___crtInitCritSecNoSpinCount@8": {
+             "parameters": ["param_1"]
+           },
+           "___crtMessageBoxA": {
+             "parameters": ["_LpText", "_LpCaption", "_UType", "local_8", "local_c", "local_14"]
+           }
+         },
+         "AdjustPointer": {
+           "parameters": ["param_1", "param_2"]
+         },
+         "BuildCatchObject": {
+           "parameters": ["param_1", "param_2", "param_3", "param_4", "local_8"]
+         },
+         "Ca": {
+           "CallCatchBlock": {
+             "parameters": ["param_1", "param_2", "param_3", "param_4", "param_5", "param_6", "param_7", "local_8", "local_24", "local_3c", "local_40", "local_44", "local_48", "local_4c", "local_54"]
+           },
+           "CatchIt": {
+             "parameters": ["param_1", "param_2", "param_3", "param_4", "param_5", "param_6", "param_7", "param_8", "param_9", "param_10", "param_11"]
+           }
+         },
+         "doexit": {
+           "parameters": ["param_1", "param_2", "param_3", "local_8"]
+         },
+         "entry": {
+           "parameters": ["param_1", "param_2", "param_3", "local_8", "local_20"]
+         },
+         "F": {
+           "FID_conflict": {
+             "_": {
+               "FID_conflict:__fread_lk": {
+                 "parameters": ["_DstBuf", "_ElementSize", "_Count", "_File", "local_8", "local_c"]
+               },
+               "FID_conflict:__ld12tod": {
+                 "parameters": ["_Ifp", "_D"]
+               },
+               "FID_conflict:__lock_file2": {
+                 "parameters": ["_Index", "_File"]
+               },
+               "FID_conflict:_CallMemberFunction1": {
+                 "parameters": ["param_1", "UNRECOVERED_JUMPTABLE"]
+               },
+               "FID_conflict:_iscntrl": {
+                 "parameters": ["_C"]
+               },
+               "FID_conflict:_ungetc": {
+                 "parameters": ["_Ch", "_File"]
+               }
+             }
+           },
+           "FindHandler": {
+             "FindHandler": {
+               "parameters": ["param_1", "param_2", "param_3", "param_4", "param_5", "param_6", "param_7", "param_8", "local_5", "local_c", "local_10", "local_14", "local_18", "local_1c", "local_20", "local_24", "local_28"]
+             },
+             "FindHandlerForForeignException": {
+               "parameters": ["param_1", "param_2", "param_3", "param_4", "param_5", "param_6", "param_7", "param_8", "local_8", "local_c"]
+             }
+           }
+         }
+       },
+       "analysis_metadata": {
+         "base_address": "0x6FA80000",
+         "dll_size": "0x830000",
+         "analysis_confidence": 0.94,
+         "analysis_timestamp": "2025-08-28T14:15:30.123456",
+         "validation_results": {
+           "ghidra_functions_discovered": 2847,
+           "categorized_functions": 2847,
+           "function_hierarchy_depth": 8,
+           "parameter_analysis_coverage": 0.89
+         }
+       }
+     },
+     "mcp_tool": "analyze_dll_functions",
+     "execution_time": 24.67
+   }
+   ```
+
+### Validation Steps
+1. **Cross-Reference with D2Ptrs.h**:
+   - Validate against known function definitions in D2Ptrs.h
+   - Check offset accuracy (accounting for ASLR/base address differences)
+   - Verify function signatures and calling conventions
+   - Confirm ordinal-based function discoveries
+
+2. **Function Classification**:
+   - Exported functions (visible to other DLLs)
+   - Internal functions (private to D2Client.dll)
+   - Callback functions and event handlers
+   - Import Address Table (IAT) functions
+
+3. **Address Validation**:
+   - Compare with static analysis results from Ghidra
+   - Account for base address differences between environments
+   - Validate function prologue/epilogue patterns
+   - Check for function thunks and wrappers
+
+4. **Signature Analysis**:
+   - Verify calling conventions (__stdcall, __fastcall, __cdecl)
+   - Validate parameter types and counts
+   - Check return value types
+   - Identify variadic functions
+
+### Success Criteria
+- **Function Discovery Rate**: ≥95% of known D2Ptrs.h functions found
+- **Address Accuracy**: ≥90% correct relative offsets (accounting for base address)
+- **Signature Accuracy**: ≥85% correct function signatures
+- **Performance**: Complete analysis within 30 seconds
+- **Classification Accuracy**: ≥90% correct function type classification
+
+### Advanced Validation
+1. **Dynamic Validation**:
+   - Hook discovered functions during game execution
+   - Validate parameter passing and return values
+   - Confirm function behavior matches signatures
+
+2. **Cross-DLL Analysis**:
+   - Identify inter-DLL function calls
+   - Map function dependencies (D2Client.dll → D2Common.dll calls)
+   - Validate import tables and dynamic linking
+
+3. **Knowledge Graph Integration**:
+   - Store function relationships in Dgraph
+   - Create call graph networks
+   - Track function usage patterns
+   - Enable semantic function search
+
+### Expected Results
+Based on D2Ptrs.h reference, the analysis should discover:
+- **Core Player Functions**: GetPlayerUnit, GetCursorItem, GetSelectedUnit
+- **UI Functions**: PrintGameString, DrawRectFrame, SetUIState
+- **Game Control**: Attack, ExitGame, clickMap
+- **Inventory Functions**: LeftClickItem, submitItem, InitInventory
+- **Network Functions**: SendPacket, ReceivePacket (via D2Net references)
+
+### Error Handling Validation
+- Test with corrupted DLL files
+- Test with missing DLL files
+- Test with permission-denied scenarios
+- Validate graceful failure modes and error reporting
+
+### Documentation Requirements
+- Complete function catalog with signatures
+- Function usage frequency analysis
+- Cross-reference mapping with D2Ptrs.h
+- Function relationship diagrams
+- Performance benchmarks and optimization recommendations
+
+This test scenario validates the comprehensive DLL function enumeration capability of the MCP system, enabling complete reverse engineering analysis of Project Diablo 2's client library with automated function discovery, signature analysis, and cross-reference validation.
+
+---
+
 ## Test Execution Framework
 
 ### Automated Test Runner

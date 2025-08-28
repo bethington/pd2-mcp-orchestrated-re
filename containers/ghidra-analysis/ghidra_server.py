@@ -139,6 +139,52 @@ async def decompile_function(data: Dict[str, Any]):
         logger.error("Function decompilation failed", error=str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/analyze/function_by_name")
+async def analyze_function_by_name(data: Dict[str, Any]):
+    """Analyze a function by name and return assembly + C++ code"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+        
+    required_fields = ["binary_path", "function_name"]
+    for field in required_fields:
+        if field not in data:
+            raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
+    
+    try:
+        result = await ghidra_analyzer.analyze_function_by_name(
+            data["binary_path"],
+            data["function_name"],
+            data.get("dll_name", "")
+        )
+        return result
+    except Exception as e:
+        logger.error("Function analysis by name failed", error=str(e), function_name=data.get("function_name"))
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/analyze/functions")
+async def analyze_all_functions(data: Dict[str, Any]):
+    """Enumerate and analyze all functions in a DLL"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+        
+    required_fields = ["binary_path", "dll_name"]
+    for field in required_fields:
+        if field not in data:
+            raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
+    
+    try:
+        result = await ghidra_analyzer.analyze_all_functions(
+            data["binary_path"],
+            data["dll_name"],
+            data.get("include_exports", True),
+            data.get("include_internals", True),
+            data.get("include_ordinals", True)
+        )
+        return result
+    except Exception as e:
+        logger.error("DLL functions analysis failed", error=str(e), dll_name=data.get("dll_name"))
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/analyze/strings")
 async def analyze_strings(data: Dict[str, Any]):
     """Extract and analyze strings using Ghidra"""

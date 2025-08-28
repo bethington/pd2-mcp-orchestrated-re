@@ -176,6 +176,28 @@ class LiveMCPIntegrationServer:
                 "description": "Analyze character build and attributes",
                 "parameters": {},
                 "handler": self._handle_analyze_build
+            },
+            {
+                "name": "analyze_dll_function",
+                "description": "Analyze DLL function and retrieve assembly/C++ code via Ghidra",
+                "parameters": {
+                    "dll_path": {"type": "string", "description": "Path to the DLL file"},
+                    "function_name": {"type": "string", "description": "Name of the function to analyze"},
+                    "dll_name": {"type": "string", "description": "Name of the DLL"}
+                },
+                "handler": self._handle_analyze_dll_function
+            },
+            {
+                "name": "analyze_dll_functions",
+                "description": "Enumerate and analyze all functions in a DLL via Ghidra",
+                "parameters": {
+                    "dll_path": {"type": "string", "description": "Path to the DLL file"},
+                    "dll_name": {"type": "string", "description": "Name of the DLL"},
+                    "include_exports": {"type": "boolean", "description": "Include exported functions", "default": True},
+                    "include_internals": {"type": "boolean", "description": "Include internal functions", "default": True},
+                    "include_ordinals": {"type": "boolean", "description": "Include ordinal-based functions", "default": True}
+                },
+                "handler": self._handle_analyze_dll_functions
             }
         ]
         
@@ -374,6 +396,108 @@ class LiveMCPIntegrationServer:
                 }
             }
         }
+    
+    async def _handle_analyze_dll_function(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Handle DLL function analysis request via Ghidra service"""
+        try:
+            import aiohttp
+            
+            # Extract parameters
+            dll_path = params.get("dll_path")
+            function_name = params.get("function_name")
+            dll_name = params.get("dll_name")
+            
+            if not all([dll_path, function_name, dll_name]):
+                return {
+                    "success": False,
+                    "error": "Missing required parameters: dll_path, function_name, dll_name"
+                }
+            
+            # Make request to Ghidra analysis service
+            ghidra_url = "http://ghidra-analysis:8002/analyze/function_by_name"
+            payload = {
+                "binary_path": dll_path,
+                "function_name": function_name,
+                "dll_name": dll_name
+            }
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(ghidra_url, json=payload) as response:
+                    if response.status == 200:
+                        result = await response.json()
+                        return {
+                            "success": True,
+                            "ghidra_analysis": result,
+                            "mcp_tool": "analyze_dll_function"
+                        }
+                    else:
+                        error_text = await response.text()
+                        return {
+                            "success": False,
+                            "error": f"Ghidra service error: {response.status}",
+                            "details": error_text
+                        }
+                        
+        except Exception as e:
+            logger.error(f"Error in DLL function analysis: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "mcp_tool": "analyze_dll_function"
+            }
+    
+    async def _handle_analyze_dll_functions(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Handle DLL functions enumeration request via Ghidra service"""
+        try:
+            import aiohttp
+            
+            # Extract parameters
+            dll_path = params.get("dll_path")
+            dll_name = params.get("dll_name")
+            include_exports = params.get("include_exports", True)
+            include_internals = params.get("include_internals", True)
+            include_ordinals = params.get("include_ordinals", True)
+            
+            if not all([dll_path, dll_name]):
+                return {
+                    "success": False,
+                    "error": "Missing required parameters: dll_path, dll_name"
+                }
+            
+            # Make request to Ghidra analysis service
+            ghidra_url = "http://ghidra-analysis:8002/analyze/functions"
+            payload = {
+                "binary_path": dll_path,
+                "dll_name": dll_name,
+                "include_exports": include_exports,
+                "include_internals": include_internals,
+                "include_ordinals": include_ordinals
+            }
+            
+            async with aiohttp.ClientSession() as session:
+                async with session.post(ghidra_url, json=payload) as response:
+                    if response.status == 200:
+                        result = await response.json()
+                        return {
+                            "success": True,
+                            "dll_analysis": result,
+                            "mcp_tool": "analyze_dll_functions"
+                        }
+                    else:
+                        error_text = await response.text()
+                        return {
+                            "success": False,
+                            "error": f"Ghidra service error: {response.status}",
+                            "details": error_text
+                        }
+                        
+        except Exception as e:
+            logger.error(f"Error in DLL functions analysis: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "mcp_tool": "analyze_dll_functions"
+            }
     
     def _get_class_name(self, class_id: int) -> str:
         """Get class name from ID"""

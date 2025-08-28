@@ -127,6 +127,7 @@ services:
     volumes:
       - ./data/outputs:/app/outputs:rw
       - ./data/binaries:/app/binaries:ro  # Binary samples for analysis
+      - ./data/pd2:/app/pd2:ro  # Project Diablo 2 game files
       - ghidra_projects:/home/analysis/projects
     ports:
       - "8002:8002"   # Ghidra analysis API
