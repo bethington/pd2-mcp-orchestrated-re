@@ -20,6 +20,7 @@ sys.path.append('/app')
 from src.core.session_manager import SessionManager
 from src.core.event_bus import EventBus
 from claude.orchestrator import ClaudeOrchestrator
+from wine_ghidra_mcp_tools import GhidraMCPTools
 
 logger = structlog.get_logger()
 
@@ -29,6 +30,11 @@ class MCPCoordinator:
         self.session_manager = SessionManager()
         self.event_bus = EventBus()
         self.claude_orchestrator = ClaudeOrchestrator()
+        
+        # Initialize Ghidra MCP Tools
+        self.ghidra_tools = GhidraMCPTools(
+            ghidra_server_url="http://ghidra-analysis:8002"
+        )
         
         self.registered_servers = {}
         self.active_sessions = {}
@@ -110,6 +116,27 @@ class MCPCoordinator:
         async def list_servers():
             """List all registered MCP servers"""
             return {"servers": self.registered_servers}
+            
+        @self.app.get("/ghidra/tools")
+        async def list_ghidra_tools():
+            """List available Ghidra MCP tools"""
+            return {"tools": self.ghidra_tools.get_tools()}
+            
+        @self.app.post("/ghidra/execute")
+        async def execute_ghidra_tool(request: dict):
+            """Execute a Ghidra MCP tool"""
+            tool_name = request.get("tool")
+            arguments = request.get("arguments", {})
+            
+            if not tool_name:
+                raise HTTPException(status_code=400, detail="tool name required")
+            
+            try:
+                result = await self.ghidra_tools.handle_tool_call(tool_name, arguments)
+                return {"status": "success", "result": result}
+            except Exception as e:
+                logger.error(f"Ghidra tool execution failed: {tool_name}", error=str(e))
+                raise HTTPException(status_code=500, detail=str(e))
             
     async def handle_realtime_analysis(self, websocket: WebSocket, message: dict):
         """Handle real-time analysis requests via WebSocket"""
