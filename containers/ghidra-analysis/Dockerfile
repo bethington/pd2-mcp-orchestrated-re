@@ -39,6 +39,8 @@ RUN mkdir -p /home/analysis/{projects,scripts,outputs}
 COPY containers/ghidra-analysis/scripts/ /home/analysis/scripts/
 COPY containers/ghidra-analysis/ghidra_server.py /home/analysis/
 COPY containers/ghidra-analysis/headless_analyzer.py /home/analysis/
+COPY containers/ghidra-analysis/analysis_cache.py /home/analysis/
+COPY containers/ghidra-analysis/ghidra_project_manager.py /home/analysis/
 COPY shared/ /home/analysis/shared/
 
 # Set Python path

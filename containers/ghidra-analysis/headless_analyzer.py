@@ -11,6 +11,8 @@ from typing import Dict, List, Optional, Any
 from pathlib import Path
 import structlog
 from datetime import datetime
+from analysis_cache import GhidraAnalysisCache
+from ghidra_project_manager import GhidraProjectManager
 
 logger = structlog.get_logger()
 
@@ -28,15 +30,57 @@ class GhidraHeadlessAnalyzer:
         Path(self.projects_dir).mkdir(exist_ok=True)
         Path(self.outputs_dir).mkdir(exist_ok=True)
         
-        logger.info("Ghidra headless analyzer initialized", ghidra_path=self.ghidra_install)
+        # Initialize cache and project managers
+        self.cache = GhidraAnalysisCache()
+        self.project_manager = GhidraProjectManager()
+        self._cache_initialized = False
         
-    async def analyze_binary(self, binary_path: str, analysis_depth: str = "detailed") -> Dict[str, Any]:
+        # Ensure persistent directories exist
+        self._ensure_persistent_dirs()
+        
+        logger.info("Ghidra headless analyzer initialized", 
+                   ghidra_path=self.ghidra_install,
+                   persistent_projects=self.project_manager.persistent_projects_dir,
+                   exports_dir=self.project_manager.exports_dir)
+    
+    def _ensure_persistent_dirs(self):
+        """Ensure persistent directories exist in host volume"""
+        try:
+            # Create host-mounted persistent directories
+            host_outputs_dir = '/app/outputs/ghidra'
+            projects_dir = os.path.join(host_outputs_dir, 'projects')
+            exports_dir = os.path.join(host_outputs_dir, 'exports')
+            
+            os.makedirs(projects_dir, exist_ok=True)
+            os.makedirs(exports_dir, exist_ok=True)
+            
+            logger.info("Persistent directories created", 
+                       projects_dir=projects_dir,
+                       exports_dir=exports_dir)
+                       
+        except Exception as e:
+            logger.error("Failed to create persistent directories", error=str(e))
+    
+    async def _ensure_cache_initialized(self):
+        """Initialize cache manager if not already done"""
+        if not self._cache_initialized:
+            try:
+                await self.cache.initialize()
+                self._cache_initialized = True
+                logger.info("Cache manager initialized successfully")
+            except Exception as e:
+                logger.error("Failed to initialize cache manager", error=str(e))
+                raise
+        
+    async def analyze_binary(self, binary_path: str, analysis_depth: str = "detailed", 
+                           force_reanalysis: bool = False) -> Dict[str, Any]:
         """
-        Perform comprehensive Ghidra analysis on a binary
+        Perform comprehensive Ghidra analysis on a binary with caching
         
         Args:
             binary_path: Path to binary file
             analysis_depth: 'basic', 'detailed', or 'comprehensive'
+            force_reanalysis: Skip cache and force new analysis
             
         Returns:
             Analysis results including decompilation
@@ -46,11 +90,38 @@ class GhidraHeadlessAnalyzer:
             
         if not os.path.exists(self.headless_script):
             return {"error": f"Ghidra installation not found at {self.ghidra_install}"}
+        
+        # Initialize cache if needed
+        await self._ensure_cache_initialized()
+        
+        # Check cache first (unless forced reanalysis)
+        if not force_reanalysis:
+            cached_result = await self.cache.get_cached_analysis(binary_path)
+            if cached_result and not await self.cache.needs_reanalysis(binary_path):
+                logger.info("Using cached analysis results", 
+                           binary_path=binary_path,
+                           functions_count=len(cached_result.get("functions", [])),
+                           cache_age=cached_result.get("cache_timestamp"))
+                return {
+                    **cached_result,
+                    "from_cache": True,
+                    "cache_hit": True
+                }
+            
+        logger.info("Performing new Ghidra analysis", 
+                   binary_path=binary_path, 
+                   analysis_depth=analysis_depth,
+                   force_reanalysis=force_reanalysis)
             
         try:
-            # Create unique project for this analysis
-            project_name = f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-            project_path = os.path.join(self.projects_dir, project_name)
+            # Use project manager to get appropriate project path
+            project_path, project_name, should_preserve = self.project_manager.create_or_get_project_path(binary_path)
+            
+            logger.info("Project configuration determined", 
+                       project_name=project_name,
+                       project_path=project_path,
+                       preserve_project=should_preserve, 
+                       binary=os.path.basename(binary_path))
             
             # Prepare output files
             output_file = os.path.join(self.outputs_dir, f"{project_name}_results.json")
@@ -58,13 +129,32 @@ class GhidraHeadlessAnalyzer:
             
             # Run Ghidra analysis
             analysis_result = await self._run_ghidra_analysis(
-                binary_path, project_path, project_name, output_file, decompile_file, analysis_depth
+                binary_path, project_path, project_name, output_file, 
+                decompile_file, analysis_depth, should_preserve
             )
             
             # Parse results
             if analysis_result["success"]:
                 parsed_results = await self._parse_analysis_results(output_file, decompile_file)
                 analysis_result.update(parsed_results)
+                
+                # Store results in cache
+                await self.cache.store_analysis_results(binary_path, analysis_result)
+                analysis_result["from_cache"] = False
+                analysis_result["cache_stored"] = True
+                
+                # Export project if should preserve
+                if should_preserve:
+                    try:
+                        exported_files = self.project_manager.export_project_analysis(
+                            binary_path, project_path, project_name)
+                        analysis_result["exported_files"] = exported_files
+                        logger.info("Project analysis exported for persistence", 
+                                   binary=os.path.basename(binary_path),
+                                   exported_files=len(exported_files))
+                    except Exception as e:
+                        logger.warning("Failed to export project analysis", 
+                                     binary=binary_path, error=str(e))
                 
             return analysis_result
             
@@ -79,7 +169,8 @@ class GhidraHeadlessAnalyzer:
         project_name: str,
         output_file: str,
         decompile_file: str,
-        analysis_depth: str
+        analysis_depth: str,
+        preserve_project: bool = False
     ) -> Dict[str, Any]:
         """Run Ghidra headless analysis"""
         try:
@@ -96,9 +187,16 @@ class GhidraHeadlessAnalyzer:
                 output_file,
                 decompile_file,
                 analysis_depth,
-                "-analysisTimeoutPerFile", "300",  # 5 minute timeout
-                "-deleteProject"  # Clean up after analysis
+                "-analysisTimeoutPerFile", "300"  # 5 minute timeout
             ]
+            
+            # Only delete project if not preserving
+            if not preserve_project:
+                cmd.append("-deleteProject")
+                logger.info("Project will be deleted after analysis", preserve=preserve_project)
+            else:
+                logger.info("Project will be preserved for future use", 
+                           project_name=project_name, preserve=preserve_project)
             
             logger.info("Starting Ghidra analysis", cmd=" ".join(cmd))
             
@@ -210,59 +308,201 @@ class GhidraHeadlessAnalyzer:
             logger.error("Function decompilation failed", error=str(e))
             return {"error": str(e)}
             
-    async def analyze_function_by_name(self, binary_path: str, function_name: str, dll_name: str = "") -> Dict[str, Any]:
+    async def analyze_function_by_name(self, binary_path: str, function_name: str, dll_name: str = "", function_address: str = None) -> Dict[str, Any]:
         """
-        Analyze a function by name and return assembly + C++ code
+        Analyze and decompile a specific function using real Ghidra analysis with caching
         
         Args:
             binary_path: Path to binary file  
             function_name: Name of function (e.g., "GetCursorItem", "Ordinal_10010")
             dll_name: Name of DLL for context (e.g., "D2Client.dll")
+            function_address: Optional hex address of function (e.g., "0x6FAD1234")
             
         Returns:
-            Complete function analysis with assembly and C++ code
+            Complete function analysis with real decompiled pseudocode and assembly
         """
         if not os.path.exists(binary_path):
             return {"error": f"Binary file not found: {binary_path}"}
+        
+        # Initialize cache if needed
+        await self._ensure_cache_initialized()
+        
+        # Check if we have cached results for the entire binary
+        cached_analysis = await self.cache.get_cached_analysis(binary_path)
+        if cached_analysis and not await self.cache.needs_reanalysis(binary_path):
+            # Look for the specific function in cached results
+            cached_functions = cached_analysis.get("functions", [])
+            for func in cached_functions:
+                if (func.get("name") == function_name or 
+                    func.get("address") == function_address):
+                    logger.info("Using cached function analysis", 
+                               function=function_name, binary=binary_path)
+                    return {
+                        "success": True,
+                        "function_name": func.get("name"),
+                        "address": func.get("address"),
+                        "signature": func.get("signature"),
+                        "decompiled_code": func.get("pseudocode", ""),
+                        "disassembly": func.get("assembly", []),
+                        "references": func.get("references", []),
+                        "called_functions": func.get("called_functions", []),
+                        "from_cache": True
+                    }
             
         try:
-            # Create temporary project for this analysis  
-            project_name = f"func_analysis_{os.path.basename(binary_path)}_{function_name.replace(':', '_')}"
-            project_path = os.path.join(self.projects_dir, project_name)
+            logger.info("Starting real Ghidra function decompilation", 
+                       binary=binary_path, function=function_name, address=function_address)
             
-            # For now, return mock data that matches Test Scenario 10 format
-            # This will be replaced with actual Ghidra analysis scripts
-            logger.info("Function analysis requested", binary=binary_path, function=function_name)
+            # Use project manager to get appropriate project path
+            project_path, project_name, should_preserve = self.project_manager.create_or_get_project_path(binary_path)
             
-            # Mock response that matches the expected format from Test Scenario 10
-            mock_result = {
-                "function_name": function_name,
-                "dll_name": dll_name if dll_name else os.path.basename(binary_path),
-                "address": "0x6FAD1234",  # Mock address
-                "assembly_code": [
-                    "push ebp",
-                    "mov ebp,esp", 
-                    "mov eax,dword ptr [0x6FB12345]",
-                    "test eax,eax",
-                    "je LAB_6FAD1250",
-                    "ret"
-                ],
-                "cpp_code": f"{function_name}* {function_name}(void) {{\\n  if (cursorItem != nullptr) {{\\n    return cursorItem;\\n  }}\\n  return nullptr;\\n}}",
-                "function_signature": f"UnitAny* __stdcall {function_name}(void)",
-                "cross_references": ["0x6FAD5678", "0x6FAD9ABC"],
-                "analysis_confidence": 0.75,  # Reduced since it's mock data
-                "analysis_timestamp": datetime.now().isoformat(),
-                "note": "Mock implementation - replace with actual Ghidra analysis"
-            }
+            # Create output file
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            safe_func_name = function_name.replace(':', '_').replace('/', '_') if function_name else "unknown"
+            output_file = os.path.join(self.outputs_dir, f"{project_name}_{safe_func_name}_{timestamp}_decompile.json")
             
-            return mock_result
+            # Build Ghidra headless command for function decompilation
+            cmd = [
+                self.headless_script,
+                project_path,
+                project_name,
+                "-import", binary_path,
+                "-scriptPath", self.scripts_dir,
+                "-postScript", "function_decompilation.py",
+                output_file,
+                function_name or "null",
+                function_address or "null",
+                "-analysisTimeoutPerFile", "180"  # 3 minute timeout for single function
+            ]
+            
+            # Only delete project if not preserving
+            if not should_preserve:
+                cmd.append("-deleteProject")
+                logger.info("Using temporary project - will delete after analysis", 
+                           project_name=project_name)
+            else:
+                logger.info("Using persistent project - preserving after analysis", 
+                           project_name=project_name, binary=os.path.basename(binary_path))
+            
+            logger.info("Running Ghidra function decompilation", cmd=" ".join(cmd))
+            
+            # Run Ghidra analysis
+            process = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=240,  # 4 minute timeout
+                cwd="/home/analysis"
+            )
+            
+            if process.returncode != 0:
+                logger.error("Ghidra function decompilation failed", 
+                           returncode=process.returncode, 
+                           stderr=process.stderr)
+                return {
+                    "error": f"Ghidra decompilation failed with code {process.returncode}",
+                    "stderr": process.stderr[:1000],  # Limit error output
+                    "function_name": function_name,
+                    "binary_path": binary_path
+                }
+            
+            # Read and parse decompilation results
+            if os.path.exists(output_file):
+                try:
+                    with open(output_file, 'r') as f:
+                        ghidra_results = json.load(f)
+                    
+                    # Check if decompilation failed
+                    if "error" in ghidra_results:
+                        logger.error("Ghidra function decompilation script failed", 
+                                   error=ghidra_results["error"])
+                        return {
+                            "error": f"Function decompilation failed: {ghidra_results['error']}",
+                            "function_name": function_name,
+                            "binary_path": binary_path
+                        }
+                    
+                    # Format response to match expected API format
+                    result = {
+                        "success": ghidra_results.get("success", False),
+                        "function_name": ghidra_results.get("function_name", function_name),
+                        "binary_path": binary_path,
+                        "dll_name": dll_name if dll_name else os.path.basename(binary_path),
+                        "address": ghidra_results.get("function_address", function_address),
+                        "signature": ghidra_results.get("signature", ""),
+                        "pseudocode": ghidra_results.get("pseudocode", ""),
+                        "assembly": ghidra_results.get("assembly", []),
+                        "references": ghidra_results.get("references", []),
+                        "called_functions": ghidra_results.get("called_functions", []),
+                        "local_variables": ghidra_results.get("local_variables", []),
+                        "parameters": ghidra_results.get("parameters", []),
+                        "return_type": ghidra_results.get("return_type", ""),
+                        "analysis_metadata": {
+                            "analysis_confidence": ghidra_results.get("analysis_metadata", {}).get("analysis_confidence", 0.0),
+                            "decompilation_time_ms": ghidra_results.get("analysis_metadata", {}).get("decompilation_time_ms", 0),
+                            "analysis_timestamp": datetime.now().isoformat(),
+                            "ghidra_version": "11.0.1",
+                            "analysis_complete": True
+                        }
+                    }
+                    
+                    logger.info("Function decompilation completed successfully", 
+                              function=function_name,
+                              success=result["success"],
+                              confidence=result["analysis_metadata"]["analysis_confidence"])
+                    
+                    # Export project for core binaries
+                    if should_preserve and result["success"]:
+                        try:
+                            exported_files = self.project_manager.export_project_analysis(
+                                binary_path, project_path, project_name
+                            )
+                            if exported_files:
+                                result["analysis_metadata"]["exported_files"] = exported_files
+                                logger.info("Project analysis exported for persistent storage",
+                                           binary=os.path.basename(binary_path),
+                                           exports=list(exported_files.keys()))
+                        except Exception as e:
+                            logger.warning("Failed to export project analysis", 
+                                         binary=binary_path, error=str(e))
+                    
+                    # Clean up output file
+                    try:
+                        os.remove(output_file)
+                    except:
+                        pass
+                        
+                    return result
+                    
+                except json.JSONDecodeError as e:
+                    logger.error("Failed to parse Ghidra decompilation results", error=str(e))
+                    return {
+                        "error": f"Failed to parse decompilation results: {str(e)}",
+                        "function_name": function_name,
+                        "binary_path": binary_path
+                    }
+            else:
+                logger.error("Ghidra decompilation output file not found", output_file=output_file)
+                return {
+                    "error": "Decompilation completed but no results file found",
+                    "function_name": function_name,
+                    "binary_path": binary_path,
+                    "expected_output": output_file
+                }
                 
-        except Exception as e:
-            logger.error("Function analysis by name failed", error=str(e), function=function_name)
+        except subprocess.TimeoutExpired:
+            logger.error("Ghidra function decompilation timed out", function=function_name)
             return {
-                "error": str(e),
+                "error": "Decompilation timed out after 4 minutes",
                 "function_name": function_name,
-                "dll_name": dll_name
+                "binary_path": binary_path
+            }
+        except Exception as e:
+            logger.error("Function decompilation failed", error=str(e), function=function_name)
+            return {
+                "error": f"Decompilation failed: {str(e)}",
+                "function_name": function_name,
+                "binary_path": binary_path
             }
             
     async def analyze_all_functions(self, binary_path: str, dll_name: str, 

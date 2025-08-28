@@ -250,13 +250,15 @@ class GhidraMCPTools:
             logger.error("Tool call failed", tool=tool_name, error=str(e))
             return {"error": f"Tool execution failed: {str(e)}"}
     
-    async def setup_context(self, binary_path: str, analysis_type: str = "detailed") -> Dict[str, Any]:
+    async def setup_context(self, binary_path: str, analysis_type: str = "detailed", 
+                           force_reanalysis: bool = False) -> Dict[str, Any]:
         """
-        Run Ghidra on a binary to establish analysis context
+        Run Ghidra on a binary to establish analysis context with caching
         
         Args:
             binary_path: Path to binary file
             analysis_type: Depth of analysis (basic, detailed, comprehensive)
+            force_reanalysis: Skip cache and force new analysis
             
         Returns:
             Analysis setup results
@@ -273,7 +275,8 @@ class GhidraMCPTools:
                     "binary_path": binary_path,
                     "analysis_type": analysis_type,
                     "include_decompilation": True,
-                    "include_strings": True
+                    "include_strings": True,
+                    "force_reanalysis": force_reanalysis
                 }
             ) as response:
                 if response.status == 200:

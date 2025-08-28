@@ -34,6 +34,7 @@ class GhidraAnalysisRequest(BaseModel):
     include_decompilation: bool = True
     include_strings: bool = True
     function_address: Optional[str] = None  # For single function analysis
+    force_reanalysis: bool = False  # Skip cache and force new analysis
 
 class AnalysisStatus(BaseModel):
     analysis_id: str
@@ -107,7 +108,8 @@ async def analyze_binary(request: GhidraAnalysisRequest, background_tasks: Backg
         perform_ghidra_analysis,
         analysis_id,
         request.binary_path,
-        request.analysis_type
+        request.analysis_type,
+        request.force_reanalysis
     )
     
     return {
@@ -265,7 +267,7 @@ async def get_server_status():
         "timestamp": datetime.now().isoformat()
     }
 
-async def perform_ghidra_analysis(analysis_id: str, binary_path: str, analysis_type: str):
+async def perform_ghidra_analysis(analysis_id: str, binary_path: str, analysis_type: str, force_reanalysis: bool = False):
     """Background task for Ghidra analysis"""
     try:
         # Update status
@@ -278,7 +280,7 @@ async def perform_ghidra_analysis(analysis_id: str, binary_path: str, analysis_t
                    analysis_type=analysis_type)
         
         # Perform analysis
-        result = await ghidra_analyzer.analyze_binary(binary_path, analysis_type)
+        result = await ghidra_analyzer.analyze_binary(binary_path, analysis_type, force_reanalysis)
         
         # Update progress
         active_analyses[analysis_id].progress = 90.0
@@ -303,6 +305,73 @@ async def perform_ghidra_analysis(analysis_id: str, binary_path: str, analysis_t
         logger.error("Ghidra analysis exception", analysis_id=analysis_id, error=str(e))
         active_analyses[analysis_id].status = "failed"
         active_analyses[analysis_id].error_message = str(e)
+
+@app.get("/cache/list")
+async def list_cached_analyses():
+    """List all cached analysis results"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+    
+    try:
+        await ghidra_analyzer._ensure_cache_initialized()
+        result = await ghidra_analyzer.cache.list_cached_analyses()
+        return result
+    except Exception as e:
+        logger.error("Failed to list cached analyses", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.delete("/cache/clear")
+async def clear_analysis_cache(binary_path: Optional[str] = None):
+    """Clear cached analysis results"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+    
+    try:
+        await ghidra_analyzer._ensure_cache_initialized()
+        result = await ghidra_analyzer.cache.clear_analysis_cache(binary_path)
+        return result
+    except Exception as e:
+        logger.error("Failed to clear analysis cache", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/cache/stats")
+async def get_cache_stats():
+    """Get cache statistics and health information"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+    
+    try:
+        await ghidra_analyzer._ensure_cache_initialized()
+        stats = await ghidra_analyzer.cache.get_cache_stats()
+        return stats
+    except Exception as e:
+        logger.error("Failed to get cache stats", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/cache/check_needs_reanalysis")
+async def check_needs_reanalysis(data: Dict[str, Any]):
+    """Check if a binary needs reanalysis"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+    
+    if "binary_path" not in data:
+        raise HTTPException(status_code=400, detail="binary_path required")
+    
+    try:
+        await ghidra_analyzer._ensure_cache_initialized()
+        needs_reanalysis = await ghidra_analyzer.cache.needs_reanalysis(data["binary_path"])
+        cached_analysis = await ghidra_analyzer.cache.get_cached_analysis(data["binary_path"])
+        
+        return {
+            "binary_path": data["binary_path"],
+            "needs_reanalysis": needs_reanalysis,
+            "has_cached_analysis": cached_analysis is not None,
+            "cached_functions_count": len(cached_analysis.get("functions", [])) if cached_analysis else 0,
+            "cache_timestamp": cached_analysis.get("cache_timestamp") if cached_analysis else None
+        }
+    except Exception as e:
+        logger.error("Failed to check reanalysis status", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8002)

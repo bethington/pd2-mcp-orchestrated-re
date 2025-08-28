@@ -14,8 +14,8 @@ data/outputs/memory_dumps/*
 data/outputs/screenshots/*
 data/outputs/sessions/*
 data/outputs/tmp/*
-# Keep the .gitkeep files to preserve directory structure
-!data/outputs/*/.gitkeep
+data/outputs/ghidra/*
+data/outputs/*
 
 # Game files - ignore Project Diablo 2 installation
 data/pd2/
