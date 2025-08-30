@@ -20,20 +20,21 @@ class GhidraHeadlessAnalyzer:
     """Headless Ghidra analysis for automated decompilation"""
     
     def __init__(self):
-        self.ghidra_install = os.environ.get('GHIDRA_INSTALL_DIR', '/home/analysis/ghidra')
+        self.ghidra_install = os.environ.get('GHIDRA_INSTALL_DIR', '/app/ghidra')
         self.headless_script = os.path.join(self.ghidra_install, 'support', 'analyzeHeadless')
-        self.projects_dir = '/home/analysis/projects'
-        self.scripts_dir = '/home/analysis/scripts'
-        self.outputs_dir = '/home/analysis/outputs'
+        self.projects_dir = '/app/project'  # Matches volume mount ./data/outputs/ghidra/projects:/app/project:rw
+        self.scripts_dir = '/app/scripts'   # Scripts copied to /app/scripts/ in Dockerfile
+        self.outputs_dir = '/app/exports'   # Matches volume mount ./data/outputs/ghidra/exports:/app/exports:rw
+        self.pd2_dir = '/app/pd2'           # Matches volume mount ./data/pd2:/app/pd2:ro
         
         # Ensure directories exist
         Path(self.projects_dir).mkdir(exist_ok=True)
         Path(self.outputs_dir).mkdir(exist_ok=True)
         
-        # Initialize cache and project managers
-        self.cache = GhidraAnalysisCache()
-        self.project_manager = GhidraProjectManager()
-        self._cache_initialized = False
+        logger.info("Ghidra headless analyzer initialized", 
+                   ghidra_path=self.ghidra_install,
+                   projects_dir=self.projects_dir,
+                   outputs_dir=self.outputs_dir)
         
         # Ensure persistent directories exist
         self._ensure_persistent_dirs()
@@ -720,3 +721,116 @@ class GhidraHeadlessAnalyzer:
                         
         except Exception as e:
             logger.warning("Project cleanup failed", error=str(e))
+            
+    async def import_pd2_binaries(self) -> Dict[str, Any]:
+        """
+        Import PD2 binaries into Ghidra project without analysis
+        
+        Scans /app/pd2/ProjectD2 for .exe/.dll files and imports them
+        into a Ghidra project named 'pd2' with auto-analysis disabled.
+        
+        Returns:
+            Import results with success status and imported files list
+        """
+        try:
+            # Define paths
+            pd2_projectd2_dir = os.path.join(self.pd2_dir, 'ProjectD2')
+            project_name = 'pd2'
+            project_path = os.path.join(self.projects_dir, project_name)
+            
+            # Verify PD2 directory exists
+            if not os.path.exists(pd2_projectd2_dir):
+                return {
+                    "success": False,
+                    "error": f"PD2 ProjectD2 directory not found: {pd2_projectd2_dir}"
+                }
+            
+            # Find all .exe and .dll files
+            binary_files = []
+            for ext in ['*.exe', '*.dll']:
+                pattern = os.path.join(pd2_projectd2_dir, ext)
+                binary_files.extend(Path(pd2_projectd2_dir).glob(ext))
+            
+            if not binary_files:
+                return {
+                    "success": False,
+                    "error": f"No .exe or .dll files found in {pd2_projectd2_dir}"
+                }
+            
+            # Convert Path objects to strings
+            binary_paths = [str(f) for f in binary_files]
+            
+            logger.info("Found PD2 binaries for import", 
+                       count=len(binary_paths), 
+                       files=[os.path.basename(f) for f in binary_paths])
+            
+            # For testing, let's try with just one file first
+            test_file = binary_paths[0]  # Use just the first file for testing
+            logger.info(f"Testing import with single file: {os.path.basename(test_file)}")
+            
+            # Build Ghidra import command for single file
+            cmd = [
+                self.headless_script,
+                self.projects_dir,  # Project location
+                project_name,       # Project name
+                "-import", test_file,  # Import single file
+                "-noanalysis",      # Disable auto-analysis
+                "-overwrite"        # Overwrite existing project
+                # Removed -deleteProject for testing
+            ]
+            
+            logger.info("Starting PD2 binary import", cmd=" ".join(cmd))
+            
+            # Run Ghidra import
+            process = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=300  # 5 minute timeout for import
+            )
+            
+            if process.returncode == 0:
+                # Verify imported files
+                imported_files = []
+                test_filename = os.path.basename(test_file)
+                # Check if project was created successfully
+                project_gpr = os.path.join(self.projects_dir, f"{project_name}.gpr")
+                if os.path.exists(project_gpr):
+                    imported_files.append(test_filename)
+                
+                logger.info("PD2 binary import completed successfully", 
+                           imported_count=len(imported_files))
+                
+                return {
+                    "success": True,
+                    "project_name": project_name,
+                    "project_path": project_path,
+                    "imported_files": imported_files,
+                    "total_found": len(binary_paths),
+                    "test_file": os.path.basename(test_file),
+                    "stdout": process.stdout,
+                    "stderr": process.stderr
+                }
+            else:
+                logger.error("PD2 binary import failed", 
+                           returncode=process.returncode, 
+                           stderr=process.stderr)
+                return {
+                    "success": False,
+                    "error": f"Import failed with code {process.returncode}",
+                    "stderr": process.stderr,
+                    "stdout": process.stdout
+                }
+                
+        except subprocess.TimeoutExpired:
+            logger.error("PD2 binary import timed out")
+            return {
+                "success": False,
+                "error": "Import timed out after 5 minutes"
+            }
+        except Exception as e:
+            logger.error("PD2 binary import error", error=str(e))
+            return {
+                "success": False,
+                "error": str(e)
+            }

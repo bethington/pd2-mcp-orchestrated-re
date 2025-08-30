@@ -69,7 +69,8 @@ async def root():
             "Data type reconstruction",
             "Cross-reference analysis",
             "Control flow graph generation",
-            "Symbol table analysis"
+            "Symbol table analysis",
+            "PD2 binary import and project management"
         ],
         "supported_formats": ghidra_analyzer.get_supported_formats() if ghidra_analyzer else [],
         "timestamp": datetime.now().isoformat()
@@ -241,6 +242,37 @@ async def supported_formats():
         "recommended_formats": ["PE", "ELF", "Mach-O"],
         "notes": "Ghidra supports most common binary formats"
     }
+
+@app.post("/import/pd2_binaries")
+async def import_pd2_binaries(data: Dict[str, Any] = None):
+    """Import PD2 binaries into Ghidra project without analysis"""
+    if not ghidra_analyzer:
+        raise HTTPException(status_code=500, detail="Ghidra analyzer not initialized")
+    
+    try:
+        # Use default parameters if not provided
+        project_name = data.get("project_name", "pd2") if data else "pd2"
+        
+        logger.info("Starting PD2 binary import", project_name=project_name)
+        
+        # Call the headless analyzer's import method
+        result = await ghidra_analyzer.import_pd2_binaries()
+        
+        if result.get("success"):
+            return {
+                "success": True,
+                "project_name": project_name,
+                "project_path": result.get("project_path"),
+                "imported_files": result.get("imported_files", []),
+                "total_found": result.get("total_found", 0),
+                "message": f"Successfully imported {len(result.get('imported_files', []))} PD2 binaries"
+            }
+        else:
+            raise HTTPException(status_code=500, detail=result.get("error", "Import failed"))
+            
+    except Exception as e:
+        logger.error("PD2 binary import failed", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/cleanup")
 async def cleanup_projects(max_age_hours: int = 24):

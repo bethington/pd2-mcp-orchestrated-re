@@ -227,6 +227,31 @@ class GhidraMCPServer:
                             }
                         }
                     }
+                ),
+                Tool(
+                    name="import_pd2_binaries",
+                    description="Import PD2 binaries into Ghidra project without analysis",
+                    inputSchema={
+                        "type": "object",
+                        "properties": {
+                            "project_name": {
+                                "type": "string",
+                                "default": "pd2",
+                                "description": "Name of the Ghidra project to create or use"
+                            },
+                            "scan_directory": {
+                                "type": "string",
+                                "default": "/app/pd2/ProjectD2",
+                                "description": "Directory to scan for .exe/.dll files"
+                            },
+                            "file_extensions": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "default": [".exe", ".dll"],
+                                "description": "File extensions to import"
+                            }
+                        }
+                    }
                 )
             ]
         
@@ -243,6 +268,8 @@ class GhidraMCPServer:
                     return await self.generate_call_graph(arguments)
                 elif name == "decompile_function":
                     return await self.decompile_function(arguments)
+                elif name == "import_pd2_binaries":
+                    return await self.import_pd2_binaries(arguments)
                 else:
                     return [TextContent(
                         type="text",
@@ -544,6 +571,80 @@ while external_locations.hasNext():
 with open("/tmp/{project_name}_results.json", "w") as f:
     json.dump(results, f, indent=2)
 """
+    
+    async def import_pd2_binaries(self, args: Dict[str, Any]):
+        """Import PD2 binaries into Ghidra project without analysis"""
+        project_name = args.get("project_name", "pd2")
+        scan_directory = args.get("scan_directory", "/app/pd2/ProjectD2")
+        file_extensions = args.get("file_extensions", [".exe", ".dll"])
+        
+        try:
+            # Verify scan directory exists
+            if not os.path.exists(scan_directory):
+                return [TextContent(
+                    type="text",
+                    text=f"Error: Scan directory not found: {scan_directory}"
+                )]
+            
+            # Find binary files
+            binary_files = []
+            for ext in file_extensions:
+                if not ext.startswith('.'):
+                    ext = '.' + ext
+                pattern = os.path.join(scan_directory, f"*{ext}")
+                binary_files.extend(Path(scan_directory).glob(f"*{ext}"))
+            
+            if not binary_files:
+                return [TextContent(
+                    type="text",
+                    text=f"No binary files found in {scan_directory} with extensions {file_extensions}"
+                )]
+            
+            # Convert to string paths
+            binary_paths = [str(f) for f in binary_files]
+            
+            logger.info(f"Found {len(binary_paths)} PD2 binaries for import",
+                       files=[os.path.basename(f) for f in binary_paths])
+            
+            # Build Ghidra import command
+            cmd_args = [
+                "/app/project",  # Project directory (matches volume mount)
+                project_name,    # Project name
+                "-import"        # Import mode
+            ]
+            
+            # Add all binary files
+            cmd_args.extend(binary_paths)
+            
+            # Disable auto-analysis
+            cmd_args.append("-noanalysis")
+            
+            # Run Ghidra import
+            result = await self._run_ghidra_headless(cmd_args)
+            
+            if result.returncode == 0:
+                imported_files = [os.path.basename(f) for f in binary_paths]
+                return [TextContent(
+                    type="text",
+                    text=f"Successfully imported {len(imported_files)} PD2 binaries into project '{project_name}':\n" +
+                         "\n".join(f"  - {f}" for f in imported_files) +
+                         f"\n\nProject location: /app/project/{project_name}" +
+                         f"\nScan directory: {scan_directory}"
+                )]
+            else:
+                return [TextContent(
+                    type="text",
+                    text=f"Import failed with return code {result.returncode}\n" +
+                         f"Stdout: {result.stdout}\n" +
+                         f"Stderr: {result.stderr}"
+                )]
+                
+        except Exception as e:
+            logger.error("PD2 binary import error", error=str(e))
+            return [TextContent(
+                type="text",
+                text=f"Error importing PD2 binaries: {str(e)}"
+            )]
     
     async def _run_ghidra_headless(self, args: List[str]) -> subprocess.CompletedProcess:
         """Run Ghidra in headless mode"""

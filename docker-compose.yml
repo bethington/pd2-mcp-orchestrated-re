@@ -78,6 +78,7 @@ services:
       - DGRAPH_ENDPOINT=http://dgraph-alpha:8080
       - REDIS_URL=redis://redis:6379
       - D2_ANALYSIS_URL=http://d2-analysis:8765
+      - GHIDRA_ANALYSIS_URL=http://ghidra-analysis:8002
     volumes:
       - ./config:/app/config:ro
       - ./shared:/app/shared:ro
@@ -122,13 +123,12 @@ services:
       dockerfile: containers/ghidra-analysis/Dockerfile
     container_name: ghidra-analysis
     environment:
-      - GHIDRA_INSTALL_DIR=/home/analysis/ghidra
+      - GHIDRA_INSTALL_DIR=/app/ghidra
       - JAVA_OPTS=-Xmx4g
     volumes:
-      - ./data/outputs:/app/outputs:rw
-      - ./data/binaries:/app/binaries:ro  # Binary samples for analysis
-      - ./data/pd2:/app/pd2:ro  # Project Diablo 2 game files
-      - ghidra_projects:/home/analysis/projects
+      - ./data/pd2:/app/pd2:ro  # Project Diablo 2 game files - persistent on local machine
+      - ./data/outputs/ghidra/projects:/app/project:rw # Ghidra project files
+      - ./data/outputs/ghidra/exports:/app/exports:rw # Ghidra export files
     ports:
       - "8002:8002"   # Ghidra analysis API
     networks:

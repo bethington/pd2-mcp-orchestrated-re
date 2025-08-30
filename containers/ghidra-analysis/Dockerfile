@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 # Create analysis user
 RUN useradd -m -s /bin/bash analysis
 USER analysis
-WORKDIR /home/analysis
+WORKDIR /app
 
 # Download and install Ghidra
 ARG GHIDRA_VERSION=11.0.1
@@ -25,7 +25,7 @@ RUN wget -q https://github.com/NationalSecurityAgency/ghidra/releases/download/G
     && rm ghidra_${GHIDRA_VERSION}_PUBLIC_${GHIDRA_BUILD}.zip
 
 # Set environment variables
-ENV GHIDRA_INSTALL_DIR=/home/analysis/ghidra
+ENV GHIDRA_INSTALL_DIR=/app/ghidra
 ENV PATH="${GHIDRA_INSTALL_DIR}/support:${PATH}"
 
 # Install Python dependencies for MCP server
@@ -33,20 +33,18 @@ COPY containers/ghidra-analysis/requirements.txt /tmp/requirements.txt
 RUN pip3 install --user -r /tmp/requirements.txt
 
 # Create directories
-RUN mkdir -p /home/analysis/{projects,scripts,outputs}
+RUN mkdir -p /app/{exports,pd2,project}
 
 # Copy Ghidra scripts and MCP server
-COPY containers/ghidra-analysis/scripts/ /home/analysis/scripts/
-COPY containers/ghidra-analysis/ghidra_server.py /home/analysis/
-COPY containers/ghidra-analysis/headless_analyzer.py /home/analysis/
-COPY containers/ghidra-analysis/analysis_cache.py /home/analysis/
-COPY containers/ghidra-analysis/ghidra_project_manager.py /home/analysis/
-COPY shared/ /home/analysis/shared/
+COPY containers/ghidra-analysis/scripts/ /app/scripts/
+COPY containers/ghidra-analysis/ghidra_server.py /app/
+COPY containers/ghidra-analysis/headless_analyzer.py /app/
+COPY shared/ /app/shared/
 
 # Set Python path
-ENV PYTHONPATH=/home/analysis:/home/analysis/shared
+ENV PYTHONPATH=/app:/app/shared
 
 # Expose MCP server port
 EXPOSE 8002
 
-CMD ["python3", "/home/analysis/ghidra_server.py"]
+CMD ["python3", "/app/ghidra_server.py"]
